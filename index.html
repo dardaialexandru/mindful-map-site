@@ -1,378 +1,197 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ro">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Mindful Map — HolisticView</title>
-<meta name="description" content="A visual guide to the mind, body, and soul. New maps, sent occasionally.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Mindful Map</title>
+<meta name="description" content="O hartă tăcută a minții, corpului și sufletului — pentru cei care caută, nu doar liniște, ci înțelegere.">
 <style>
-  :root {
-    --cream: #F4F0E6;
-    --cream-deep: #EBE4D3;
-    --ink: #1C1A16;
-    --ink-soft: #4A453C;
-    --gold: #B8935A;
-    --gold-line: #D4C4A0;
-    --gold-pale: #E8DCC4;
-  }
+:root {
+  --cream: #F6F2E9;
+  --ink: #262421;
+  --gold: #A8854A;
+  --gold-light: #CDB68C;
+  --gray: #5F5A52;
+  --muted: #968F82;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: Georgia, 'Times New Roman', 'Liberation Serif', serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+.hero {
+  position: relative;
+  min-height: 78vh;
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(180deg, rgba(38,36,33,0.15) 0%, rgba(38,36,33,0.75) 100%),
+              url('images/hero.jpg') center/cover no-repeat, var(--ink);
+  color: var(--cream);
+}
+.hero-inner { padding: 64px 32px 72px; max-width: 720px; margin: 0 auto; text-align: center; width: 100%; }
+.star { display: inline-block; width: 16px; height: 16px; margin-bottom: 22px; opacity: 0.85; }
+.star svg { display: block; fill: var(--gold-light); }
+.hero h1 { font-size: clamp(2.3rem, 5.5vw, 3.3rem); font-weight: 400; line-height: 1.2; margin: 0 0 20px; }
+.hero .hook { font-size: 1.15rem; max-width: 46ch; margin: 0 auto; color: var(--gold-light); opacity: 0.95; }
 
-  html { scroll-behavior: smooth; }
+.intro { padding: 72px 24px 24px; }
+.intro .wrap { max-width: 620px; margin: 0 auto; text-align: center; }
+.intro p { font-size: 1.12rem; color: var(--gray); margin: 0; }
 
-  body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
+.rule { border: none; border-top: 1px solid var(--gold-light); width: 72px; margin: 56px auto; }
 
-  .serif {
-    font-family: 'Liberation Serif', Georgia, 'Times New Roman', serif;
-  }
+.paths-head { text-align: center; padding: 0 24px 8px; }
+.paths-head h2 { font-weight: 400; font-size: 1.7rem; margin: 0 0 8px; }
+.paths-head p { color: var(--muted); margin: 0; }
+.paths {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0;
+  max-width: 1080px;
+  margin: 40px auto 24px;
+  padding: 0 24px;
+}
+.path { background: #fff; box-shadow: 0 1px 0 rgba(38,36,33,0.06); }
+.path-img { aspect-ratio: 4/5; overflow: hidden; position: relative; }
+.path-img img { width: 100%; height: 100%; object-fit: cover; }
+.path-body { padding: 26px 22px 30px; border-top: 3px solid var(--path-color, var(--gold)); }
+.path-body h3 { font-size: 1.25rem; font-weight: 400; margin: 0 0 10px; color: var(--path-color, var(--gold)); }
+.path-body p { color: var(--gray); font-size: 0.98rem; margin: 0 0 16px; }
+.path-body a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--path-color, var(--gold)); font-size: 0.95rem; }
+.path-body a:hover { opacity: 0.7; }
+.path--trup   { --path-color: #1a8a6e; }
+.path--minte  { --path-color: #2a5ea8; }
+.path--suflet { --path-color: #7a4fc4; }
 
-  /* Background mark */
-  .mark-field {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.035;
-  }
-  .mark-field svg { width: 100%; height: 100%; }
+.philosophy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  max-width: 1080px;
+  margin: 88px auto;
+  gap: 0;
+}
+.philosophy-img { aspect-ratio: 4/3; overflow: hidden; }
+.philosophy-img img { width: 100%; height: 100%; object-fit: cover; }
+.philosophy-text { padding: 40px 48px; }
+.philosophy-text blockquote {
+  margin: 0 0 20px; font-style: italic; font-size: 1.5rem; line-height: 1.45; color: var(--ink);
+}
+.philosophy-text p { color: var(--gray); font-size: 1rem; margin: 0; }
+@media (max-width: 760px) {
+  .philosophy { grid-template-columns: 1fr; margin: 64px auto; }
+  .philosophy-text { padding: 32px 24px; }
+}
 
-  .wrap {
-    position: relative;
-    z-index: 1;
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 0 28px;
-  }
+.channel { text-align: center; padding: 8px 24px 80px; }
+.channel .wrap { max-width: 560px; margin: 0 auto; }
+.channel p { font-size: 1.08rem; color: var(--gray); margin: 0; }
+.channel-link { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--gold); }
+.channel-link:hover { color: var(--gold); }
 
-  /* ===== Header ===== */
-  header {
-    padding: 56px 0 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+footer { text-align: center; padding: 40px 24px 64px; background: var(--ink); color: var(--gold-light); }
+footer .sig-rule { border: none; border-top: 1px solid var(--gold); width: 48px; margin: 0 auto 14px; opacity: 0.6; }
+footer .sig { letter-spacing: 0.06em; font-size: 0.85rem; }
 
-  .glyph {
-    width: 46px;
-    height: 46px;
-    margin-bottom: 20px;
-  }
-  .glyph circle, .glyph line {
-    stroke: var(--ink);
-    stroke-width: 1.4;
-    fill: none;
-  }
-
-  .brand-name {
-    font-size: 13px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-  }
-
-  /* ===== Hero ===== */
-  .hero {
-    padding: 64px 0 48px;
-    text-align: center;
-  }
-
-  .hero h1 {
-    font-size: clamp(38px, 7vw, 58px);
-    font-weight: 400;
-    line-height: 1.12;
-    letter-spacing: -0.01em;
-  }
-
-  .hero .accent-word {
-    color: var(--gold);
-    font-style: italic;
-  }
-
-  .hero p {
-    margin-top: 22px;
-    font-size: 17px;
-    line-height: 1.65;
-    color: var(--ink-soft);
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .divider {
-    width: 1px;
-    height: 48px;
-    background: var(--gold-line);
-    margin: 44px auto;
-  }
-
-  /* ===== Compass strip (signature element) ===== */
-  .compass-strip {
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    padding: 4px 0 8px;
-  }
-  .compass-item {
-    flex: 1;
-    max-width: 130px;
-    text-align: center;
-    padding: 0 8px;
-    border-left: 1px solid var(--gold-line);
-  }
-  .compass-item:first-child { border-left: none; }
-  .compass-item .label {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-  .compass-item .body {
-    margin-top: 6px;
-    font-size: 13px;
-    color: var(--ink-soft);
-    line-height: 1.4;
-  }
-
-  /* ===== Email capture ===== */
-  .capture {
-    padding: 56px 0 64px;
-  }
-
-  .capture-card {
-    background: var(--cream-deep);
-    border: 1px solid var(--gold-line);
-    border-radius: 4px;
-    padding: 44px 40px;
-    text-align: center;
-  }
-
-  .capture-card .eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 14px;
-  }
-
-  .capture-card h2 {
-    font-size: 26px;
-    font-weight: 400;
-    line-height: 1.3;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-
-  .capture-card .sub {
-    margin-top: 14px;
-    font-size: 15px;
-    color: var(--ink-soft);
-    line-height: 1.6;
-    max-width: 380px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  form {
-    margin-top: 28px;
-    display: flex;
-    gap: 10px;
-    max-width: 380px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  input[type="email"] {
-    flex: 1;
-    padding: 14px 16px;
-    border: 1px solid var(--gold-line);
-    background: var(--cream);
-    border-radius: 3px;
-    font-family: inherit;
-    font-size: 15px;
-    color: var(--ink);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  input[type="email"]:focus {
-    border-color: var(--gold);
-  }
-  input[type="email"]::placeholder {
-    color: #9A9382;
-  }
-
-  button[type="submit"] {
-    padding: 14px 24px;
-    background: var(--ink);
-    color: var(--cream);
-    border: none;
-    border-radius: 3px;
-    font-family: inherit;
-    font-size: 14px;
-    letter-spacing: 0.02em;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-  }
-  button[type="submit"]:hover {
-    background: var(--gold);
-  }
-  button[type="submit"]:focus-visible,
-  input[type="email"]:focus-visible {
-    outline: 2px solid var(--gold);
-    outline-offset: 2px;
-  }
-
-  .form-note {
-    margin-top: 16px;
-    font-size: 12.5px;
-    color: #9A9382;
-  }
-
-  .success-msg {
-    display: none;
-    margin-top: 24px;
-    font-size: 15px;
-    color: var(--ink-soft);
-  }
-  .success-msg.show { display: block; }
-  form.hide { display: none; }
-
-  @media (max-width: 480px) {
-    form { flex-direction: column; }
-    .capture-card { padding: 36px 24px; }
-    .compass-strip { flex-wrap: wrap; row-gap: 20px; }
-    .compass-item { flex: 1 1 45%; border-left: none; }
-  }
-
-  /* ===== Footer / links ===== */
-  footer {
-    padding: 0 0 64px;
-    text-align: center;
-  }
-
-  .footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 32px;
-    margin-bottom: 28px;
-  }
-
-  .footer-links a {
-    color: var(--ink);
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding-bottom: 4px;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .footer-links a:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-  }
-
-  .footer-fine {
-    font-size: 12px;
-    color: #A39C8C;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; scroll-behavior: auto !important; }
-  }
+a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
 </head>
 <body>
 
-<div class="mark-field">
-  <svg viewBox="0 0 720 1400" preserveAspectRatio="xMidYMid slice">
-    <circle cx="360" cy="700" r="260" stroke="#1C1A16" stroke-width="1" fill="none"/>
-    <line x1="360" y1="440" x2="360" y2="960" stroke="#1C1A16" stroke-width="1"/>
-    <line x1="100" y1="700" x2="620" y2="700" stroke="#1C1A16" stroke-width="1"/>
-  </svg>
+<div class="hero">
+  <!-- TODO (Claude Code): înlocuiește images/hero.jpg cu o fotografie reală, 
+       căutată prin Pexels API (pexels_config.md, deja configurat în proiect). 
+       Query sugerat: "meditation silhouette golden light peaceful", orientare 
+       landscape, salvată ca images/hero.jpg -->
+  <div class="hero-inner">
+    <span class="star" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z"/></svg></span>
+    <h1>The Mindful Map</h1>
+    <p class="hook">Mintea, corpul și sufletul rareori vorbesc aceeași limbă. Aici încercăm să le traducem unul pe celălalt — un gând, o senzație, o liniște, o dată.</p>
+  </div>
 </div>
 
-<div class="wrap">
-
-  <header>
-    <svg class="glyph" viewBox="0 0 46 46">
-      <circle cx="23" cy="23" r="20"/>
-      <circle cx="23" cy="23" r="3"/>
-      <line x1="23" y1="7" x2="23" y2="14"/>
-      <line x1="23" y1="32" x2="23" y2="39"/>
-    </svg>
-    <div class="brand-name">The Mindful Map</div>
-  </header>
-
-  <section class="hero">
-    <h1 class="serif">Maps for the<br><span class="accent-word">mind, body,</span><br>and soul.</h1>
-    <p>A visual companion for the inward-looking — one card at a time, on Pinterest, occasionally in your inbox.</p>
-
-    <div class="divider"></div>
-
-    <div class="compass-strip">
-      <div class="compass-item">
-        <div class="label serif">Mind</div>
-        <div class="body">The ego, the patterns, the witness beneath them.</div>
-      </div>
-      <div class="compass-item">
-        <div class="label serif">Body</div>
-        <div class="body">What the nervous system remembers and releases.</div>
-      </div>
-      <div class="compass-item">
-        <div class="label serif">Soul</div>
-        <div class="body">Non-duality, self-realization, the ground beneath belief.</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="capture">
-    <div class="capture-card">
-      <div class="eyebrow">Occasional dispatch</div>
-      <h2 class="serif">New maps, sent when there's something worth sending.</h2>
-      <p class="sub">No course. No download. Just the next card, before it reaches Pinterest.</p>
-
-      <form id="capture-form">
-        <input type="email" id="email-input" name="email" placeholder="your@email.com" required aria-label="Email address">
-        <button type="submit">Subscribe</button>
-      </form>
-      <div class="success-msg" id="success-msg">You're on the list. First map coming soon.</div>
-
-      <div class="form-note" id="form-note">No spam. Unsubscribe anytime.</div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="footer-links">
-      <a href="https://pinterest.com/alexandrudardai" target="_blank" rel="noopener">Pinterest</a>
-      <a href="https://m.youtube.com" target="_blank" rel="noopener">YouTube</a>
-    </div>
-    <div class="footer-fine">HolisticView · The Mindful Map</div>
-  </footer>
-
+<div class="intro">
+  <div class="wrap">
+    <p>Nu e o metodă și nu e o promisiune rapidă. E o hartă construită încet, dintr-un fir care leagă trei teritorii — corpul, mintea, sufletul — și din întrebarea simplă: ce se întâmplă când le lași, în sfârșit, să vorbească unul cu celălalt.</p>
+  </div>
 </div>
 
-<script>
-  const form = document.getElementById('capture-form');
-  const success = document.getElementById('success-msg');
-  const note = document.getElementById('form-note');
+<hr class="rule" aria-hidden="true">
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    // Replace this block with your real email-capture endpoint (Mailchimp, ConvertKit, Buttondown, etc.)
-    // Example: fetch('YOUR_ENDPOINT', { method: 'POST', body: new FormData(form) })
-    form.classList.add('hide');
-    success.classList.add('show');
-    note.style.display = 'none';
-  });
-</script>
+<div class="paths-head">
+  <h2>Trei drumuri, un singur teren</h2>
+  <p>Alege de unde vrei să începi astăzi.</p>
+</div>
+
+<div class="paths">
+  <div class="path path--trup">
+    <div class="path-img">
+      <!-- TODO (Claude Code): images/trup.jpg via Pexels, query: 
+           "body stretching sunlight peaceful nervous system calm" -->
+      <img src="images/trup.jpg" alt="Corp în lumină caldă, într-o poziție de relaxare">
+    </div>
+    <div class="path-body">
+      <h3>Trup</h3>
+      <p>Sistemul nervos, tensiunea, felul în care corpul ține minte ce mintea a uitat.</p>
+      <a href="trup.html">Intră aici</a>
+    </div>
+  </div>
+  <div class="path path--minte">
+    <div class="path-img">
+      <!-- TODO (Claude Code): images/minte.jpg via Pexels, query: 
+           "quiet contemplative mind forest path mist" -->
+      <img src="images/minte.jpg" alt="Potecă printre copaci, în ceață, dimineața">
+    </div>
+    <div class="path-body">
+      <h3>Minte</h3>
+      <p>Gânduri, tipare, momentul dintre un impuls și o alegere.</p>
+      <a href="minte.html">Intră aici</a>
+    </div>
+  </div>
+  <div class="path path--suflet">
+    <div class="path-img">
+      <!-- TODO (Claude Code): images/suflet.jpg via Pexels, query: 
+           "night sky stars stillness cosmic meditation" -->
+      <img src="images/suflet.jpg" alt="Cer înstelat, liniștit, deasupra unui peisaj întunecat">
+    </div>
+    <div class="path-body">
+      <h3>Suflet</h3>
+      <p>Tăcerea de dedesubt, întrebările fără grabă, conștiința care se privește pe sine.</p>
+      <a href="suflet.html">Intră aici</a>
+    </div>
+  </div>
+</div>
+
+<div class="philosophy">
+  <div class="philosophy-img">
+    <!-- TODO (Claude Code): images/philosophy.jpg via Pexels, query: 
+         "hands open sunlight gentle stillness" sau similar, orientare portret -->
+    <img src="images/philosophy.jpg" alt="Mâini deschise, în lumină blândă">
+  </div>
+  <div class="philosophy-text">
+    <blockquote>Pacea nu se găsește. Se descoperă.</blockquote>
+    <p>Nu construim liniștea de la zero — ea era deja acolo, sub zgomotul de zi cu zi. Ce numim căutare e, de cele mai multe ori, doar o coborâre înapoi la ce era deja adevărat.</p>
+  </div>
+</div>
+
+<div class="channel">
+  <div class="wrap">
+    <p>Dacă preferi să asculți, nu doar să citești, <a class="channel-link" href="https://www.youtube.com/@TheMindfulVoice" target="_blank" rel="noopener">TheMindfulVoice</a> e vocea acestei hărți — meditații ghidate, în același spirit.</p>
+  </div>
+</div>
+
+<footer>
+  <hr class="sig-rule" aria-hidden="true">
+  <div class="sig">THE MINDFUL MAP</div>
+</footer>
 
 </body>
 </html>
