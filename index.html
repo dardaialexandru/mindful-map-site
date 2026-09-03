@@ -39,7 +39,19 @@ img { max-width: 100%; display: block; }
 .star { display: inline-block; width: 16px; height: 16px; margin-bottom: 22px; opacity: 0.85; }
 .star svg { display: block; fill: var(--gold-light); }
 .hero h1 { font-size: clamp(2.3rem, 5.5vw, 3.3rem); font-weight: 400; line-height: 1.2; margin: 0 0 20px; }
-.hero .hook { font-size: 1.15rem; max-width: 46ch; margin: 0 auto; color: var(--gold-light); opacity: 0.95; }
+.hero .hook { font-size: 1.15rem; max-width: 46ch; margin: 0 auto 32px; color: var(--gold-light); opacity: 0.95; }
+.cta-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  background: var(--gold);
+  color: var(--cream);
+  text-decoration: none;
+  font-size: 0.98rem;
+  letter-spacing: 0.02em;
+  border: 1px solid var(--gold);
+  transition: background 0.2s, color 0.2s;
+}
+.cta-btn:hover { background: transparent; color: var(--gold-light); }
 
 .intro { padding: 72px 24px 24px; }
 .intro .wrap { max-width: 620px; margin: 0 auto; text-align: center; }
@@ -96,6 +108,36 @@ img { max-width: 100%; display: block; }
 .channel-link { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--gold); }
 .channel-link:hover { color: var(--gold); }
 
+.subscribe { text-align: center; padding: 88px 24px; background: var(--ink); color: var(--cream); }
+.subscribe .wrap { max-width: 520px; margin: 0 auto; }
+.subscribe h2 { font-weight: 400; font-size: 1.7rem; margin: 0 0 14px; }
+.subscribe p { color: var(--gold-light); font-size: 1.02rem; margin: 0 0 32px; opacity: 0.9; }
+.subscribe-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.subscribe input[type="email"] {
+  flex: 1 1 260px;
+  padding: 14px 18px;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 1px solid var(--gray);
+  background: var(--cream);
+  color: var(--ink);
+}
+.subscribe input[type="email"]:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.subscribe button {
+  padding: 14px 28px;
+  font-family: inherit;
+  font-size: 0.98rem;
+  background: var(--gold);
+  color: var(--ink);
+  border: 1px solid var(--gold);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.subscribe button:hover { background: transparent; color: var(--gold-light); }
+.subscribe-note { font-size: 0.85rem; color: var(--muted); opacity: 0.8; margin: 16px 0 0; }
+.subscribe-success { font-size: 1.08rem; color: var(--gold-light); margin: 0; }
+.hidden-field { position: absolute; left: -9999px; }
+
 footer { text-align: center; padding: 40px 24px 64px; background: var(--ink); color: var(--gold-light); }
 footer .sig-rule { border: none; border-top: 1px solid var(--gold); width: 48px; margin: 0 auto 14px; opacity: 0.6; }
 footer .sig { letter-spacing: 0.06em; font-size: 0.85rem; }
@@ -115,6 +157,7 @@ a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     <span class="star" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z"/></svg></span>
     <h1>The Mindful Map</h1>
     <p class="hook">Mintea, corpul și sufletul rareori vorbesc aceeași limbă. Aici încercăm să le traducem unul pe celălalt — un gând, o senzație, o liniște, o dată.</p>
+    <a class="cta-btn" href="#subscribe">Primește harta, săptămânal</a>
   </div>
 </div>
 
@@ -182,6 +225,23 @@ a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   </div>
 </div>
 
+<div class="subscribe" id="subscribe">
+  <div class="wrap">
+    <h2>Primește harta, nu doar o hartă</h2>
+    <p>O dată pe săptămână, un gând scurt despre trup, minte și suflet — fără zgomot, fără presiune. Doar liniște, livrată rar.</p>
+    <form name="subscribe" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="subscribe-form">
+      <input type="hidden" name="form-name" value="subscribe">
+      <p class="hidden-field"><label>Nu completa acest câmp: <input name="bot-field"></label></p>
+      <div class="subscribe-row">
+        <input type="email" name="email" placeholder="adresa ta de email" required aria-label="Adresa de email">
+        <button type="submit">Vreau harta</button>
+      </div>
+      <p class="subscribe-note">Fără spam. Te poți dezabona oricând.</p>
+    </form>
+    <p class="subscribe-success" id="subscribe-success" hidden>Mulțumim. Ai fost adăugat pe listă — prima hartă ajunge curând.</p>
+  </div>
+</div>
+
 <div class="channel">
   <div class="wrap">
     <p>Dacă preferi să asculți, nu doar să citești, <a class="channel-link" href="https://www.youtube.com/@TheMindfulVoice" target="_blank" rel="noopener">TheMindfulVoice</a> e vocea acestei hărți — meditații ghidate, în același spirit.</p>
@@ -192,6 +252,28 @@ a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   <hr class="sig-rule" aria-hidden="true">
   <div class="sig">THE MINDFUL MAP</div>
 </footer>
+
+<script>
+(function () {
+  var form = document.getElementById('subscribe-form');
+  var success = document.getElementById('subscribe-success');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var data = new URLSearchParams(new FormData(form)).toString();
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: data
+    }).then(function () {
+      form.hidden = true;
+      success.hidden = false;
+    }).catch(function () {
+      form.submit();
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
