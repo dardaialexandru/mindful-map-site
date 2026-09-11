@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ro">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Mindful Map</title>
-<meta name="description" content="O hartă tăcută a minții, corpului și sufletului — pentru cei care caută, nu doar liniște, ci înțelegere.">
+<meta name="description" content="A quiet map of mind, body, and spirit — for those seeking not just stillness, but understanding.">
 <style>
 :root {
   --cream: #F6F2E9;
@@ -31,15 +31,15 @@ img { max-width: 100%; display: block; }
   min-height: 78vh;
   display: flex;
   align-items: flex-end;
-  background: linear-gradient(180deg, rgba(38,36,33,0.15) 0%, rgba(38,36,33,0.75) 100%),
+  background: linear-gradient(180deg, rgba(38,36,33,0.55) 0%, rgba(38,36,33,0.88) 100%),
               url('images/hero.jpg') center/cover no-repeat, var(--ink);
   color: var(--cream);
 }
 .hero-inner { padding: 64px 32px 72px; max-width: 720px; margin: 0 auto; text-align: center; width: 100%; }
 .star { display: inline-block; width: 16px; height: 16px; margin-bottom: 22px; opacity: 0.85; }
 .star svg { display: block; fill: var(--gold-light); }
-.hero h1 { font-size: clamp(2.3rem, 5.5vw, 3.3rem); font-weight: 400; line-height: 1.2; margin: 0 0 20px; }
-.hero .hook { font-size: 1.15rem; max-width: 46ch; margin: 0 auto 32px; color: var(--gold-light); opacity: 0.95; }
+.hero h1 { font-size: clamp(2.3rem, 5.5vw, 3.3rem); font-weight: 400; line-height: 1.2; margin: 0 0 20px; color: var(--cream); text-shadow: 0 1px 12px rgba(0,0,0,0.5); }
+.hero .hook { font-size: 1.15rem; max-width: 46ch; margin: 0 auto 32px; color: var(--cream); opacity: 0.95; text-shadow: 0 1px 12px rgba(0,0,0,0.5); }
 .cta-btn {
   display: inline-block;
   padding: 14px 32px;
@@ -78,9 +78,9 @@ img { max-width: 100%; display: block; }
 .path-body p { color: var(--gray); font-size: 0.98rem; margin: 0 0 16px; }
 .path-body a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--path-color, var(--gold)); font-size: 0.95rem; }
 .path-body a:hover { opacity: 0.7; }
-.path--trup   { --path-color: #1a8a6e; }
-.path--minte  { --path-color: #2a5ea8; }
-.path--suflet { --path-color: #7a4fc4; }
+.path--body   { --path-color: #1a8a6e; }
+.path--mind   { --path-color: #2a5ea8; }
+.path--spirit { --path-color: #7a4fc4; }
 
 .philosophy {
   display: grid;
@@ -149,62 +149,62 @@ a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 <body>
 
 <div class="hero">
-  <!-- TODO (Claude Code): înlocuiește images/hero.jpg cu o fotografie reală, 
-       căutată prin Pexels API (pexels_config.md, deja configurat în proiect). 
-       Query sugerat: "meditation silhouette golden light peaceful", orientare 
-       landscape, salvată ca images/hero.jpg -->
+  <!-- TODO (Claude Code): replace images/hero.jpg with a real photo,
+       sourced via the Pexels API (pexels_config.md, already configured in the project).
+       Suggested query: "meditation silhouette golden light peaceful", landscape
+       orientation, saved as images/hero.jpg -->
   <div class="hero-inner">
     <span class="star" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z"/></svg></span>
     <h1>The Mindful Map</h1>
-    <p class="hook">Mintea, corpul și sufletul rareori vorbesc aceeași limbă. Aici încercăm să le traducem unul pe celălalt — un gând, o senzație, o liniște, o dată.</p>
-    <a class="cta-btn" href="#subscribe">Primește harta, săptămânal</a>
+    <p class="hook">Mind, body, and spirit rarely speak the same language. Here we try to translate them to one another — one thought, one sensation, one stillness at a time.</p>
+    <a class="cta-btn" href="#subscribe">Get the map, weekly</a>
   </div>
 </div>
 
 <div class="intro">
   <div class="wrap">
-    <p>Nu e o metodă și nu e o promisiune rapidă. E o hartă construită încet, dintr-un fir care leagă trei teritorii — corpul, mintea, sufletul — și din întrebarea simplă: ce se întâmplă când le lași, în sfârșit, să vorbească unul cu celălalt.</p>
+    <p>This isn't a method, and it isn't a quick promise. It's a map built slowly, from a thread connecting three territories — body, mind, spirit — and from one simple question: what happens when you finally let them speak to each other.</p>
   </div>
 </div>
 
 <hr class="rule" aria-hidden="true">
 
 <div class="paths-head">
-  <h2>Trei drumuri, un singur teren</h2>
-  <p>Alege de unde vrei să începi astăzi.</p>
+  <h2>Three paths, one ground</h2>
+  <p>Choose where you want to begin today.</p>
 </div>
 
 <div class="paths">
-  <div class="path path--trup">
+  <div class="path path--body">
     <div class="path-img">
-      <!-- TODO (Claude Code): images/trup.jpg via Pexels, query: 
+      <!-- TODO (Claude Code): images/trup.jpg via Pexels, query:
            "body stretching sunlight peaceful nervous system calm" -->
-      <img src="images/trup.jpg" alt="Corp în lumină caldă, într-o poziție de relaxare">
+      <img src="images/trup.jpg" alt="Body in warm light, in a relaxed pose">
     </div>
     <div class="path-body">
-      <h3>Trup</h3>
-      <p>Sistemul nervos, tensiunea, felul în care corpul ține minte ce mintea a uitat.</p>
-      <a href="trup.html">Intră aici</a>
+      <h3>Body</h3>
+      <p>The nervous system, tension, the way the body remembers what the mind has forgotten.</p>
+      <a href="body.html">Enter here</a>
     </div>
   </div>
-  <div class="path path--minte">
+  <div class="path path--mind">
     <div class="path-img">
-      <img src="images/minte.jpg" alt="Femeie așezată în poziție de meditație, cu ochii închiși, într-o cameră liniștită">
+      <img src="images/minte.jpg" alt="Woman sitting in a meditation pose, eyes closed, in a quiet room">
     </div>
     <div class="path-body">
-      <h3>Minte</h3>
-      <p>Gânduri, tipare, momentul dintre un impuls și o alegere.</p>
-      <a href="minte.html">Intră aici</a>
+      <h3>Mind</h3>
+      <p>Thoughts, patterns, the moment between an impulse and a choice.</p>
+      <a href="mind.html">Enter here</a>
     </div>
   </div>
-  <div class="path path--suflet">
+  <div class="path path--spirit">
     <div class="path-img">
-      <img src="images/suflet.jpg" alt="Siluetă a unei persoane privind cerul înstelat, noaptea">
+      <img src="images/suflet.jpg" alt="Silhouette of a person looking at the starry sky at night">
     </div>
     <div class="path-body">
-      <h3>Suflet</h3>
-      <p>Tăcerea de dedesubt, întrebările fără grabă, conștiința care se privește pe sine.</p>
-      <a href="suflet.html">Intră aici</a>
+      <h3>Spirit</h3>
+      <p>The silence underneath, the unhurried questions, consciousness looking at itself.</p>
+      <a href="spirit.html">Enter here</a>
     </div>
   </div>
 </div>
@@ -213,34 +213,34 @@ a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   <div class="philosophy-img">
     <!-- TODO (Claude Code): images/philosophy.jpg via Pexels, query: 
          "hands open sunlight gentle stillness" sau similar, orientare portret -->
-    <img src="images/philosophy.jpg" alt="Mâini deschise, în lumină blândă">
+    <img src="images/philosophy.jpg" alt="Open hands in gentle light">
   </div>
   <div class="philosophy-text">
-    <blockquote>Pacea nu se găsește. Se descoperă.</blockquote>
-    <p>Nu construim liniștea de la zero — ea era deja acolo, sub zgomotul de zi cu zi. Ce numim căutare e, de cele mai multe ori, doar o coborâre înapoi la ce era deja adevărat.</p>
+    <blockquote>Peace isn't found. It's uncovered.</blockquote>
+    <p>We don't build stillness from scratch — it was already there, beneath the everyday noise. What we call searching is, most of the time, just a descent back to what was already true.</p>
   </div>
 </div>
 
 <div class="subscribe" id="subscribe">
   <div class="wrap">
-    <h2>Primește harta, nu doar o hartă</h2>
-    <p>O dată pe săptămână, un gând scurt despre trup, minte și suflet — fără zgomot, fără presiune. Doar liniște, livrată rar.</p>
+    <h2>Get the map, not just a map</h2>
+    <p>Once a week, a short thought about body, mind, and spirit — no noise, no pressure. Just stillness, delivered rarely.</p>
     <form name="subscribe" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="subscribe-form">
       <input type="hidden" name="form-name" value="subscribe">
-      <p class="hidden-field"><label>Nu completa acest câmp: <input name="bot-field"></label></p>
+      <p class="hidden-field"><label>Do not fill out this field: <input name="bot-field"></label></p>
       <div class="subscribe-row">
-        <input type="email" name="email" placeholder="adresa ta de email" required aria-label="Adresa de email">
-        <button type="submit">Vreau harta</button>
+        <input type="email" name="email" placeholder="your email address" required aria-label="Email address">
+        <button type="submit">I want the map</button>
       </div>
-      <p class="subscribe-note">Fără spam. Te poți dezabona oricând.</p>
+      <p class="subscribe-note">No spam. Unsubscribe anytime.</p>
     </form>
-    <p class="subscribe-success" id="subscribe-success" hidden>Mulțumim. Ai fost adăugat pe listă — prima hartă ajunge curând.</p>
+    <p class="subscribe-success" id="subscribe-success" hidden>Thank you. You've been added to the list — the first map arrives soon.</p>
   </div>
 </div>
 
 <div class="channel">
   <div class="wrap">
-    <p>Dacă preferi să asculți, nu doar să citești, <a class="channel-link" href="https://www.youtube.com/@TheMindfulVoice" target="_blank" rel="noopener">TheMindfulVoice</a> e vocea acestei hărți — meditații ghidate, în același spirit.</p>
+    <p>If you'd rather listen than read, <a class="channel-link" href="https://www.youtube.com/@TheMindfulVoice" target="_blank" rel="noopener">TheMindfulVoice</a> is the voice of this map — guided meditations, in the same spirit.</p>
   </div>
 </div>
 
