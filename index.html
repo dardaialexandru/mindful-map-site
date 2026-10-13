@@ -247,7 +247,7 @@ a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
       <input type="hidden" name="form-name" value="subscribe">
       <p class="hidden-field"><label>Do not fill out this field: <input name="bot-field"></label></p>
       <div class="subscribe-row">
-        <input type="email" name="email" placeholder="your email address" required aria-label="Email address">
+        <input type="email" name="fields[email]" placeholder="your email address" required aria-label="Email address">
         <button type="submit">I want the map</button>
       </div>
       <p class="subscribe-note">No spam. Unsubscribe anytime.</p>
@@ -274,11 +274,23 @@ a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   if (!form) return;
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var data = new URLSearchParams(new FormData(form)).toString();
+    var data = new URLSearchParams(new FormData(form));
+    var email = data.get('fields[email]');
+    var backup = new URLSearchParams({ 'form-name': 'subscribe', 'email': email });
+    // Backup copy in Netlify Forms (best effort)
     fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: data
+      body: backup.toString()
+    }).catch(function () {});
+    // Subscribe to the MailerLite list
+    data.set('ml-submit', '1');
+    data.set('anticsrf', 'true');
+    fetch('https://assets.mailerlite.com/jsonp/2629517/forms/201143149078251433/subscribe', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: data.toString()
     }).then(function () {
       form.hidden = true;
       success.hidden = false;
