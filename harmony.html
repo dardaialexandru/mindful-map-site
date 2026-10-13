@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finding Harmony | The Mindful Map</title>
+<meta name="description" content="Harmony is not a fourth path. It is what appears when mind, body and spirit finally speak to each other. A gentle guide, and one thing that can help.">
+<style>
+:root {
+  --cream: #F6F2E9;
+  --ink: #262421;
+  --gold: #A8854A;
+  --gold-light: #CDB68C;
+  --gray: #5F5A52;
+  --muted: #968F82;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: Georgia, 'Times New Roman', 'Liberation Serif', serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+
+.hero {
+  position: relative;
+  min-height: 78vh;
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(180deg, rgba(38,36,33,0.55) 0%, rgba(38,36,33,0.88) 100%),
+              url('images/hero.jpg') center/cover no-repeat, var(--ink);
+  color: var(--cream);
+}
+.hero-inner { padding: 64px 32px 72px; max-width: 720px; margin: 0 auto; text-align: center; width: 100%; }
+.star { display: inline-block; width: 16px; height: 16px; margin-bottom: 22px; opacity: 0.85; }
+.star svg { display: block; fill: var(--gold-light); }
+.hero h1 { font-size: clamp(2.3rem, 5.5vw, 3.3rem); font-weight: 400; line-height: 1.2; margin: 0 0 20px; color: var(--cream); text-shadow: 0 1px 12px rgba(0,0,0,0.5); }
+.hero .hook { font-size: 1.15rem; max-width: 46ch; margin: 0 auto 32px; color: var(--cream); opacity: 0.95; text-shadow: 0 1px 12px rgba(0,0,0,0.5); }
+.cta-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  background: var(--gold);
+  color: var(--cream);
+  text-decoration: none;
+  font-size: 0.98rem;
+  letter-spacing: 0.02em;
+  border: 1px solid var(--gold);
+  transition: background 0.2s, color 0.2s;
+}
+.cta-btn:hover { background: transparent; color: var(--gold-light); }
+
+.intro { padding: 72px 24px 24px; }
+.intro .wrap { max-width: 620px; margin: 0 auto; text-align: center; }
+.intro p { font-size: 1.12rem; color: var(--gray); margin: 0; }
+
+.rule { border: none; border-top: 1px solid var(--gold-light); width: 72px; margin: 56px auto; }
+
+.paths-head { text-align: center; padding: 0 24px 8px; }
+.paths-head h2 { font-weight: 400; font-size: 1.7rem; margin: 0 0 8px; }
+.paths-head p { color: var(--muted); margin: 0; }
+.paths {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0;
+  max-width: 1080px;
+  margin: 40px auto 24px;
+  padding: 0 24px;
+}
+.path { background: #fff; box-shadow: 0 1px 0 rgba(38,36,33,0.06); }
+.path-img { aspect-ratio: 4/5; overflow: hidden; position: relative; }
+.path-img img { width: 100%; height: 100%; object-fit: cover; }
+.path-body { padding: 26px 22px 30px; border-top: 3px solid var(--path-color, var(--gold)); }
+.path-body h3 { font-size: 1.25rem; font-weight: 400; margin: 0 0 10px; color: var(--path-color, var(--gold)); }
+.path-body p { color: var(--gray); font-size: 0.98rem; margin: 0 0 16px; }
+.path-body a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--path-color, var(--gold)); font-size: 0.95rem; }
+.path-body a:hover { opacity: 0.7; }
+.path--body   { --path-color: #1a8a6e; }
+.path--mind   { --path-color: #2a5ea8; }
+.path--spirit { --path-color: #7a4fc4; }
+
+.philosophy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  max-width: 1080px;
+  margin: 88px auto;
+  gap: 0;
+}
+.philosophy-img { aspect-ratio: 4/3; overflow: hidden; }
+.philosophy-img img { width: 100%; height: 100%; object-fit: cover; }
+.philosophy-text { padding: 40px 48px; }
+.philosophy-text blockquote {
+  margin: 0 0 20px; font-style: italic; font-size: 1.5rem; line-height: 1.45; color: var(--ink);
+}
+.philosophy-text p { color: var(--gray); font-size: 1rem; margin: 0; }
+@media (max-width: 760px) {
+  .philosophy { grid-template-columns: 1fr; margin: 64px auto; }
+  .philosophy-text { padding: 32px 24px; }
+}
+
+.reflections-head { text-align: center; padding: 0 24px 8px; }
+.reflections-head h2 { font-weight: 400; font-size: 1.7rem; margin: 0 0 8px; }
+.reflections { max-width: 640px; margin: 32px auto 0; padding: 0 24px 96px; text-align: center; background: var(--cream); }
+.reflections blockquote { font-style: italic; font-size: 1.25rem; line-height: 1.5; color: var(--ink); margin: 0; }
+.reflect-rule { border: none; border-top: 1px solid var(--gold-light); width: 56px; margin: 56px auto; }
+
+.channel { text-align: center; padding: 8px 24px 80px; }
+.channel .wrap { max-width: 560px; margin: 0 auto; }
+.channel p { font-size: 1.08rem; color: var(--gray); margin: 0; }
+.channel-link { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--gold); }
+.channel-link:hover { color: var(--gold); }
+
+.subscribe { text-align: center; padding: 88px 24px; background: var(--ink); color: var(--cream); }
+.subscribe .wrap { max-width: 520px; margin: 0 auto; }
+.subscribe h2 { font-weight: 400; font-size: 1.7rem; margin: 0 0 14px; }
+.subscribe p { color: var(--gold-light); font-size: 1.02rem; margin: 0 0 32px; opacity: 0.9; }
+.subscribe-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.subscribe input[type="email"] {
+  flex: 1 1 260px;
+  padding: 14px 18px;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 1px solid var(--gray);
+  background: var(--cream);
+  color: var(--ink);
+}
+.subscribe input[type="email"]:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.subscribe button {
+  padding: 14px 28px;
+  font-family: inherit;
+  font-size: 0.98rem;
+  background: var(--gold);
+  color: var(--ink);
+  border: 1px solid var(--gold);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.subscribe button:hover { background: transparent; color: var(--gold-light); }
+.subscribe-note { font-size: 0.85rem; color: var(--muted); opacity: 0.8; margin: 16px 0 0; }
+.subscribe-success { font-size: 1.08rem; color: var(--gold-light); margin: 0; }
+.hidden-field { position: absolute; left: -9999px; }
+
+footer { text-align: center; padding: 40px 24px 64px; background: var(--ink); color: var(--gold-light); }
+footer .sig-rule { border: none; border-top: 1px solid var(--gold); width: 48px; margin: 0 auto 14px; opacity: 0.6; }
+footer .sig { letter-spacing: 0.06em; font-size: 0.85rem; }
+
+a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+.page-hero { background: linear-gradient(180deg, rgba(38,36,33,0.6) 0%, rgba(38,36,33,0.9) 100%), url('images/hero.jpg') center/cover no-repeat, var(--ink); color: var(--cream); text-align: center; padding: 84px 24px 72px; }
+.page-hero h1 { font-weight: 400; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin: 0 0 18px; }
+.page-hero p { max-width: 52ch; margin: 0 auto 28px; font-size: 1.12rem; opacity: 0.95; }
+.nav-back { display: inline-block; margin-bottom: 26px; color: var(--gold-light); text-decoration: none; font-size: 0.9rem; letter-spacing: 0.04em; }
+.nav-back:hover { color: var(--cream); }
+.harmony-center { max-width: 640px; margin: 24px auto 0; padding: 0 24px; text-align: center; }
+.harmony-center h2 { font-weight: 400; font-size: 1.7rem; margin: 0 0 14px; }
+.harmony-center p { color: var(--gray); font-size: 1.08rem; margin: 0 0 14px; }
+.steps { max-width: 640px; margin: 28px auto 0; padding: 0 24px; counter-reset: s; list-style: none; }
+.steps li { counter-increment: s; position: relative; padding: 0 0 22px 52px; color: var(--gray); font-size: 1.02rem; }
+.steps li::before { content: counter(s); position: absolute; left: 0; top: -2px; width: 34px; height: 34px; border: 1px solid var(--gold); color: var(--gold); border-radius: 50%; text-align: center; line-height: 32px; font-size: 0.95rem; }
+.steps strong { color: var(--ink); font-weight: 400; font-style: italic; }
+.product { max-width: 760px; margin: 24px auto 0; padding: 0 24px 24px; }
+.product-card { background: #fff; padding: 36px 32px; border-top: 3px solid var(--gold); box-shadow: 0 1px 0 rgba(38,36,33,0.06); text-align: center; }
+.product-card .kicker { font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+.product-card h2 { font-weight: 400; font-size: 1.6rem; margin: 0 0 14px; }
+.product-card p { color: var(--gray); margin: 0 0 14px; }
+.product-card ul { list-style: none; padding: 0; margin: 0 0 24px; color: var(--gray); }
+.product-card li { padding: 4px 0; }
+.disclosure { font-size: 0.82rem; color: var(--muted); margin: 18px 0 0; }
+</style>
+</head>
+<body>
+
+<div class="page-hero">
+  <a class="nav-back" href="index.html">&larr; The Mindful Map</a>
+  <h1>Finding harmony in the middle</h1>
+  <p>Harmony is not a fourth path. It is what appears when mind, body and spirit finally stop pulling in different directions.</p>
+  <a class="cta-btn" href="#subscribe">Get the map, weekly</a>
+</div>
+
+<div class="harmony-center">
+  <h2>Three territories, one centre</h2>
+  <p>We tend to live in one of them: always thinking, always moving, or always searching. Harmony is found where the three meet, and you reach it by giving each one a little attention, every day.</p>
+</div>
+
+<div class="paths">
+  <div class="path path--mind">
+    <div class="path-img"><img src="images/minte.jpg" alt="Woman sitting in a meditation pose, eyes closed, in a quiet room"></div>
+    <div class="path-body">
+      <h3>Mind</h3>
+      <p>Notice the thought without following it. One minute between the impulse and the choice is enough to begin.</p>
+    </div>
+  </div>
+  <div class="path path--body">
+    <div class="path-img"><img src="images/trup.jpg" alt="Person jogging on a tree-lined city street in morning light"></div>
+    <div class="path-body">
+      <h3>Body</h3>
+      <p>Slow your breath, soften your shoulders, move a little. The body calms before the mind agrees to.</p>
+    </div>
+  </div>
+  <div class="path path--spirit">
+    <div class="path-img"><img src="images/suflet.jpg" alt="Silhouette of a person looking at the starry sky at night"></div>
+    <div class="path-body">
+      <h3>Spirit</h3>
+      <p>Make room for silence and for the bigger questions. Even five quiet minutes remind you of what is underneath the noise.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="rule" aria-hidden="true">
+
+<div class="harmony-center">
+  <h2>A five-minute way to meet in the middle</h2>
+</div>
+<ol class="steps">
+  <li><strong>Body first.</strong> Sit down, drop your shoulders and take five slow breaths, longer out than in.</li>
+  <li><strong>Then the mind.</strong> Name what you are thinking about, without judging it, and let it pass.</li>
+  <li><strong>Then the spirit.</strong> Stay in silence for a minute and ask: what do I actually need right now?</li>
+  <li><strong>Repeat daily.</strong> Harmony is a habit, not a destination. A small ritual at the same time each day makes it easier to return to.</li>
+</ol>
+
+<div class="product">
+  <div class="product-card">
+    <p class="kicker">A gentle companion for your ritual</p>
+    <h2>NeuroScent aroma blends</h2>
+    <p>Many people like to mark a quiet moment with a scent. NeuroScent is a British wellbeing brand making blends from natural botanical oils, designed to be part of an evening or midday pause.</p>
+    <ul>
+      <li>Sleep Blend, for winding down in the evening</li>
+      <li>De-Stress Blend, for a calm break in the day</li>
+    </ul>
+    <a class="cta-btn" href="https://tidd.ly/4gJrDLq" target="_blank" rel="sponsored nofollow noopener">See NeuroScent blends</a>
+    <p class="disclosure">Affiliate link: if you buy through it, we may earn a small commission at no extra cost to you. We only recommend what fits this map.</p>
+  </div>
+</div>
+
+<div class="subscribe" id="subscribe">
+  <div class="wrap">
+    <h2>Get the map, not just a map</h2>
+    <p>Once a week, a short thought about body, mind, and spirit &mdash; no noise, no pressure. Just stillness, delivered rarely.</p>
+    <form name="subscribe" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="subscribe-form">
+      <input type="hidden" name="form-name" value="subscribe">
+      <p class="hidden-field"><label>Do not fill out this field: <input name="bot-field"></label></p>
+      <div class="subscribe-row">
+        <input type="email" name="fields[email]" placeholder="your email address" required aria-label="Email address">
+        <button type="submit">I want the map</button>
+      </div>
+      <p class="subscribe-note">No spam. Unsubscribe anytime.</p>
+    </form>
+    <p class="subscribe-success" id="subscribe-success" hidden>Thank you. You've been added to the list &mdash; the first map arrives soon.</p>
+  </div>
+</div>
+
+<footer>
+  <hr class="sig-rule" aria-hidden="true">
+  <div class="sig">The Mindful Map</div>
+</footer>
+
+<script>
+(function () {
+  var form = document.getElementById('subscribe-form');
+  var success = document.getElementById('subscribe-success');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var data = new URLSearchParams(new FormData(form));
+    var email = data.get('fields[email]');
+    var backup = new URLSearchParams({ 'form-name': 'subscribe', 'email': email });
+    // Backup copy in Netlify Forms (best effort)
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: backup.toString()
+    }).catch(function () {});
+    // Subscribe to the MailerLite list
+    data.set('ml-submit', '1');
+    data.set('anticsrf', 'true');
+    fetch('https://assets.mailerlite.com/jsonp/2629517/forms/201143149078251433/subscribe', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: data.toString()
+    }).then(function () {
+      form.hidden = true;
+      success.hidden = false;
+    }).catch(function () {
+      form.submit();
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
