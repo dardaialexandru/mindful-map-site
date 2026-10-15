@@ -8,12 +8,17 @@
 <link rel="canonical" href="https://themindfulmap.org/harmony.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23A8854A' d='M12 0 14 10 24 12 14 14 12 24 10 14 0 12 10 10Z'/%3E%3C/svg%3E">
 <meta name="theme-color" content="#262421">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="preload" href="images/hero.jpg" as="image">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="The Mindful Map">
 <meta property="og:title" content="Finding harmony in the middle | The Mindful Map">
 <meta property="og:description" content="Harmony is what appears when mind, body and spirit finally speak to each other. A five-minute ritual and one gentle companion.">
 <meta property="og:url" content="https://themindfulmap.org/harmony.html">
 <meta property="og:image" content="https://themindfulmap.org/images/hero.jpg">
+<meta property="og:image:width" content="1800">
+<meta property="og:image:height" content="1200">
+<meta property="og:image:alt" content="Silhouette of a person sitting cross-legged in a field, watching the sun set">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Finding harmony in the middle","description":"Harmony is what appears when mind, body and spirit finally speak to each other.","url":"https://themindfulmap.org/harmony.html","image":"https://themindfulmap.org/images/hero.jpg","publisher":{"@type":"Organization","name":"The Mindful Map","url":"https://themindfulmap.org"}}</script>
 <style>
@@ -89,6 +94,8 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .path-body .try { font-style: italic; color: var(--ink); font-size: 0.95rem; border-top: 1px solid var(--cream-2); padding-top: 12px; margin: 0; }
 .path--mind { --pc: var(--mind); } .path--body { --pc: var(--body); } .path--spirit { --pc: var(--spirit); }
 
+.path { scroll-margin-top: 90px; }
+
 /* Ritual */
 .ritual { max-width: 1120px; margin: 0 auto; padding: 104px 24px 24px; text-align: center; }
 .ritual h2 { font-weight: 400; font-size: clamp(1.7rem, 3.4vw, 2.3rem); margin: 0 0 8px; }
@@ -132,6 +139,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .subscribe .subscribe-note { font-size: 0.85rem; color: var(--gold-light); margin: 18px 0 0; }
 .subscribe .subscribe-note a { color: var(--cream); }
 .subscribe-success { font-size: 1.1rem; color: var(--gold-light); margin: 0; }
+.subscribe-success a { color: var(--cream); text-decoration: none; border-bottom: 1px solid var(--gold); }
 .hidden-field { position: absolute; left: -9999px; }
 
 footer { text-align: center; padding: 36px 24px 56px; background: var(--ink-2); color: var(--gold-light); border-top: 1px solid rgba(205,182,140,0.15); }
@@ -192,8 +200,8 @@ footer .sig { letter-spacing: 0.1em; font-size: 0.82rem; }
   </div>
 </section>
 
-<section class="paths">
-  <article class="path path--mind reveal">
+<section class="paths" id="paths">
+  <article class="path path--mind reveal" id="path-mind">
     <div class="path-img"><img src="images/minte.jpg" width="867" height="1300" decoding="async" alt="Woman sitting in a meditation pose, eyes closed, in a quiet room"><span class="path-no">I &middot; Mind</span></div>
     <div class="path-body">
       <h3>Mind</h3>
@@ -201,7 +209,7 @@ footer .sig { letter-spacing: 0.1em; font-size: 0.82rem; }
       <p class="try">Try this: name what you are thinking, then let it pass.</p>
     </div>
   </article>
-  <article class="path path--body reveal d1">
+  <article class="path path--body reveal d1" id="path-body">
     <div class="path-img"><img src="images/trup.jpg" width="866" height="1300" decoding="async" alt="Person jogging on a tree-lined city street in morning light"><span class="path-no">II &middot; Body</span></div>
     <div class="path-body">
       <h3>Body</h3>
@@ -209,7 +217,7 @@ footer .sig { letter-spacing: 0.1em; font-size: 0.82rem; }
       <p class="try">Try this: five slow breaths, longer out than in.</p>
     </div>
   </article>
-  <article class="path path--spirit reveal d2">
+  <article class="path path--spirit reveal d2" id="path-spirit">
     <div class="path-img"><img src="images/suflet.jpg" width="1041" height="1300" decoding="async" alt="Silhouette of a person looking at the starry sky at night"><span class="path-no">III &middot; Spirit</span></div>
     <div class="path-body">
       <h3>Spirit</h3>
@@ -280,7 +288,7 @@ footer .sig { letter-spacing: 0.1em; font-size: 0.82rem; }
       </div>
       <p class="subscribe-note">One short email a week, with occasional recommendations (some links are affiliate links). Unsubscribe anytime. By subscribing you agree to our <a href="privacy.html">Privacy Policy</a>.</p>
     </form>
-    <p class="subscribe-success" id="subscribe-success" role="status" hidden>Thank you. You've been added to the list &mdash; the first map arrives soon.</p>
+    <p class="subscribe-success" id="subscribe-success" role="status" hidden>Thank you. You're on the list, and your map is ready: <a href="map.html">open the Mind-Body Loop</a>.</p>
   </div>
 </section>
 
