@@ -46,6 +46,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .bar a { color: var(--cream); text-decoration: none; font-size: 0.9rem; letter-spacing: 0.06em; }
 .bar .brand { display: flex; align-items: center; gap: 10px; }
 .bar .brand .orn svg { fill: var(--gold-light); }
+.bar-nav{display:flex;gap:22px;align-items:center}.bar-nav a:not(.bar-cta){display:none}@media(min-width:700px){.bar-nav a:not(.bar-cta){display:inline}}
 .bar .bar-cta { color: var(--gold-light); border-bottom: 1px solid var(--gold); padding-bottom: 2px; }
 .bar .bar-cta:hover { color: var(--cream); }
 
@@ -171,6 +172,7 @@ footer .sig { letter-spacing: 0.1em; font-size: 0.82rem; }
 .more{max-width:760px;margin:0 auto;padding:56px 24px 0;text-align:center;color:var(--gray)}
 .more a{color:var(--gold-deep)}
 .btn--lg{padding:18px 44px;font-size:1.05rem}
+.closing{max-width:760px;margin:88px auto 0;padding:56px 24px;text-align:center;background:var(--ink-2);color:var(--cream)}.closing h2{font-weight:400;font-size:clamp(1.6rem,3.2vw,2.2rem);margin:0 0 8px}.closing p{color:var(--gold-light);margin:0 0 26px}
 .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;background:rgba(28,26,24,.94);padding:10px 16px;text-align:center;border-top:1px solid rgba(205,182,140,.25)}
 .sticky-cta .btn{padding:12px 26px}
 @media (max-width:760px){.sticky-cta{display:block}body{padding-bottom:64px}}
@@ -182,7 +184,7 @@ footer .sig { letter-spacing: 0.1em; font-size: 0.82rem; }
 <div class="top-disclosure">This page contains affiliate links. <a href="privacy.html#affiliate">How this works</a></div>
 <header class="bar">
   <a class="brand" href="index.html"><span class="orn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 0 14 10 24 12 14 14 12 24 10 14 0 12 10 10Z"/></svg></span><span>The Mindful Map</span></a>
-  <a class="bar-cta" href="https://tidd.ly/4gJrDLq" target="_blank" rel="sponsored nofollow noopener">See NeuroScent blends</a>
+  <nav class="bar-nav" aria-label="Main"><a href="harmony.html">Harmony</a><a href="body.html">Body</a><a class="bar-cta" href="https://tidd.ly/4gJrDLq" target="_blank" rel="sponsored nofollow noopener">See NeuroScent blends</a></nav>
 </header>
 <section class="hero hero--page">
   <div class="hero-inner">
@@ -219,6 +221,7 @@ footer .sig { letter-spacing: 0.1em; font-size: 0.82rem; }
     </div>
   </div>
 </section>
+<section class="closing reveal"><h2>Ready to start small?</h2><p>One choice, one habit, five minutes tonight.</p><a class="btn btn--lg" href="https://tidd.ly/4gJrDLq" target="_blank" rel="sponsored nofollow noopener">See NeuroScent blends</a></section>
 <section class="faq reveal">
   <h2>Questions people ask</h2>
   <details><summary>Does aromatherapy actually help you relax?</summary><p>Many people find a familiar scent calming, and research on aromatherapy is mixed. It works best as a cue for a routine rather than a cure for stress.</p></details>
