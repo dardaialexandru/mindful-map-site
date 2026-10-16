@@ -7,8 +7,9 @@
 /images/*
   Cache-Control: public, max-age=604800
 
-/downloads/*
+/h-76b9b376edab/*
   Cache-Control: public, max-age=86400
+  X-Robots-Tag: noindex, nofollow, noarchive
 
-/map.html
-  X-Robots-Tag: noindex, follow
+/harta-76b9b376edab.html
+  X-Robots-Tag: noindex, nofollow, noarchive
