@@ -48,6 +48,8 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .bar a { color: var(--cream); text-decoration: none; font-size: 0.9rem; letter-spacing: 0.06em; }
 .bar .brand { display: flex; align-items: center; gap: 10px; }
 .bar .brand .orn svg { fill: var(--gold-light); }
+.bar-nav{display:flex;gap:22px;align-items:center}
+@media(max-width:520px){.bar-nav{gap:14px}.bar-nav a{font-size:.82rem}}
 .bar .bar-cta { color: var(--gold-light); border-bottom: 1px solid var(--gold); padding-bottom: 2px; }
 .bar .bar-cta:hover { color: var(--cream); }
 
@@ -127,6 +129,21 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .disclosure { font-size: 0.88rem; color: var(--gray); margin: 18px 0 0 !important; }
 @media (max-width: 760px) { .product-card { grid-template-columns: 1fr; } .product-art { min-height: 220px; } .product-text { padding: 32px 24px; } }
 
+
+/* Go deeper */
+.deeper{max-width:980px;margin:0 auto;padding:104px 24px 0;text-align:center}
+.deeper h2{font-weight:400;font-size:clamp(1.7rem,3.4vw,2.3rem);margin:0 0 8px}
+.deeper .sub{color:var(--muted);font-style:italic;margin:0 0 40px}
+.deeper-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px}
+.deeper-card{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;text-decoration:none;color:var(--cream);text-align:left;box-shadow:0 24px 50px -28px rgba(38,36,33,.5)}
+.deeper-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.deeper-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,26,24,.1) 30%,rgba(28,26,24,.85))}
+.deeper-card:hover img{transform:scale(1.06)}
+.dc-text{position:absolute;left:24px;right:24px;bottom:22px;z-index:2;display:block}
+.dc-eb{display:block;font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px}
+.dc-text strong{display:block;font-weight:400;font-size:1.5rem;line-height:1.2}
+.dc-go{display:inline-block;margin-top:10px;font-size:.9rem;border-bottom:1px solid var(--gold);padding-bottom:2px;color:var(--gold-light)}
+
 /* Subscribe */
 .subscribe { position: relative; margin-top: 104px; text-align: center; padding: 112px 24px; color: var(--cream); background: radial-gradient(ellipse at 50% 0%, rgba(168,133,74,0.22), transparent 60%), var(--ink-2); overflow: hidden; }
 .subscribe .wrap { max-width: 560px; margin: 0 auto; position: relative; }
@@ -158,11 +175,10 @@ footer .sig { letter-spacing: 0.1em; font-size: 0.82rem; }
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="top-disclosure">This page contains affiliate links. <a href="privacy.html#affiliate">How this works</a></div>
 
 <header class="bar">
   <a class="brand" href="index.html"><span class="orn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 0 14 10 24 12 14 14 12 24 10 14 0 12 10 10Z"/></svg></span><span>The Mindful Map</span></a>
-  <a class="bar-cta" href="#subscribe">Get the map</a>
+  <nav class="bar-nav" aria-label="Main"><a href="body.html">Body</a><a href="soul.html">Soul</a><a class="bar-cta" href="#subscribe">Get the map</a></nav>
 </header>
 
 <section class="hero">
@@ -202,7 +218,7 @@ footer .sig { letter-spacing: 0.1em; font-size: 0.82rem; }
 
 <section class="paths" id="paths">
   <article class="path path--mind reveal" id="path-mind">
-    <div class="path-img"><img src="images/minte.jpg" width="867" height="1300" decoding="async" alt="Woman sitting in a meditation pose, eyes closed, in a quiet room"><span class="path-no">I &middot; Mind</span></div>
+    <div class="path-img"><img src="images/minte.jpg" width="867" height="1300" loading="lazy" decoding="async" alt="Woman sitting in a meditation pose, eyes closed, in a quiet room"><span class="path-no">I &middot; Mind</span></div>
     <div class="path-body">
       <h3>Mind</h3>
       <p>Notice the thought without following it. One minute between the impulse and the choice is enough to begin.</p>
@@ -210,7 +226,7 @@ footer .sig { letter-spacing: 0.1em; font-size: 0.82rem; }
     </div>
   </article>
   <article class="path path--body reveal d1" id="path-body">
-    <div class="path-img"><img src="images/trup.jpg" width="866" height="1300" decoding="async" alt="Person jogging on a tree-lined city street in morning light"><span class="path-no">II &middot; Body</span></div>
+    <div class="path-img"><img src="images/trup.jpg" width="866" height="1300" loading="lazy" decoding="async" alt="Person jogging on a tree-lined city street in morning light"><span class="path-no">II &middot; Body</span></div>
     <div class="path-body">
       <h3>Body</h3>
       <p>Slow your breath, soften your shoulders, move a little. The body calms before the mind agrees to.</p>
@@ -219,7 +235,7 @@ footer .sig { letter-spacing: 0.1em; font-size: 0.82rem; }
     </div>
   </article>
   <article class="path path--spirit reveal d2" id="path-spirit">
-    <div class="path-img"><img src="images/suflet.jpg" width="1041" height="1300" decoding="async" alt="Silhouette of a person looking at the starry sky at night"><span class="path-no">III &middot; Spirit</span></div>
+    <div class="path-img"><img src="images/suflet.jpg" width="1041" height="1300" loading="lazy" decoding="async" alt="Silhouette of a person looking at the starry sky at night"><span class="path-no">III &middot; Spirit</span></div>
     <div class="path-body">
       <h3>Spirit</h3>
       <p>Make room for silence and for the bigger questions. Even five quiet minutes remind you of what is underneath the noise.</p>
@@ -247,61 +263,15 @@ footer .sig { letter-spacing: 0.1em; font-size: 0.82rem; }
   <p>The stillness was already there, beneath the everyday noise. A ritual simply helps you find your way back to it.</p>
 </section>
 
-<section class="product reveal">
-  <div class="product-card">
-    <div class="product-art" aria-hidden="true">
-      <svg viewBox="0 0 260 260" fill="none" stroke="#CDB68C">
-        <circle cx="130" cy="130" r="22" stroke-width="1.2"/>
-        <circle cx="130" cy="130" r="52" stroke-width="1" opacity="0.8"/>
-        <circle cx="130" cy="130" r="82" stroke-width="0.9" opacity="0.55"/>
-        <circle cx="130" cy="130" r="112" stroke-width="0.8" opacity="0.3"/>
-        <path d="M130 118c-10 14-10 24 0 34 10-10 10-20 0-34Z" fill="#A8854A" stroke="none"/>
-      </svg>
-    </div>
-    <div class="product-text">
-      <p class="eyebrow">A gentle companion for your ritual</p>
-      <h2>NeuroScent aroma blends</h2>
-      <p>Many people like to mark a quiet moment with a scent. NeuroScent is a British wellbeing brand founded by psychologist and aromatherapist Olga Melita. Its blends are made from 100% pure natural botanical oils, with no synthetic fragrance, and are meant to be part of a short daily ritual.</p>
-      <ul>
-        <li>Sleep Blend, for unwinding before bed</li>
-        <li>De-Stress Blend, for a calm pause in the day</li>
-        <li>Also: Focus, Wake Up and Balance blends, and a small portable diffuser</li>
-      </ul>
-      <a class="btn" href="https://tidd.ly/4gJrDLq" target="_blank" rel="sponsored nofollow noopener">See NeuroScent blends</a>
-      <p class="disclosure">Affiliate link: if you buy through it, we may earn a small commission at no extra cost to you. We only recommend what fits this map.</p>
-      <p class="disclosure">Ships across the UK and Europe. Essential oils are not for everyone: if you are pregnant, have a medical condition or are under 16, speak to a healthcare professional first.</p>
-    </div>
+<section class="deeper reveal">
+  <p class="eyebrow">Go deeper</p>
+  <h2>Two gentle guides</h2>
+  <p class="sub">When you are ready to turn the five minutes into a habit.</p>
+  <div class="deeper-grid">
+    <a class="deeper-card" href="body.html"><img src="images/trup.jpg" width="866" height="1300" loading="lazy" decoding="async" alt="Person jogging on a tree-lined city street in morning light"><span class="dc-text"><span class="dc-eb">The body layer</span><strong>Sleep and recovery</strong><span class="dc-go">Read the guide</span></span></a>
+    <a class="deeper-card" href="soul.html"><img src="images/suflet.jpg" width="1041" height="1300" loading="lazy" decoding="async" alt="Silhouette of a person looking at the starry sky at night"><span class="dc-text"><span class="dc-eb">The soul layer</span><strong>An evening scent ritual</strong><span class="dc-go">Read the guide</span></span></a>
   </div>
 </section>
-
-<section class="product reveal">
-  <div class="product-card">
-    <div class="product-art" aria-hidden="true">
-      <svg viewBox="0 0 260 260" fill="none" stroke="#CDB68C">
-        <circle cx="130" cy="130" r="70" stroke-width="14" opacity="0.55"/>
-        <circle cx="130" cy="130" r="70" stroke-width="1.2"/>
-        <circle cx="130" cy="130" r="49" stroke-width="1" opacity="0.8"/>
-        <circle cx="130" cy="130" r="91" stroke-width="1" opacity="0.5"/>
-        <circle cx="130" cy="60" r="5" fill="#A8854A" stroke="none"/>
-      </svg>
-    </div>
-    <div class="product-text">
-      <p class="eyebrow">For the body layer</p>
-      <h2>Ultrahuman smart ring</h2>
-      <p>Harmony starts with the body, and it helps to see how yours is doing. Ultrahuman makes a light smart ring that tracks sleep, heart rate variability, skin temperature, movement and stress through the day, so you can notice what actually helps you rest and recover. No monthly subscription is needed for the core features.</p>
-      <ul>
-        <li>Body: sleep and recovery trends over time</li>
-        <li>Mind: a view of your stress rhythm across the day</li>
-        <li>A gentle nudge to keep your evening ritual consistent</li>
-      </ul>
-      <a class="btn" href="https://www.awin1.com/cread.php?awinmid=69428&awinaffid=2618938&ued=https%3A%2F%2Fwww.ultrahuman.com%2F" target="_blank" rel="sponsored nofollow noopener">See the Ultrahuman ring</a>
-      <p class="disclosure">Affiliate link: if you buy through it, we may earn a small commission at no extra cost to you. A tracker gives information, not medical advice.</p>
-      <p class="disclosure">Availability and models vary by country, so check what ships to you before you order.</p>
-    </div>
-  </div>
-</section>
-
-</main>
 
 <section class="subscribe" id="subscribe">
   <div class="wrap reveal">
