@@ -13,3 +13,6 @@
 
 /harta-76b9b376edab.html
   X-Robots-Tag: noindex, nofollow, noarchive
+
+/images/pins/*
+  Access-Control-Allow-Origin: *
