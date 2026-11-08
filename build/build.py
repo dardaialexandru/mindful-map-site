@@ -38,6 +38,7 @@ def layout(title, desc, path, body, depth_nav="", noindex=False):
 </div></header>
 {body}
 <footer><div class="wrap"><p>Everything here is general information from published research. It does not replace a doctor or therapist. Effects in this research are usually small or medium. Nothing here is a cure.</p><p><a href="/how-we-know.html">How we know</a> · <a href="/connections.html">Mind and body</a> · <a href="/background.html">Background</a> · <a href="/help.html">Get help now</a> · <a href="/privacy.html">Privacy</a></p></div></footer>
+<script src="/popup.js" defer></script>
 </body></html>
 '''
 
@@ -136,11 +137,7 @@ def help_page():
 <div class="alert"><b>Emergency: 112</b>Works across the European Union.</div>
 <h2 style="margin-top:36px">Crisis lines</h2>
 <ul class="plain">
-<li><b>Spain:</b> 024</li>
-<li><b>Romania:</b> DepreHUB 0374 456 420 · TelVerde 0800 801 200 · children 116 111</li>
-<li><b>Germany:</b> Telefonseelsorge 0800 111 0 111 or 0800 111 0 222</li>
-</ul>
-<p class="aster">Numbers change. We re-check them before each update. If a line does not answer, call 112.</p>
+<li><b>Spain:</b> 024, suicide prevention line. Free, confidential, open 24 hours.</li><li><b>Romania:</b> DepreHUB 0374 456 420, free, open 24 hours, for adults. TelVerde Antisuicid 0800 801 200, Friday to Sunday, 19:00 to 07:00. Children and teens: 116 111, Monday to Friday, 10:00 to 20:00.</li><li><b>Germany:</b> Telefonseelsorge 0800 111 0 111, 0800 111 0 222 or 116 123. Free, anonymous, open day and night, in German.</li></ul><p>If your line is closed, or you are in danger, call 112.<p class="aster">Numbers change. We re-check them before each update. If a line does not answer, call 112.</p>
 </div></main>''')
 
 def how_page():
@@ -281,6 +278,16 @@ def motif(slug, op=".22"):
     return f'<svg class="motif" viewBox="0 0 120 120" aria-hidden="true" style="opacity:{op};color:currentColor;fill:currentColor">{MOTIF[slug]}</svg>'
 
 V2CSS = """
+#mm-pop{position:fixed;inset:0;background:#0E1A33CC;display:flex;align-items:center;justify-content:center;padding:18px;z-index:50}
+.mm-box{position:relative;background:#fff;border-radius:22px;max-width:440px;width:100%;padding:34px 30px 24px;font-family:var(--sans);box-shadow:0 24px 60px #0008;border-top:10px solid #A63FC4}
+.mm-box h2{font-size:1.6rem;margin-bottom:10px}.mm-box p{font-family:var(--serif);font-size:1rem;color:#4A5A62}
+.mm-box input[type=email]{width:100%;padding:14px 16px;border:2px solid #0E1A33;border-radius:12px;font-size:1rem;margin:6px 0 12px}
+.mm-c{display:flex;gap:10px;align-items:flex-start;font-size:.9rem;color:#4A5A62;margin-bottom:14px}.mm-c input{margin-top:4px;width:18px;height:18px}
+.mm-go{width:100%;padding:14px;border:0;border-radius:12px;background:#0E1A33;color:#fff;font-weight:800;font-size:1rem;cursor:pointer}
+.mm-go:hover{background:#A63FC4}
+.mm-no{display:block;margin:14px auto 0;background:none;border:0;color:#4A5A62;text-decoration:underline;cursor:pointer;font-size:.95rem}
+.mm-x{position:absolute;right:14px;top:10px;background:none;border:0;font-size:1.8rem;line-height:1;cursor:pointer;color:#4A5A62}
+
 :root{--navy:#0E1A33}
 body.v2{background:#FBFAF7}
 .v2 header.top{background:var(--navy);border-bottom:0}
@@ -456,7 +463,7 @@ def background_page():
 def life_page():
     return lay2("Life around you | The Mindful Map","Relationships, work, habits, trauma, screens and more.","/life.html",simple_hero_wrap("life","Life around you","The setting your needs live in. Same rule: we say how sure we are.",rows(LIFE)+'<div class="alert"><b>Deep and lasting low mood</b>If low mood is very low and lasts, ask for a clinical check, whatever label you use for it, including burnout.</div>'))
 def help_page():
-    return lay2("Get help now | The Mindful Map","If you are in danger or thinking of hurting yourself, call emergency services or a crisis line.","/help.html",simple_hero_wrap("help","Get help now","If you are in danger, or thinking of hurting yourself, do not wait. Talk to a person now.",'<div class="alert"><b>Emergency: 112</b>Works across the European Union.</div><h2 style="margin-top:36px">Crisis lines</h2><ul class="plain"><li><b>Spain:</b> 024</li><li><b>Romania:</b> DepreHUB 0374 456 420 · TelVerde 0800 801 200 · children 116 111</li><li><b>Germany:</b> Telefonseelsorge 0800 111 0 111 or 0800 111 0 222</li></ul><p class="aster">Numbers change. We re-check them before each update. If a line does not answer, call 112.</p>'))
+    return lay2("Get help now | The Mindful Map","If you are in danger or thinking of hurting yourself, call emergency services or a crisis line.","/help.html",simple_hero_wrap("help","Get help now","If you are in danger, or thinking of hurting yourself, do not wait. Talk to a person now.",'<div class="alert"><b>Emergency: 112</b>One free number for the whole European Union.</div><h2 style="margin-top:36px">Crisis lines</h2><ul class="plain"><li><b>Spain:</b> 024, suicide prevention line. Free, confidential, open 24 hours.</li><li><b>Romania:</b> DepreHUB 0374 456 420, free, open 24 hours, for adults. TelVerde Antisuicid 0800 801 200, Friday to Sunday, 19:00 to 07:00. Children and teens: 116 111, Monday to Friday, 10:00 to 20:00.</li><li><b>Germany:</b> Telefonseelsorge 0800 111 0 111, 0800 111 0 222 or 116 123. Free, anonymous, open day and night, in German.</li></ul><p>If your line is closed, or you are in danger, call 112.</p><p class="aster">Numbers change. We re-check them before each update. If a line does not answer, call 112.</p>'))
 def how_page():
     inner = f"""<h2>Two kinds of lines</h2>
 <div class="key" style="margin:18px 0 30px">
@@ -488,7 +495,7 @@ def map_page():
     return lay2("The map | The Mindful Map","All feelings, needs and things to try on one page.","/map.html",simple_hero_wrap("map","The map","Read from left to right: a feeling, the needs behind it, what you can try. Click any point to open it.",inner,narrow=False))
 
 if __name__=="__main__":
-    shutil.copy(os.path.join(os.path.dirname(__file__),"site.css"), os.path.join(ROOT,"site.css")); open(os.path.join(ROOT,"v2.css"),"w").write(V2CSS)
+    shutil.copy(os.path.join(os.path.dirname(__file__),"site.css"), os.path.join(ROOT,"site.css")); open(os.path.join(ROOT,"v2.css"),"w").write(V2CSS); shutil.copy(os.path.join(os.path.dirname(__file__),"popup.js"), os.path.join(ROOT,"popup.js"))
     write("index.html", index()); write("needs.html", needs_page()); write("help.html", help_page()); write("how-we-know.html", how_page())
     write("doors.html",doors_page()); write("connections.html",connections_page()); write("background.html",background_page()); write("life.html",life_page()); write("map.html",map_page())
     for d in DOORS: write(f"door/{d[0]}.html",door_page(d))

@@ -1,4 +1,14 @@
 
+#mm-pop{position:fixed;inset:0;background:#0E1A33CC;display:flex;align-items:center;justify-content:center;padding:18px;z-index:50}
+.mm-box{position:relative;background:#fff;border-radius:22px;max-width:440px;width:100%;padding:34px 30px 24px;font-family:var(--sans);box-shadow:0 24px 60px #0008;border-top:10px solid #A63FC4}
+.mm-box h2{font-size:1.6rem;margin-bottom:10px}.mm-box p{font-family:var(--serif);font-size:1rem;color:#4A5A62}
+.mm-box input[type=email]{width:100%;padding:14px 16px;border:2px solid #0E1A33;border-radius:12px;font-size:1rem;margin:6px 0 12px}
+.mm-c{display:flex;gap:10px;align-items:flex-start;font-size:.9rem;color:#4A5A62;margin-bottom:14px}.mm-c input{margin-top:4px;width:18px;height:18px}
+.mm-go{width:100%;padding:14px;border:0;border-radius:12px;background:#0E1A33;color:#fff;font-weight:800;font-size:1rem;cursor:pointer}
+.mm-go:hover{background:#A63FC4}
+.mm-no{display:block;margin:14px auto 0;background:none;border:0;color:#4A5A62;text-decoration:underline;cursor:pointer;font-size:.95rem}
+.mm-x{position:absolute;right:14px;top:10px;background:none;border:0;font-size:1.8rem;line-height:1;cursor:pointer;color:#4A5A62}
+
 :root{--navy:#0E1A33}
 body.v2{background:#FBFAF7}
 .v2 header.top{background:var(--navy);border-bottom:0}
