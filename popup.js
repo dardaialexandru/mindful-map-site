@@ -2,6 +2,7 @@
    never on help/privacy pages. Remembers only the user's own choice (closed today / subscribed). */
 (function () {
   var path = location.pathname;
+  var m = path.match(/^\/(es|de|ro)\//); var PRIV = (m ? '/' + m[1] : '') + '/privacy.html';
   if (/help\.html|privacy\.html|harmony\.html|harta-/.test(path)) return;
   var K = { c: 'mm_clicks', d: 'mm_popup_day', s: 'mm_subscribed' };
   // Click count lives in sessionStorage (gone when the tab closes). Only a user's own choice
@@ -21,6 +22,8 @@
   if (n0 < 3 || get(K.d) === today) return;
   setTimeout(open, 1200);
 
+  var T = {}; try { T = JSON.parse(document.getElementById('mm-i18n').textContent); } catch (e) {}
+  function t(k, d) { return T[k] || d; }
   var lastFocus;
   function open() {
     if (document.getElementById('mm-pop')) return;
@@ -29,14 +32,14 @@
     w.id = 'mm-pop';
     w.innerHTML =
       '<div class="mm-box" role="dialog" aria-modal="true" aria-labelledby="mm-t" tabindex="-1">' +
-      '<button type="button" class="mm-x" aria-label="Close">&times;</button>' +
-      '<h2 id="mm-t">Get the free Harmony Map</h2>' +
-      '<p>A short guide to find your way back to calm, plus one short email a week. Optional, and you can leave at any time.</p>' +
-      '<form id="mm-f"><input type="email" name="fields[email]" placeholder="your email address" required aria-label="Email address" autocomplete="email">' +
-      '<label class="mm-c"><input type="checkbox" id="mm-ok" required> <span>I agree to receive the Harmony Map and a weekly email at this address. I can unsubscribe in any email. <a href="/privacy.html">Privacy</a></span></label>' +
-      '<button type="submit" class="mm-go">Send me the map</button></form>' +
-      '<p class="mm-done" id="mm-done" role="status" hidden>Thank you. Check your inbox to confirm.</p>' +
-      '<button type="button" class="mm-no">No thanks</button></div>';
+      '<button type="button" class="mm-x" aria-label="' + t('close','Close') + '">&times;</button>' +
+      '<h2 id="mm-t">' + t('title','Get the free Harmony Map') + '</h2>' +
+      '<p>' + t('intro','') + '</p>' +
+      '<form id="mm-f"><input type="email" name="fields[email]" placeholder="' + t('email','your email address') + '" required aria-label="' + t('email','Email address') + '" autocomplete="email">' +
+      '<label class="mm-c"><input type="checkbox" id="mm-ok" required> <span>' + t('consent','') + ' <a href="' + PRIV + '">' + t('privacy','Privacy') + '</a></span></label>' +
+      '<button type="submit" class="mm-go">' + t('go','Send me the map') + '</button></form>' +
+      '<p class="mm-done" id="mm-done" role="status" hidden>' + t('done','') + '</p>' +
+      '<button type="button" class="mm-no">' + t('no','No thanks') + '</button></div>';
     document.body.appendChild(w);
     var box = w.querySelector('.mm-box'); box.focus();
     function close() { set(K.d, today); w.remove(); document.removeEventListener('keydown', key); if (lastFocus && lastFocus.focus) lastFocus.focus(); }
@@ -52,7 +55,7 @@
       fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: b.toString() }).catch(function () {});
       fetch('https://assets.mailerlite.com/jsonp/2629517/forms/201143149078251433/subscribe', { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: d.toString() })
         .then(function () { set(K.s, '1'); f.hidden = true; w.querySelector('#mm-done').hidden = false; setTimeout(close, 3500); })
-        .catch(function () { f.insertAdjacentHTML('beforeend', '<p role="alert">Something went wrong. Please try again later.</p>'); });
+        .catch(function () { f.insertAdjacentHTML('beforeend', '<p role="alert">' + t('error','') + '</p>'); });
     });
   }
 })();

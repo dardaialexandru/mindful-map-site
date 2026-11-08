@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os, html, shutil
+import os, html, shutil, re
 from content import *
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 E_ = html.escape
@@ -15,6 +15,25 @@ def line_svg(kind, color="#12222B", w=46):
 def badge(level, kind):
     return f'<span class="badge">{line_svg(kind)}<span>{KINDS[kind]} · {LEVELS[level]}</span></span>'
 
+import json as _json
+LANGS=[("en","EN","English"),("es","ES","Español"),("de","DE","Deutsch"),("ro","RO","Română")]
+def lang_path(path,lang):
+    return path if lang=="en" else "/"+lang+(path if path!="/" else "/")
+def langs_live():
+    return os.path.exists(os.path.join(ROOT,"translations","es.json")) and os.path.exists(os.path.join(ROOT,"translations","de.json")) and os.path.exists(os.path.join(ROOT,"translations","ro.json"))
+def hreflang(path):
+    if not langs_live(): return ""
+    out="".join(f'<link rel="alternate" hreflang="{l}" href="https://themindfulmap.org{lang_path(path,l)}">' for l,_,_ in LANGS)
+    return out+f'<link rel="alternate" hreflang="x-default" href="https://themindfulmap.org{path}">'
+def langs_nav(path,cur="en"):
+    if not langs_live(): return ""
+    return "".join(f'<a href="{lang_path(path,l)}" lang="{l}" hreflang="{l}" data-lang="{l}"'+(' aria-current="true"' if l==cur else '')+f' title="{n}">{c}</a>' for l,c,n in LANGS)
+I18N={"title":"Get the free Harmony Map","intro":"A short guide to find your way back to calm, plus one short email a week. Optional, and you can leave at any time.",
+ "email":"your email address","consent":"I agree to receive the Harmony Map and a weekly email at this address. I can unsubscribe in any email.","privacy":"Privacy",
+ "go":"Send me the map","done":"Thank you. Check your inbox to confirm.","no":"No thanks","close":"Close","error":"Something went wrong. Please try again later."}
+I18N_JSON=_json.dumps(I18N,ensure_ascii=False)
+def LANG_JS(): return '<script src="/lang.js" defer></script>' if langs_live() else ""
+
 def layout(title, desc, path, body, depth_nav="", noindex=False):
     return f'''<!doctype html>
 <html lang="en">
@@ -25,20 +44,24 @@ def layout(title, desc, path, body, depth_nav="", noindex=False):
 <meta name="description" content="{E_(desc)}">
 <meta name="p:domain_verify" content="fa6cc629111f9fbbebfe0cb56705167d"/>
 <link rel="canonical" href="https://themindfulmap.org{path}">
+<!--HREFLANG-->{hreflang(path)}<!--/HREFLANG-->
 <meta name="robots" content="{'noindex' if noindex else 'index,follow'}">
 <meta name="theme-color" content="#F1F5F3">
-<meta property="og:title" content="{E_(title)}"><meta property="og:description" content="{E_(desc)}"><meta property="og:type" content="website">
+<meta property="og:title" content="{E_(title)}"><meta property="og:description" content="{E_(desc)}"><meta property="og:type" content="website"><meta property="og:site_name" content="The Mindful Map"><meta property="og:image" content="https://themindfulmap.org/images/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://themindfulmap.org/images/og.png">
+<script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebSite","name":"The Mindful Map","url":"https://themindfulmap.org/","description":"A science-based map of mind and body.","inLanguage":["en","es","de","ro"]}}</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='6' cy='18' r='3' fill='%2312222B'/%3E%3Ccircle cx='18' cy='6' r='3' fill='%23B7790A'/%3E%3Cpath d='M8 16 16 8' stroke='%2312222B' stroke-width='2'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="/site.css">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap">
 <a class="brand" href="/"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="6" cy="20" r="3.5" fill="#12222B"/><circle cx="20" cy="6" r="3.5" fill="#B7790A"/><path d="M8.5 17.5 17.5 8.5" stroke="#12222B" stroke-width="2.4" fill="none"/></svg>{SITE}</a>
-<nav class="main" aria-label="Main"><a href="/#feelings">Start</a><a href="/map.html">Map</a><a href="/needs.html">Needs</a><a href="/doors.html">Try</a><a href="/life.html">Life</a><a href="/help.html">Get help</a></nav>
+<nav class="langs" aria-label="Language"><!--LANGS-->{langs_nav(path)}<!--/LANGS--></nav><nav class="main" aria-label="Main"><a href="/#feelings">Start</a><a href="/map.html">Map</a><a href="/needs.html">Needs</a><a href="/doors.html">Try</a><a href="/life.html">Life</a><a href="/help.html">Get help</a></nav>
 </div></header>
-{body}
+{body.replace("<main","<main id=\"main\"",1)}
 <footer><div class="wrap"><p>Everything here is general information from published research. It does not replace a doctor or therapist. Effects in this research are usually small or medium. Nothing here is a cure.</p><p><a href="/how-we-know.html">How we know</a> · <a href="/connections.html">Mind and body</a> · <a href="/background.html">Background</a> · <a href="/help.html">Get help now</a> · <a href="/privacy.html">Privacy</a></p></div></footer>
-<script src="/popup.js" defer></script>
+<script type="application/json" id="mm-i18n">{I18N_JSON}</script>
+<script src="/popup.js" defer></script>{LANG_JS()}
 </body></html>
 '''
 
@@ -60,7 +83,7 @@ def index():
 <h1>Start with how you feel.</h1>
 <p class="lede">Pick the one that fits you today. The map shows which needs of your body and mind may be behind it, and what research says can help.</p>
 <ol class="route" id="feelings" aria-label="How do you feel right now?">{stations}</ol>
-<p class="soon">Pain is coming soon. In danger right now? <a href="/help.html">Get help now</a>.</p>
+<p class="soon">In danger right now? <a href="/help.html">Get help now</a>.</p>
 </div></div>
 <section class="block"><div class="wrap">
 <h2>What the map is made of</h2>
@@ -195,7 +218,7 @@ def doors_page():
 </div></main>""")
 
 def rows(items):
-    out="".join(f'<li><h3>{t}</h3><p>{txt}</p>{badge(lv,kd)}</li>' for t,txt,lv,kd in items)
+    out="".join(f'<li id="{re.sub(r"[^a-z]+","-",t.lower()).strip("-")}"><h2 class="rowh">{t}</h2><p>{txt}</p>{badge(lv,kd)}</li>' for t,txt,lv,kd in items)
     return f'<ol class="stops" style="list-style:none">{out}</ol>'
 
 def connections_page():
@@ -207,7 +230,7 @@ def connections_page():
 </div></main>""")
 
 def background_page():
-    st="".join(f'<li><h3>{a}</h3><p>{b}</p></li>' for a,b in STAGES)
+    st="".join(f'<li><h2 class="rowh">{a}</h2><p>{b}</p></li>' for a,b in STAGES)
     return layout("Background and life stages | The Mindful Map","Heredity, childhood, surroundings, personality, and how hormones and age matter.","/background.html",f"""
 <main class="page"><div class="wrap narrow">
 <h1>Background</h1><p class="lede">Things that shape you before you choose anything.</p>
@@ -248,7 +271,7 @@ def map_page():
         c="#2C7A66" if d[1]=="body" else "#3A5C9E"
         t+=f'<a href="/door/{d[0]}.html"><circle cx="{R}" cy="{dy[d[0]]:.0f}" r="7" fill="{c}"/><text x="{R+16}" y="{dy[d[0]]+5:.0f}">{d[2]}</text></a>'
     heads=f'<text x="{L}" y="12" text-anchor="middle" font-size="13">What you feel</text><text x="{M}" y="12" text-anchor="middle" font-size="13">What you need</text><text x="{R}" y="12" text-anchor="middle" font-size="13">What you can try</text>'
-    svg=f'<svg viewBox="0 0 1240 {height}" role="img" aria-label="Map linking feelings to needs to things to try" style="min-width:900px;width:100%;height:auto;font-family:var(--sans);font-size:15px;fill:#12222B"><style>text{{paint-order:stroke;stroke:#F1F5F3;stroke-width:6px;stroke-linejoin:round}}</style>{heads}{g}{t}</svg>'
+    svg=f'<svg viewBox="0 0 1240 {height}" role="group" aria-label="Map linking feelings to needs to things to try" style="min-width:900px;width:100%;height:auto;font-family:var(--sans);font-size:15px;fill:#12222B"><style>text{{paint-order:stroke;stroke:#F1F5F3;stroke-width:6px;stroke-linejoin:round}}</style>{heads}{g}{t}</svg>'
     return layout("The map | The Mindful Map","All feelings, needs and things to try on one page.","/map.html",f"""
 <main class="page"><div class="wrap">
 <h1>The map</h1><p class="lede">Read from left to right: a feeling, the needs behind it, what you can try. Click any point to open it.</p>
@@ -259,14 +282,22 @@ def map_page():
 
 
 # ===================== v2: chromatic design =====================
-FC = {"tired":"#4F5BD5","tense":"#E5484D","sad":"#1C7ED6","lonely":"#A63FC4","stuck":"#0CA678","pointless":"#F0A202"}
-NC = {"sleep":"#4F5BD5","movement":"#F76707","food":"#E64980","rhythm-light":"#F0A202","touch":"#D6409F","safe-place":"#2F9E44","intimacy":"#C2255C",
-      "control":"#1C7ED6","competence":"#0CA678","belonging":"#A63FC4","meaning":"#F08C00","stability":"#5C7CFA"}
+FC = {"pain":"#0E7490","tired":"#4F5BD5","tense":"#D63439","sad":"#1769BD","lonely":"#A63FC4","stuck":"#0CA678","pointless":"#F0A202"}
+NC = {"sleep":"#4F5BD5","movement":"#F76707","food":"#D12F69","rhythm-light":"#F0A202","touch":"#BF2E8C","safe-place":"#2F9E44","intimacy":"#C2255C",
+      "control":"#1769BD","competence":"#0CA678","belonging":"#A63FC4","meaning":"#F08C00","stability":"#4A60E4"}
+def _lum(h):
+    c=[int(h[i:i+2],16)/255 for i in (1,3,5)]
+    c=[x/12.92 if x<=.03928 else ((x+.055)/1.055)**2.4 for x in c]
+    return .2126*c[0]+.7152*c[1]+.0722*c[2]
+def _cr(a,b):
+    la,lb=_lum(a),_lum(b)
+    if la<lb: la,lb=lb,la
+    return (la+.05)/(lb+.05)
 def fg(hexc):
-    r,g,b=[int(hexc[i:i+2],16) for i in (1,3,5)]
-    return "#12222B" if (0.299*r+0.587*g+0.114*b)>150 else "#FFFFFF"
+    return "#FFFFFF" if _cr(hexc,"#FFFFFF")>=_cr(hexc,"#12222B") else "#12222B"
 def doorc(d): return NC[d[8][0]]
 MOTIF = {
+ "pain":'<path d="M70 6 24 66h30l-8 48 52-64H66Z"/>',
  "tired":'<path d="M78 14a46 46 0 1 0 28 76A38 38 0 0 1 78 14Z"/>',
  "tense":'<path d="M8 80 30 30 52 80 74 30 96 80 118 30" fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>',
  "sad":'<path d="M60 8C60 8 20 56 20 82a40 40 0 0 0 80 0C100 56 60 8 60 8Z"/>',
@@ -278,6 +309,17 @@ def motif(slug, op=".22"):
     return f'<svg class="motif" viewBox="0 0 120 120" aria-hidden="true" style="opacity:{op};color:currentColor;fill:currentColor">{MOTIF[slug]}</svg>'
 
 V2CSS = """
+.rowh{font-size:1.3rem;margin:0}.stops .rowh{font-size:1.3rem}
+.tile span.h{opacity:1}
+
+.skip{position:absolute;left:-999px;top:8px;background:#fff;color:#12222B;padding:10px 14px;border-radius:8px;z-index:99;font-family:var(--sans)}.skip:focus{left:8px}
+
+nav.langs{display:flex;gap:2px;font-family:var(--sans);font-size:.8rem}nav.langs a{color:#fff;opacity:.6;text-decoration:none;padding:4px 7px;border-radius:6px}nav.langs a[aria-current]{opacity:1;background:#ffffff22}nav.langs a:hover{opacity:1}
+.v2 header.top .wrap{gap:18px;flex-wrap:wrap}
+
+.sources{margin-top:40px;padding-top:20px;border-top:1px solid #C9D0DD;font-family:var(--sans)}
+.sources h2{font-size:1.1rem}.sources ul{padding-left:1.1em;font-size:.95rem}.sources li{margin:.35em 0}.srcnote{color:#4A5A62}.srcfoot{font-size:.85rem;color:#4A5A62}
+
 #mm-pop{position:fixed;inset:0;background:#0E1A33CC;display:flex;align-items:center;justify-content:center;padding:18px;z-index:50}
 .mm-box{position:relative;background:#fff;border-radius:22px;max-width:440px;width:100%;padding:34px 30px 24px;font-family:var(--sans);box-shadow:0 24px 60px #0008;border-top:10px solid #A63FC4}
 .mm-box h2{font-size:1.6rem;margin-bottom:10px}.mm-box p{font-family:var(--serif);font-size:1rem;color:#4A5A62}
@@ -298,12 +340,12 @@ body.v2{background:#FBFAF7}
 .hero2::after{content:"";position:absolute;right:-120px;top:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#4F5BD555,transparent 65%)}
 .hero2 h1{color:#fff;max-width:11em;margin-bottom:20px}
 .hero2 .lede{color:#C7D0E6;max-width:32em}
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px;position:relative;z-index:1}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px;position:relative;z-index:1}
 .tile{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:178px;padding:20px 22px;border-radius:22px;text-decoration:none;overflow:hidden;transition:transform .18s,box-shadow .18s}
 .tile:hover{transform:translateY(-4px);box-shadow:0 14px 30px #0006}
 .tile .motif{position:absolute;right:-10px;top:-10px;width:120px;height:120px}
 .tile b{font-family:var(--sans);font-size:1.5rem;font-weight:800;line-height:1.1}
-.tile span.h{font-size:.98rem;margin-top:6px;opacity:.92}
+.tile span.h{font-size:.98rem;margin-top:6px;}
 .hero2 .soon{color:#9AA7C7}.hero2 .soon a{color:#fff}
 .band{padding:56px 0}
 .band.tint{background:#F1EEF9}.band.warm{background:#FFF3E3}.band.mint{background:#E5F6EF}
@@ -311,16 +353,16 @@ body.v2{background:#FBFAF7}
 .chip{display:block;padding:16px 18px;border-radius:16px;text-decoration:none;min-height:96px;transition:transform .15s}
 .chip:hover{transform:translateY(-3px)}
 .chip b{display:block;font-family:var(--sans);font-weight:800;font-size:1.08rem;line-height:1.2}
-.chip small{display:block;margin-top:5px;font-size:.88rem;opacity:.92;line-height:1.35}
+.chip small{display:block;margin-top:5px;font-size:.9rem;line-height:1.35}
 .sechead{display:flex;align-items:center;gap:14px;margin:0 0 4px}
 .sechead i{width:14px;height:44px;border-radius:7px;display:block}
 .pills{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
 .pill{padding:12px 20px;border-radius:999px;background:#fff;border:2px solid var(--navy);font-family:var(--sans);font-weight:700;text-decoration:none}
 .pill:hover{background:var(--navy);color:#fff}
 .pagehero{padding:52px 0 60px;position:relative;overflow:hidden}
-.pagehero .crumb{color:inherit;opacity:.85}
+.pagehero .crumb{color:inherit}
 .pagehero h1{color:inherit;margin-bottom:12px;font-size:clamp(2.6rem,7vw,4.8rem)}
-.pagehero .lede{color:inherit;opacity:.92}
+.pagehero .lede{color:inherit;}
 .pagehero .motif{position:absolute;right:4%;top:50%;width:260px;height:260px;margin-top:-130px}
 .pagehero .badge{color:inherit}
 .pagehero .badge svg line{stroke:currentColor}
@@ -331,10 +373,11 @@ body.v2{background:#FBFAF7}
 .cards{display:grid;gap:14px;margin-top:30px}
 .card{display:block;padding:20px 22px;border-radius:18px;text-decoration:none;position:relative}
 .card h3{font-size:1.35rem}
-.card p{margin:4px 0 8px;opacity:.95;font-size:1.02rem}
-.card .badge{color:inherit;opacity:.95}.card .badge svg line{stroke:currentColor}
+.card p{margin:4px 0 8px;font-size:1.02rem}
+.card .badge{color:inherit}.card .badge svg line{stroke:currentColor}
 .card .n{position:absolute;right:20px;top:16px;font-family:var(--sans);font-weight:800;font-size:.9rem;opacity:.8}
 .mapwrap{background:var(--navy);border-radius:22px;padding:24px 10px;margin-top:20px}
+@media (max-width:980px){.tiles{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:760px){.tiles{grid-template-columns:repeat(2,1fr)}.pagehero .motif{width:150px;height:150px;right:-20px}}
 @media (max-width:460px){.tiles{grid-template-columns:1fr}.tile{min-height:120px}}
 """
@@ -360,7 +403,7 @@ def index():
 <h1>Start with how you feel.</h1>
 <p class="lede">Pick the one that fits you today. The map shows which needs of your body and mind may be behind it, and what research says can help.</p>
 <div class="tiles">{tiles}</div>
-<p class="soon" style="margin-top:22px">Pain is coming soon. In danger right now? <a href="/help.html">Get help now</a>.</p>
+<p class="soon" style="margin-top:22px">In danger right now? <a href="/help.html">Get help now</a>.</p>
 </div></section>
 <section class="band tint"><div class="wrap">
 <div class="sechead"><i style="background:#F76707"></i><h2 style="margin:0">Seven needs of the body</h2></div>
@@ -368,7 +411,7 @@ def index():
 <div class="chips">{bodyc}</div>
 </div></section>
 <section class="band warm"><div class="wrap">
-<div class="sechead"><i style="background:#1C7ED6"></i><h2 style="margin:0">Five needs of the mind</h2></div>
+<div class="sechead"><i style="background:#1769BD"></i><h2 style="margin:0">Five needs of the mind</h2></div>
 <div class="chips">{mindc}</div>
 <p class="aster">{ASTER}</p>
 </div></section>
@@ -395,7 +438,7 @@ def hero_page(c,crumb,title,lede,badge_html,slug_motif=None):
 def feeling_page(f):
     slug,name,hint,needs,note=f; c=FC[slug]
     alert=f'<div class="alert"><b>See a doctor if it lasts</b>{note}</div>' if note else ""
-    cards="".join(f'<a class="card" href="/need/{s}.html" style="background:{NC[s]};color:{fg(NC[s])}"><span class="n">{i+1}</span><h3>{NEED[s][2]}</h3><p>{NEED[s][3]}</p>{badge(NEED[s][4],NEED[s][5])}</a>' for i,s in enumerate(needs))
+    cards="".join(f'<a class="card" href="/need/{s}.html" style="background:{NC[s]};color:{fg(NC[s])}"><span class="n">{i+1}</span><h2 class="rowh">{NEED[s][2]}</h2><p>{NEED[s][3]}</p>{badge(NEED[s][4],NEED[s][5])}</a>' for i,s in enumerate(needs))
     return lay2(f"Feeling {name.lower()} | The Mindful Map",f"{hint} What research says may help.",f"/feel/{slug}.html",f"""
 <main>{hero_page(c,'<a class="crumb" href="/#feelings">← All feelings</a>',name,hint+" These needs are most often behind it. Start at the top.","",slug)}
 <div class="band"><div class="wrap narrow">{alert}<div class="cards">{cards}</div>
@@ -413,7 +456,7 @@ def need_page(n):
 <div class="band"><div class="wrap narrow" style="--c:{c}">
 {ph}
 <div class="tryit"><h2>What you can try</h2><ul class="plain">{th}</ul></div>
-{doors_html(slug)}{f'<p class="seen">Feelings this may sit behind: {seen_html}</p>' if seen else ''}{aster}
+{doors_html(slug)}{f'<p class="seen">Feelings this may sit behind: {seen_html}</p>' if seen else ''}{sources_html(NEED_SRC.get(slug,[]))}{aster}
 </div></div></main>""")
 
 def door_page(d):
@@ -428,7 +471,7 @@ def door_page(d):
 {ph}
 <div class="tryit"><h2>How to start</h2><ul class="plain">{hh}</ul></div>
 <p class="seen">Needs this serves: {nl}</p>
-<p class="aster">What helps one person may not help another. Effects are usually small or medium.</p>{aster}
+{sources_html(DOOR_SRC.get(slug,[]))}<p class="aster">What helps one person may not help another. Effects are usually small or medium.</p>{aster}
 </div></div></main>""")
 
 def needs_page():
@@ -437,31 +480,31 @@ def needs_page():
     return lay2("The twelve needs | The Mindful Map","Seven needs of the body and five of the mind.","/needs.html",f"""
 <main>{hero_page('#0E1A33','','The twelve needs','Open one to see what it means, how sure we are, and what you can try.','')}
 <div class="band tint"><div class="wrap"><div class="sechead"><i style="background:#F76707"></i><h2 style="margin:0">The body</h2></div><div class="chips">{b}</div></div></div>
-<div class="band warm"><div class="wrap"><div class="sechead"><i style="background:#1C7ED6"></i><h2 style="margin:0">The mind</h2></div><div class="chips">{m}</div><p class="aster">{ASTER}</p></div></div></main>""")
+<div class="band warm"><div class="wrap"><div class="sechead"><i style="background:#1769BD"></i><h2 style="margin:0">The mind</h2></div><div class="chips">{m}</div><p class="aster">{ASTER}</p></div></div></main>""")
 
 def doors_page():
     def lst(g): return "".join(chip(d[0],d[2],badge_text(d),doorc(d),f"/door/{d[0]}.html") for d in DOORS if d[1]==g)
     return lay2("Things to try | The Mindful Map","Twelve things you can try, with how sure we are about each.","/doors.html",f"""
 <main>{hero_page('#0E1A33','','Things to try','Each person goes through the door that suits them. Open one to see what the research says.','')}
-<div class="band warm"><div class="wrap"><div class="sechead"><i style="background:#1C7ED6"></i><h2 style="margin:0">For the mind</h2></div><div class="chips">{lst("mind")}</div><p class="aster">{ASTER}</p></div></div>
+<div class="band warm"><div class="wrap"><div class="sechead"><i style="background:#1769BD"></i><h2 style="margin:0">For the mind</h2></div><div class="chips">{lst("mind")}</div><p class="aster">{ASTER}</p></div></div>
 <div class="band tint"><div class="wrap"><div class="sechead"><i style="background:#F76707"></i><h2 style="margin:0">For the body</h2></div><div class="chips">{lst("body")}</div></div></div></main>""")
 
-PAGE_COLORS={"connections":"#7048E8","background":"#0B7285","life":"#E8590C","how":"#1C7ED6","help":"#C92A2A","map":"#0E1A33"}
+PAGE_COLORS={"privacy":"#0B7285","connections":"#7048E8","background":"#0B7285","life":"#E8590C","how":"#1769BD","help":"#C92A2A","map":"#0E1A33"}
 def simple_hero_wrap(key,title,lede,inner,narrow=True):
     c=PAGE_COLORS[key]
     cls="wrap narrow" if narrow else "wrap"
     return f'<main>{hero_page(c,"",title,lede,"")}<div class="band"><div class="{cls}" style="--c:{c}">{inner}</div></div></main>'
 
 def rows(items):
-    out="".join(f'<li><h3>{t}</h3><p>{txt}</p>{badge(lv,kd)}</li>' for t,txt,lv,kd in items)
+    out="".join(f'<li id="{re.sub(r"[^a-z]+","-",t.lower()).strip("-")}"><h2 class="rowh">{t}</h2><p>{txt}</p>{badge(lv,kd)}</li>' for t,txt,lv,kd in items)
     return f'<ol class="stops" style="list-style:none">{out}</ol>'
 def connections_page():
     return lay2("How mind and body connect | The Mindful Map","Five ways mind and body affect each other, and how sure we are.","/connections.html",simple_hero_wrap("connections","How mind and body connect","Five channels. Some are well supported. Others are only plausible, and we mark them that way.",rows(LINKS)+'<p class="aster">Not on this map because they do not hold up: “stimulate your vagus nerve”, polyvagal theory as settled fact, oxytocin as the “love hormone”, and “feeling your heartbeat lowers anxiety”.</p>'))
 def background_page():
-    st="".join(f'<li><h3>{a}</h3><p>{b}</p></li>' for a,b in STAGES)
-    return lay2("Background and life stages | The Mindful Map","Heredity, childhood, surroundings, personality, hormones and age.","/background.html",simple_hero_wrap("background","Background","Things that shape you before you choose anything.",rows(BACKGROUND)+'<h2 style="margin-top:34px">Life stages and hormones</h2><ol class="stops" style="list-style:none">'+st+'</ol>'))
+    st="".join(f'<li><h2 class="rowh">{a}</h2><p>{b}</p></li>' for a,b in STAGES)
+    return lay2("Background and life stages | The Mindful Map","Heredity, childhood, surroundings, personality, hormones and age.","/background.html",simple_hero_wrap("background","Background","Things that shape you before you choose anything.",rows(BACKGROUND)+'<h2 style="margin-top:34px">Life stages and hormones</h2><ol class="stops" style="list-style:none">'+st+'</ol>'+sources_html(["background"])))
 def life_page():
-    return lay2("Life around you | The Mindful Map","Relationships, work, habits, trauma, screens and more.","/life.html",simple_hero_wrap("life","Life around you","The setting your needs live in. Same rule: we say how sure we are.",rows(LIFE)+'<div class="alert"><b>Deep and lasting low mood</b>If low mood is very low and lasts, ask for a clinical check, whatever label you use for it, including burnout.</div>'))
+    return lay2("Life around you | The Mindful Map","Relationships, work, habits, trauma, screens and more.","/life.html",simple_hero_wrap("life","Life around you","The setting your needs live in. Same rule: we say how sure we are.",rows(LIFE)+sources_html(["life","trauma2","work","tech","adhd","autism","pain","illness"])+'<div class="alert"><b>Deep and lasting low mood</b>If low mood is very low and lasts, ask for a clinical check, whatever label you use for it, including burnout.</div>'))
 def help_page():
     return lay2("Get help now | The Mindful Map","If you are in danger or thinking of hurting yourself, call emergency services or a crisis line.","/help.html",simple_hero_wrap("help","Get help now","If you are in danger, or thinking of hurting yourself, do not wait. Talk to a person now.",'<div class="alert"><b>Emergency: 112</b>One free number for the whole European Union.</div><h2 style="margin-top:36px">Crisis lines</h2><ul class="plain"><li><b>Spain:</b> 024, suicide prevention line. Free, confidential, open 24 hours.</li><li><b>Romania:</b> DepreHUB 0374 456 420, free, open 24 hours, for adults. TelVerde Antisuicid 0800 801 200, Friday to Sunday, 19:00 to 07:00. Children and teens: 116 111, Monday to Friday, 10:00 to 20:00.</li><li><b>Germany:</b> Telefonseelsorge 0800 111 0 111, 0800 111 0 222 or 116 123. Free, anonymous, open day and night, in German.</li></ul><p>If your line is closed, or you are in danger, call 112.</p><p class="aster">Numbers change. We re-check them before each update. If a line does not answer, call 112.</p>'))
 def how_page():
@@ -477,6 +520,11 @@ def how_page():
 <p>Autism in adults, chronic illness and depression, trauma treatment in adults, and screens in adults. We say nothing about them until we have read the research.</p>
 <p class="aster">Effects found in research are usually small or medium. What helps one person may not help another.</p>"""
     return lay2("How we know | The Mindful Map","What counts as evidence on this map, and how we label it.","/how-we-know.html",simple_hero_wrap("how","How we know","Only research that has been checked by other scientists goes on this map. Where the evidence is weak, we say so.",inner))
+
+def privacy_page():
+    body=open(os.path.join(os.path.dirname(__file__),"privacy_body.html"),encoding="utf-8").read()
+    body=body.replace("<h2>","<h2 style=\"margin-top:30px\">")
+    return lay2("Privacy | The Mindful Map","How The Mindful Map handles your email address and what is stored in your browser.","/privacy.html",simple_hero_wrap("privacy","Privacy","Last updated: 8 November 2026. Plain words: what we collect, why, and your rights.",body))
 
 import re as _re
 _old_map=map_page
@@ -494,10 +542,18 @@ def map_page():
     inner=key+'<div class="mapwrap"><div style="overflow-x:auto">'+svg+'</div></div><p class="aster">Each point keeps its own colour across the site. Lines from feelings to needs are our working interpretation, not proven pathways.</p>'
     return lay2("The map | The Mindful Map","All feelings, needs and things to try on one page.","/map.html",simple_hero_wrap("map","The map","Read from left to right: a feeling, the needs behind it, what you can try. Click any point to open it.",inner,narrow=False))
 
+def sources_html(keys):
+    items=[]
+    for k in keys:
+        for lab,url,note in SRC.get(k,[]):
+            items.append(f'<li><a href="{url}" rel="noopener" target="_blank">{lab}</a> <span class="srcnote">({note})</span></li>')
+    if not items: return ""
+    return '<section class="sources" aria-labelledby="src-h"><h2 id="src-h">Sources</h2><ul>'+"".join(items)+'</ul><p class="srcfoot">Links open the original or the closest page we could read. We note when only an abstract or a press report was available.</p></section>'
+
 if __name__=="__main__":
-    shutil.copy(os.path.join(os.path.dirname(__file__),"site.css"), os.path.join(ROOT,"site.css")); open(os.path.join(ROOT,"v2.css"),"w").write(V2CSS); shutil.copy(os.path.join(os.path.dirname(__file__),"popup.js"), os.path.join(ROOT,"popup.js"))
+    shutil.copy(os.path.join(os.path.dirname(__file__),"site.css"), os.path.join(ROOT,"site.css")); open(os.path.join(ROOT,"v2.css"),"w").write(V2CSS); shutil.copy(os.path.join(os.path.dirname(__file__),"popup.js"), os.path.join(ROOT,"popup.js")); shutil.copy(os.path.join(os.path.dirname(__file__),"lang.js"), os.path.join(ROOT,"lang.js"))
     write("index.html", index()); write("needs.html", needs_page()); write("help.html", help_page()); write("how-we-know.html", how_page())
-    write("doors.html",doors_page()); write("connections.html",connections_page()); write("background.html",background_page()); write("life.html",life_page()); write("map.html",map_page())
+    write("privacy.html",privacy_page()); write("doors.html",doors_page()); write("connections.html",connections_page()); write("background.html",background_page()); write("life.html",life_page()); write("map.html",map_page())
     for d in DOORS: write(f"door/{d[0]}.html",door_page(d))
     for f in FEELINGS: write(f"feel/{f[0]}.html", feeling_page(f))
     for n in NEEDS: write(f"need/{n[0]}.html", need_page(n))

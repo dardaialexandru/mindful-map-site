@@ -1,0 +1,50 @@
+name: Build and translate site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "build/**"
+      - "translate/**"
+      - ".github/workflows/translate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: translate
+  cancel-in-progress: true
+
+jobs:
+  translate:
+    # Do not run on the bot's own commits
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install beautifulsoup4 anthropic
+      - name: Build English site
+        run: python build/build.py
+      - name: Translate to ES, DE, RO
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python translate/translate_site.py
+      - name: Rebuild so the language switcher appears, then refresh translations
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python build/build.py
+          python translate/translate_site.py
+      - name: Commit generated pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "No changes"; else
+            git commit -m "Build and translate site [skip ci]"
+            git push
+          fi
