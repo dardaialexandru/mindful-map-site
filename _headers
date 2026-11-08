@@ -16,3 +16,6 @@
 
 /images/pins/*
   Access-Control-Allow-Origin: *
+
+/harmony.html
+  X-Robots-Tag: noindex
