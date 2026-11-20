@@ -1,4 +1,5 @@
 import re
+import re as _re
 import os
 from logo import emblem, lockup
 from art import ACC, SOUL, diagram, tint, soft, dark
@@ -620,20 +621,30 @@ for _k,_v in SRC_ADD.items(): NEEDS[_k]['sources']=NEEDS[_k]['sources']+_v
 for _k,_v in SAYS_ADD.items(): NEEDS[_k]['says']=NEEDS[_k]['says']+[_v]
 import math as _m
 def conn_svg(slug, conn):
-    W,H=860,380; cx,cy=430,190
-    n=len(conn); nodes=""; lines=""
+    W,H=860,400; cx,cy=430,200
+    n=len(conn); nodes=""; lines=""; chips=""
+    LAB={"study":"Seen in studies","thin":"Thin evidence","frame":"Same framework","idea":"Not researched yet"}
     for i,(t,kind,ev,txt) in enumerate(conn):
         ang=-_m.pi/2+2*_m.pi*i/n
-        x=cx+300*_m.cos(ang); y=cy+140*_m.sin(ang)
+        x=cx+300*_m.cos(ang); y=cy+145*_m.sin(ang)
         if kind=="need": nm=NEEDS[t]["name"]; col=ACC[t]; href=f"../need/{t}.html"
         else: nm=FEEL[t]["name"]; col="#B8892B"; href=f"../feel/{t}.html"
         da={"study":' stroke-dasharray="10 7"',"idea":' stroke-dasharray="2 8"',"thin":' stroke-dasharray="10 5 2 5"',"frame":' stroke-dasharray="10 5 2 5"',"":''}[ev if kind=="need" else ""]
         lines+=f'<path d="M{cx} {cy} L{x:.0f} {y:.0f}" stroke="{dark(col,.55)}" stroke-width="3" stroke-linecap="round"{da} opacity=".75"/>'
+        if kind=="need" and ev in LAB:
+            m=_re.search(r"(\d[\d,]*) (studies|trials|couples|articles|reviews)",txt or "")
+            l1=LAB[ev]; l2=f"{m.group(1)} {m.group(2)}" if m else ""
+            tt=.64 if abs(y-cy)>60 else .52; mx=cx+(x-cx)*tt; my=cy+(y-cy)*tt-(0 if abs(y-cy)>60 else 34); w=max(len(l1),len(l2)+2)*6.6+14; h=34 if l2 else 22
+            chips+=f'<rect x="{mx-w/2:.0f}" y="{my-h/2:.0f}" width="{w:.0f}" height="{h}" rx="9" fill="#FBF6E8" stroke="#DCD2BA"/><text x="{mx:.0f}" y="{my-(2 if l2 else -4):.0f}" text-anchor="middle" font-size="11.5" font-weight="600" fill="#5C5545" font-family="Inter,sans-serif">{l1}</text>'+(f'<text x="{mx:.0f}" y="{my+12:.0f}" text-anchor="middle" font-size="11.5" font-weight="700" fill="#2E2A22" font-family="Inter,sans-serif">{l2}</text>' if l2 else "")
         fill=tint(col)
         nodes+=f'<a href="{href}"><rect x="{x-96:.0f}" y="{y-21:.0f}" width="192" height="42" rx="21" fill="{fill}" stroke="{col}" stroke-width="2.5"/><text x="{x:.0f}" y="{y+5:.0f}" text-anchor="middle" font-size="15" font-weight="600" fill="{dark(col,.5)}" font-family="Inter,sans-serif">{"Intimacy" if t=="intimacy" else nm}</text></a>'
     me=NEEDS[slug]["name"]
     centre=f'<rect x="{cx-100}" y="{cy-30}" width="200" height="60" rx="30" fill="{ACC[slug]}"/><text x="{cx}" y="{cy+7}" text-anchor="middle" font-size="19" font-weight="700" fill="#fff" font-family="Inter,sans-serif">{me}</text>'
-    return f'<svg class="cmap" viewBox="0 0 {W} {H}" role="img" aria-label="Map of what {me} connects to">{lines}{nodes}{centre}</svg>'
+    kinds=[k for k in ("study","thin","frame","idea") if any(c[1]=="need" and c[2]==k for c in conn)]
+    dd={"study":"10 7","thin":"10 5 2 5","frame":"10 5 2 5","idea":"2 8"}
+    leg="".join(f'<span class="lk"><svg width="46" height="8" aria-hidden="true"><path d="M2 4H44" stroke="#5C5545" stroke-width="3" stroke-linecap="round" stroke-dasharray="{dd[k]}"/></svg>{LAB[k]}</span>' for k in kinds)
+    if any(c[1]=="feel" for c in conn): leg+='<span class="lk"><svg width="46" height="8" aria-hidden="true"><path d="M2 4H44" stroke="#B8892B" stroke-width="3" stroke-linecap="round"/></svg>Feeling this need may sit behind</span>'
+    return f'<svg class="cmap" viewBox="0 0 {W} {H}" role="img" aria-label="Map of what {me} connects to">{lines}{chips}{nodes}{centre}</svg><div class="lg"><b>How to read this</b><p class="lkrow">{leg}</p><p class="lnote">Each line joins this need to another. The label on it says how well the link is backed by research, and how many studies the page text names. Tap a name to open it. A link seen in studies is not proof of cause.</p></div>'
 
 CAPT = {"sleep":"How the benefit of better sleep shrinks as it is checked more carefully.","movement":"How much each kind of exercise lifted mood, compared with doing nothing.","food":"A link between two things is not the same as a cause.","rhythm":"A regular sleep window plus morning daylight.","touch":"Where touch helped most in the studies.","safe":"The World Health Organization limits for road noise, on a decibel scale.","intimacy":"A pattern seen across groups of people. It is not a goal for you.","control":"Where you place your own life between outside forces and your own decisions.","competence":"One chain of links found in many studies.","belonging":"Quality of relationships mattered more than their number.","meaning":"The link between purpose and stress may run both ways.","stability":"Out of 100 people, how many had psychological strain."}
 BUILT_FEEL = {"pain","tired","tense","sad","lonely","stuck","pointless"}
@@ -668,13 +679,13 @@ def need_page(slug, d):
 <div style="margin:16px 0 0"><span class="ev {d["ev"] if d["ev"]!="solid" else ""}">{d["evtext"]}</span></div></div>
 <div class="bi">{scene(slug)}</div>
 </div></div><div class="wrap body">
-{vid}<figure class="glance"><figcaption><b>At a glance</b></figcaption>{diagram(slug)}<p class="cap">{CAPT[slug]}</p></figure>
+{vid}<figure class="glance"><figcaption><b>At a glance</b></figcaption>{__import__('schemes').fig(slug,ACC[slug],dark(ACC[slug],.5))}</figure>
 <h2>In plain words</h2><p>{ex["plain"]}</p><p class="vnote">A simple way to picture it. The research sections below say how sure we are.</p>
 <h2>What research says</h2>{says}
 <div class="limits"><b>How far to trust it</b>{d["limits"]}</div>
 <div class="tryit"><h2>What you can try</h2><ul>{tryli}</ul></div>
 <h2>In everyday life</h2><p class="vnote">Made-up examples to help you see yourself. They are not study results.</p>{vign}
-<h2>How it connects</h2>{cmap}<p class="legend">Dashed line: a link seen in studies that only observe. Dash-dot line: thin evidence, or ideas that belong to the same framework. Dotted line: noted on the map, not yet researched here. Gold: feelings.</p><ul class="cl">{cl}</ul>
+<h2>How it connects</h2>{cmap}<ul class="cl">{cl}</ul>
 <p class="seen" style="margin-top:0">Feelings this may sit behind: {seen}</p>
 <p>{d["also"]}</p>{relhtml}
 <div class="sources"><b>Sources</b><ul>{src}</ul></div>
@@ -886,6 +897,8 @@ for path, (t, d, b, r) in pages.items():
             extra += LEGACY_CSS
     if LIVE and path in ('index.html','help.html','privacy.html'):
         b = re.sub(r'<!--SB-->.*?<!--/SB-->', '', b, flags=re.S)
+    if path.startswith("need/"):
+        extra += "<style>"+__import__('schemes').CSS+"</style>"
     if path=="need/control.html":
         extra += __import__('v2').CSS
     html = doc(t, d, b, r, extra)
