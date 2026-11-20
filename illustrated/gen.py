@@ -255,6 +255,15 @@ fetch('https://assets.mailerlite.com/jsonp/2629517/forms/201143149078251433/subs
 document.getElementById('sbform').hidden=true;document.getElementById('sbdone').hidden=false})
 .catch(function(){btn.disabled=false;err.textContent='Something went wrong. Please try again later.'})})})();</script><!--/SB-->"""
 
+VLANG_CSS = ".vlang{display:flex;gap:8px;margin:10px 0 0;flex-wrap:wrap}.vlang button{font:inherit;font-size:.88rem;font-weight:600;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}.vlang button[aria-pressed=true]{background:var(--a);border-color:var(--a);color:#fff}"
+VLANG_JS = "<script>(function(){document.querySelectorAll('.vlang').forEach(function(g){var f=g.closest('figure'),v=f.querySelector('video'),sr=v.querySelector('source');g.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){if(b.getAttribute('aria-pressed')==='true')return;var t=v.currentTime,p=v.paused;g.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');sr.src=b.dataset.src;v.poster=b.dataset.poster;v.load();v.addEventListener('loadedmetadata',function h(){v.removeEventListener('loadedmetadata',h);v.currentTime=t;if(!p)v.play()});});});});})();</script>"
+def vidbox(base, ttl, aria=None):
+    ro = os.path.exists(f"{OUT}/media/{base}_ro.mp4")
+    tg = (f'<div class="vlang" role="group" aria-label="Caption language"><button type="button" aria-pressed="true" data-src="../media/{base}.mp4" data-poster="../media/{base}_poster.jpg">English captions</button>'
+          f'<button type="button" aria-pressed="false" data-src="../media/{base}_ro.mp4" data-poster="../media/{base}_ro_poster.jpg">Subtitrare în română</button></div>') if ro else ""
+    return (f'<figure class="vidbox"><figcaption><b>Watch: {ttl}</b> <span>About one minute, with a voice. Captions are on screen.</span></figcaption>'
+            f'<video controls preload="metadata" playsinline poster="../media/{base}_poster.jpg" aria-label="Short explainer video: {ttl}"><source src="../media/{base}.mp4" type="video/mp4"></video>{tg}</figure>' + (VLANG_JS if ro else ""))
+
 COMMENTS = r"""
 <style>
 .cm{border-top:1px solid var(--line);margin-top:56px;padding:44px 0 56px;background:var(--card)}
@@ -323,7 +332,7 @@ COMMENTS = r"""
 CM = "" 
 def doc(title, desc, body_html, root="", extra=""):
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
-            f'<title>{title}</title><meta name="description" content="{desc}">{extra}{FONTS}<style>{CSS}</style></head><body>{body_html}{'' if (LIVE or title.startswith(('Get help','Privacy'))) else COMMENTS}</body></html>')
+            f'<title>{title}</title><meta name="description" content="{desc}">{extra}{FONTS}<style>{CSS}{VLANG_CSS}</style></head><body>{body_html}{'' if (LIVE or title.startswith(('Get help','Privacy'))) else COMMENTS}</body></html>')
 
 EVT = {"solid": "Shown to help · solid evidence", "partial": "Some evidence · effect small or mixed", "weak": "Not enough evidence yet"}
 def ev(kind):
@@ -648,7 +657,7 @@ def need_page(slug, d):
     vid = ""
     if os.path.exists(f"{OUT}/media/{slug}.mp4"):
         ttl = "Sleep at regular hours" if slug == "sleep" else d["name"]
-        vid = f'<figure class="vidbox"><figcaption><b>Watch: {ttl}</b> <span>About one minute, no sound. Captions are on screen.</span></figcaption><video controls preload="metadata" playsinline poster="../media/{slug}_poster.jpg" aria-label="Short explainer video: {ttl}"><source src="../media/{slug}.mp4" type="video/mp4"></video></figure>'
+        vid = vidbox(slug, ttl)
     relhtml = ("<p class=\"seen\" style=\"margin-top:0\">Related needs: " + "".join(f'<a href="{s}.html">{n}</a>' if s in BUILT_NEED else f'<span class="seen-off">{n} · soon</span>' for s, n in rel) + "</p>") if rel else ""
     return header("../", "") + f"""
 <main class="page np" style="--a:{ACC[slug]};--t:{tint(ACC[slug])};--d:{dark(ACC[slug],.5)}"><div class="band"><div class="wrap">
@@ -723,7 +732,7 @@ def feel_page(slug, f):
     a = FC[slug]
     fvid = ""
     if os.path.exists(f"{OUT}/media/feel_{slug}.mp4"):
-        fvid = f'<figure class="vidbox"><figcaption><b>Watch: {f["name"]}</b> <span>About one minute, no sound. Captions are on screen.</span></figcaption><video controls preload="metadata" playsinline poster="../media/feel_{slug}_poster.jpg" aria-label="Short explainer video: {f["name"]}"><source src="../media/feel_{slug}.mp4" type="video/mp4"></video></figure>'
+        fvid = vidbox(f"feel_{slug}", f["name"])
     al = f'<div class="alert"><b>{f["alert"][0]}</b>{f["alert"][1]}</div>' if f["alert"] else ""
     fx = FX[slug]
     vign = "".join(f'<div class="vign"><b>{n}</b> {t}</div>' for n, t in fx["ex"])
@@ -851,7 +860,7 @@ if LIVE:
 
 pages = {
     **{f"feel/{k}.html": (f"{v['name']} | The Mindful Map", v["lede"], feel_page(k, v), "../") for k, v in FEEL.items()},
-    **{f"need/{k}.html": (f"{v['name']} | The Mindful Map", v["lede"], need_page(k, v), "../") for k, v in NEEDS.items()},
+    **{f"need/{k}.html": (f"{v['name']} | The Mindful Map", v["lede"], (need_page(k, v) if not (os.environ.get("V2") and k=="control") else __import__("v2").build(globals())(k, v, OUT)), "../") for k, v in NEEDS.items()},
     "index.html": ("The Mindful Map", "Start with how you feel. See which needs of your body and mind may be behind it, what research says helps, and how sure we are.", index_body, ""),
     "soul.html": ("Soul | The Mindful Map", "The roots of the tree: a space for ideas about the soul, coming soon.", soul_body, ""),
     "privacy.html": ("Privacy | The Mindful Map", "What the site stores and what stays in your browser.", privacy_body, ""),
@@ -877,6 +886,8 @@ for path, (t, d, b, r) in pages.items():
             extra += LEGACY_CSS
     if LIVE and path in ('index.html','help.html','privacy.html'):
         b = re.sub(r'<!--SB-->.*?<!--/SB-->', '', b, flags=re.S)
+    if os.environ.get('V2') and path=='need/control.html':
+        extra += __import__('v2').CSS
     html = doc(t, d, b, r, extra)
     if path == "index.html" and not LIVE:
         # index is published as the artifact page: fragment form (no doctype/head/body)
