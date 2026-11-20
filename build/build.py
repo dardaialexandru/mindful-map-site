@@ -56,7 +56,7 @@ def layout(title, desc, path, body, depth_nav="", noindex=False):
 <a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap">
 <a class="brand" href="/"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="6" cy="20" r="3.5" fill="#12222B"/><circle cx="20" cy="6" r="3.5" fill="#B7790A"/><path d="M8.5 17.5 17.5 8.5" stroke="#12222B" stroke-width="2.4" fill="none"/></svg>{SITE}</a>
-<nav class="langs" aria-label="Language"><!--LANGS-->{langs_nav(path)}<!--/LANGS--></nav><nav class="main" aria-label="Main"><a href="/#feelings">Start</a><a href="/map.html">Map</a><a href="/needs.html">Needs</a><a href="/doors.html">Try</a><a href="/life.html">Life</a><a href="/help.html">Get help</a></nav>
+<nav class="langs" aria-label="Language"><!--LANGS-->{langs_nav(path)}<!--/LANGS--></nav><nav class="main" aria-label="Main"><a href="/#feelings">Start</a><a href="/#needs">Needs</a><a href="/doors.html">Try</a><a href="/life.html">Life</a><a href="/help.html">Get help</a></nav>
 </div></header>
 {body.replace("<main","<main id=\"main\"",1)}
 <footer><div class="wrap"><p>Everything here is general information from published research. It does not replace a doctor or therapist. Effects in this research are usually small or medium. Nothing here is a cure.</p><p><a href="/how-we-know.html">How we know</a> · <a href="/connections.html">Mind and body</a> · <a href="/background.html">Background</a> · <a href="/help.html">Get help now</a> · <a href="/privacy.html">Privacy</a></p></div></footer>
@@ -518,6 +518,7 @@ def how_page():
 <div>{line_svg("link",w=120).replace('<svg','<svg style="width:120px;height:10px"')}<b>Observed link only</b>Two things appear together. Cause is not shown.</div></div>
 <h2>Three levels of evidence</h2>
 <ul class="plain"><li><b>Good:</b> several solid studies or reviews agree.</li><li><b>Medium:</b> the direction is clear but not settled.</li><li><b>Limited:</b> plausible, but few or conflicting studies.</li></ul>
+<p>On the illustrated need and feeling pages the same ideas appear as three labels: <b>Shown to help</b> (solid evidence), <b>Some evidence</b> (small or mixed effect) and <b>Not enough evidence yet</b>. They are a plainer wording of the levels above, not a different standard. Where a page names a different strength for the same topic, the more careful label is the one to trust, and we will make them agree.</p>
 <h2 style="margin-top:34px">What we leave out</h2>
 <p>Popular ideas that did not hold up when tested again are not on the map. Examples: habits forming in 21 days, willpower running out like a battery, “power poses”, and claims that trauma is written in your DNA.</p>
 <h2>What we do not know yet</h2>
@@ -561,7 +562,7 @@ if __name__=="__main__":
     for d in DOORS: write(f"door/{d[0]}.html",door_page(d))
     for f in FEELINGS: write(f"feel/{f[0]}.html", feeling_page(f))
     for n in NEEDS: write(f"need/{n[0]}.html", need_page(n))
-    urls=["/","/soul.html","/map.html","/needs.html","/doors.html","/life.html","/connections.html","/background.html","/how-we-know.html","/help.html","/privacy.html"]+[f"/door/{d[0]}.html" for d in DOORS]+[f"/feel/{f[0]}.html" for f in FEELINGS]+[f"/need/{n[0]}.html" for n in NEEDS]
+    urls=["/","/soul.html","/doors.html","/life.html","/connections.html","/background.html","/how-we-know.html","/help.html","/privacy.html"]+[f"/door/{d[0]}.html" for d in DOORS]+[f"/feel/{f[0]}.html" for f in FEELINGS]+[f"/need/{n[0]}.html" for n in NEEDS]
     sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+"".join(f"  <url><loc>https://themindfulmap.org{u}</loc></url>\n" for u in urls)+"</urlset>\n"
     write("sitemap.xml", sm)
     print("built", len(urls), "pages")
