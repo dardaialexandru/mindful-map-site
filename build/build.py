@@ -65,11 +65,11 @@ def layout(title, desc, path, body, depth_nav="", noindex=False):
 </body></html>
 '''
 
-PILOT_PAGES = {"index.html", "help.html", "privacy.html", "soul.html"}
+PILOT_PAGES = {"index.html", "help.html", "privacy.html", "soul.html", "doors.html", "life.html", "background.html", "connections.html", "how-we-know.html"}
 
 def write(rel, content):
     # Pages owned by the illustrated pilot design are kept as they are in the repo (see build/PILOT.md).
-    if rel in PILOT_PAGES or rel.startswith(("feel/", "need/")): return
+    if rel in PILOT_PAGES or rel.startswith(("feel/", "need/", "door/")): return
     p = os.path.join(ROOT, rel); os.makedirs(os.path.dirname(p), exist_ok=True)
     open(p, "w", encoding="utf-8").write(content)
 
