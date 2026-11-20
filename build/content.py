@@ -83,7 +83,7 @@ DOORS = [
  ("kindness","mind","Acts of kindness","Doing something good for someone else.","medium","helps",
   ["Doing kind things for others gives the giver a small to medium lift in wellbeing."],
   ["Do one small kind thing a day for a week.","Choose things you would actually enjoy doing."],["belonging","meaning"]),
- ("exercise","body","Exercise","Aerobic and strength training.","good","helps",
+ ("exercise","body","Exercise","Aerobic and strength training.","medium","helps",
   ["In trials, exercise helps depression by a moderate amount. We do not say it works as well as medicine; that comparison is uncertain."],
   ["Walk briskly 30 minutes, three times a week.","Add two short strength sessions."],["movement","competence"]),
  ("regular-sleep","body","Regular sleep","Same bedtime and wake-up time.","good","helps",
