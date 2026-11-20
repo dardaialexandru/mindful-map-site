@@ -297,7 +297,7 @@ footer p{margin:0;max-width:44em}
   });
 
   // ---- email capture after the feeling is chosen ----
-  var PILOT=false;
+  var PILOT=false; // pilot: show every time so it can be reviewed. Live site: once a day, never to subscribers.
   var ov=document.getElementById('ov'),dest='#',lastFocus=null;
   function today(){return new Date().toISOString().slice(0,10)}
   function shouldShow(){

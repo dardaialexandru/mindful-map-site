@@ -1,3 +1,4 @@
+import re
 import os
 from logo import emblem, lockup
 from art import ACC, SOUL, diagram, tint, soft, dark
@@ -225,10 +226,34 @@ def header(root, cur=""):
             f'<nav class="main" aria-label="Main">{a("index.html#start","Start","start")}{a("index.html#needs","Needs","needs")}{(a("doors.html","Try","try")+a("life.html","Life","life")) if LIVE else ""}{a("index.html#how","How sure","how")}{a("help.html","Get help","help")}</nav></div></header>')
 
 def footer(root):
-    return (f'<footer><div class="wrap"><div><p style="margin-bottom:12px">{lockup(30, False)}</p><p>Everything here is general information from published research. It does not replace a doctor or a therapist. '
+    return ((SB.replace('@ROOT@', root) if LIVE else '') + f'<footer><div class="wrap"><div><p style="margin-bottom:12px">{lockup(30, False)}</p><p>Everything here is general information from published research. It does not replace a doctor or a therapist. '
             f'Effects found in research are usually small or medium. Nothing here is a cure.</p></div>'
             f'<p><a href="{root}index.html#how">How we know</a> · {(f'<a href="{root}connections.html">Mind and body</a> · <a href="{root}background.html">Background</a> · ') if LIVE else ""}<a href="{root}help.html">Get help now</a> · <a href="{root}privacy.html">Privacy</a></p></div></footer>')
 
+
+SB = """<!--SB--><section class="sbar" aria-labelledby="sbt"><div class="wrap"><div class="sbox">
+<div id="sbform"><h2 id="sbt">Want to hear when the map grows?</h2>
+<p>A free map of the needs and a short weekly email. You do not need to subscribe to read anything here.</p>
+<form id="sbf" novalidate><label class="f" for="sbe">Your email</label>
+<input type="email" id="sbe" autocomplete="email" inputmode="email" placeholder="you@example.com">
+<label class="consent" for="sbc"><input type="checkbox" id="sbc"><span>I agree to receive the Harmony Map and a weekly email at this address. I can unsubscribe in any email. <a href="@ROOT@privacy.html">Privacy</a></span></label>
+<p class="err" id="sberr" role="alert"></p><button class="btn main" type="submit">Send me the map</button></form></div>
+<div id="sbdone" hidden><h2>Check your inbox</h2><p>Please confirm your email. If it is not there in a few minutes, look in spam.</p></div>
+</div></div></section>
+<style>.sbar{padding:34px 0 8px}.sbox{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 26px;max-width:700px}.sbox h2{font-size:1.7rem;margin:0 0 6px}.sbox p{margin:0 0 12px}.sbox input[type=email]{display:block;width:100%;max-width:380px;margin:4px 0 12px;padding:11px 12px;font:inherit;border:1px solid var(--line);border-radius:10px;background:#fff}.sbox .consent{display:flex;gap:10px;font-size:.9rem;margin-bottom:8px}.sbox .err{color:#9a2f2f;min-height:1.2em;font-size:.9rem}</style>
+<script>(function(){var f=document.getElementById('sbf');if(!f)return;
+try{if(localStorage.getItem('tmm-sub')==='1'||localStorage.getItem('mm_subscribed')==='1'){document.querySelector('.sbar').hidden=true;return}}catch(x){}
+f.addEventListener('submit',function(e){e.preventDefault();var em=document.getElementById('sbe').value.trim(),err=document.getElementById('sberr');
+if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)){err.textContent='Please enter a valid email address.';return}
+if(!document.getElementById('sbc').checked){err.textContent='Please tick the box to agree.';return}
+err.textContent='';var btn=f.querySelector('button');btn.disabled=true;
+var d=new URLSearchParams();d.set('fields[email]',em);d.set('ml-submit','1');d.set('anticsrf','true');
+var b=new URLSearchParams();b.set('form-name','subscribe');b.set('fields[email]',em);b.set('bot-field','');
+fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()}).catch(function(){});
+fetch('https://assets.mailerlite.com/jsonp/2629517/forms/201143149078251433/subscribe',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:d.toString()})
+.then(function(){try{localStorage.setItem('tmm-sub','1');localStorage.setItem('mm_subscribed','1')}catch(x){}
+document.getElementById('sbform').hidden=true;document.getElementById('sbdone').hidden=false})
+.catch(function(){btn.disabled=false;err.textContent='Something went wrong. Please try again later.'})})})();</script><!--/SB-->"""
 
 COMMENTS = r"""
 <style>
@@ -810,7 +835,7 @@ if LIVE:
 <h2>What stays in your browser</h2>
 <p>Who you are and your life stage, if you choose them, are stored only in your browser on your own device. They are never sent to us.</p>
 <h2>What we collect and why</h2>
-<p>If you subscribe, through the optional popup, we collect your email address, only to send you your free map (the Harmony Map), our weekly email about body, mind and spirit, and occasional recommendations. The legal basis is your consent, which you give by submitting the form. We do not ask for any other personal data.</p>
+<p>If you subscribe, through the optional popup or the sign-up box at the bottom of the pages, we collect your email address, only to send you your free map (the Harmony Map), our weekly email about body, mind and spirit, and occasional recommendations. The legal basis is your consent, which you give by submitting the form. We do not ask for any other personal data.</p>
 <h2>Who processes it</h2>
 <p>MailerLite, our email service and data processor, stores your address and sends our emails. Its data is held in the European Union, and transfers outside it are covered by standard contractual clauses. Netlify, our website host, keeps a backup copy of form submissions. We do not sell your data.</p>
 <h2>How long we keep it</h2>
@@ -820,7 +845,7 @@ if LIVE:
 <h2>Withdrawing consent</h2>
 <p>You can withdraw your consent at any time, as easily as you gave it: use the unsubscribe link in any email, or write to the address above. Withdrawing does not affect what we did before.</p>
 <h2>Cookies</h2>
-<p>This website does not set cookies and does not use analytics or advertising trackers. The optional email popup keeps one small note in your browser, only after you close it or subscribe, so that it does not appear again the same day or after you subscribe. Nothing about you is sent anywhere by these notes. The videos are hosted on this site, not on an outside video service.</p>
+<p>This website does not set cookies and does not use analytics or advertising trackers. The optional email popup and sign-up box keep one small note in your browser, only after you close the popup or subscribe, so that it does not appear again the same day or after you subscribe. Nothing about you is sent anywhere by these notes. The videos are hosted on this site, not on an outside video service.</p>
 </div></main>
 """ + footer("")
 
@@ -850,6 +875,8 @@ for path, (t, d, b, r) in pages.items():
             extra = '<meta name="p:domain_verify" content="fa6cc629111f9fbbebfe0cb56705167d"/>' + extra
         if path in _lp:
             extra += LEGACY_CSS
+    if LIVE and path in ('index.html','help.html','privacy.html'):
+        b = re.sub(r'<!--SB-->.*?<!--/SB-->', '', b, flags=re.S)
     html = doc(t, d, b, r, extra)
     if path == "index.html" and not LIVE:
         # index is published as the artifact page: fragment form (no doctype/head/body)
