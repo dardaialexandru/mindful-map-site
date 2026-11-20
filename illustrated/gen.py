@@ -860,7 +860,7 @@ if LIVE:
 
 pages = {
     **{f"feel/{k}.html": (f"{v['name']} | The Mindful Map", v["lede"], feel_page(k, v), "../") for k, v in FEEL.items()},
-    **{f"need/{k}.html": (f"{v['name']} | The Mindful Map", v["lede"], (need_page(k, v) if not (os.environ.get("V2") and k=="control") else __import__("v2").build(globals())(k, v, OUT)), "../") for k, v in NEEDS.items()},
+    **{f"need/{k}.html": (f"{v['name']} | The Mindful Map", v["lede"], (need_page(k, v) if not (k=="control") else __import__("v2").build(globals())(k, v, OUT)), "../") for k, v in NEEDS.items()},
     "index.html": ("The Mindful Map", "Start with how you feel. See which needs of your body and mind may be behind it, what research says helps, and how sure we are.", index_body, ""),
     "soul.html": ("Soul | The Mindful Map", "The roots of the tree: a space for ideas about the soul, coming soon.", soul_body, ""),
     "privacy.html": ("Privacy | The Mindful Map", "What the site stores and what stays in your browser.", privacy_body, ""),
@@ -886,7 +886,7 @@ for path, (t, d, b, r) in pages.items():
             extra += LEGACY_CSS
     if LIVE and path in ('index.html','help.html','privacy.html'):
         b = re.sub(r'<!--SB-->.*?<!--/SB-->', '', b, flags=re.S)
-    if os.environ.get('V2') and path=='need/control.html':
+    if path=="need/control.html":
         extra += __import__('v2').CSS
     html = doc(t, d, b, r, extra)
     if path == "index.html" and not LIVE:
