@@ -1,31 +1,216 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Feeling sad | The Mindful Map</title>
-<meta name="description" content="Low mood, flat, no pleasure in things. What research says may help.">
-<meta name="p:domain_verify" content="fa6cc629111f9fbbebfe0cb56705167d"/>
-<link rel="canonical" href="https://themindfulmap.org/feel/sad.html">
-<!--HREFLANG--><!--/HREFLANG-->
-<meta name="robots" content="index,follow">
-<meta name="theme-color" content="#F1F5F3">
-<meta property="og:title" content="Feeling sad | The Mindful Map"><meta property="og:description" content="Low mood, flat, no pleasure in things. What research says may help."><meta property="og:type" content="website"><meta property="og:site_name" content="The Mindful Map"><meta property="og:image" content="https://themindfulmap.org/images/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://themindfulmap.org/images/og.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"The Mindful Map","url":"https://themindfulmap.org/","description":"A science-based map of mind and body.","inLanguage":["en","es","de","ro"]}</script>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='6' cy='18' r='3' fill='%2312222B'/%3E%3Ccircle cx='18' cy='6' r='3' fill='%23B7790A'/%3E%3Cpath d='M8 16 16 8' stroke='%2312222B' stroke-width='2'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="/site.css"><link rel="stylesheet" href="/v2.css">
-</head>
-<body class="v2">
-<a class="skip" href="#main">Skip to content</a>
-<header class="top"><div class="wrap">
-<a class="brand" href="/"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="6" cy="20" r="3.5" fill="#12222B"/><circle cx="20" cy="6" r="3.5" fill="#B7790A"/><path d="M8.5 17.5 17.5 8.5" stroke="#12222B" stroke-width="2.4" fill="none"/></svg>The Mindful Map</a>
-<nav class="langs" aria-label="Language"><!--LANGS--><!--/LANGS--></nav><nav class="main" aria-label="Main"><a href="/#feelings">Start</a><a href="/map.html">Map</a><a href="/needs.html">Needs</a><a href="/doors.html">Try</a><a href="/life.html">Life</a><a href="/help.html">Get help</a></nav>
-</div></header>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Sad | The Mindful Map</title><meta name="description" content="Low mood, flat, no pleasure in things. These needs may be behind it. Start at the top."><link rel="canonical" href="https://themindfulmap.org/feel/sad.html"><meta name="robots" content="index,follow"><meta property="og:title" content="Sad | The Mindful Map"><meta property="og:description" content="Low mood, flat, no pleasure in things. These needs may be behind it. Start at the top."><meta property="og:type" content="website"><meta property="og:site_name" content="The Mindful Map"><meta property="og:image" content="https://themindfulmap.org/images/og.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://themindfulmap.org/images/og.png"><meta name="theme-color" content="#F6EFE0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Source+Sans+3:wght@400;600;700&display=swap"><style>
+/* Layout concept: one calm path from a feeling to a need to a small step; cream paper, gold ink accents, line style = how sure we are. */
+:root{
+  --bg:#F7F1E3; --card:#FBF7EC; --ink:#2E2A22; --soft:#5C5545; --line:#DCD2BA;
+  --gold:#8A6420; --gold-tint:#F0E4C4; --body:#3F6446; --body-tint:#E4EBDC; --mind:#3F5E7A; --mind-tint:#DFE6EC;
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --sans:"Source Sans 3","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:1.0625rem;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:3px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.005em}
+h1{font-size:clamp(2.6rem,5.6vw,4.4rem)}
+h2{font-size:clamp(1.8rem,3.6vw,2.5rem);margin-bottom:12px}
+h3{font-size:1.5rem}
+p{margin:0 0 1em}
+.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.lede{font-size:1.2rem;color:var(--soft);max-width:34em}
+/* header */
+header.top{border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px 28px;flex-wrap:wrap;padding-block:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--serif);font-weight:700;font-size:1.45rem;letter-spacing:.01em}
+.lock{display:inline-flex;align-items:center;gap:12px}
+.lock .emb{flex:none;display:block}
+.wm{display:flex;flex-direction:column;line-height:1}
+.wm1{font-family:var(--serif);font-weight:700;font-size:1.5rem;letter-spacing:.005em;color:var(--ink)}
+.wm1 b{font-weight:700}.wm1 i{font-style:italic;color:var(--gold);font-weight:700}
+.wm2{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--soft);margin-top:5px}
+.herolock{margin:0 0 22px}.herolock .wm1{font-size:2rem}.herolock .wm2{font-size:.72rem}.herolock .lock{gap:16px}
+@media (max-width:560px){.brand .wm2{display:none}.wm1{font-size:1.3rem}}
+nav.main{display:flex;gap:22px;font-size:.95rem;font-weight:600}
+nav.main a{text-decoration:none;color:var(--soft)}
+nav.main a:hover,nav.main a[aria-current]{color:var(--ink);text-decoration:underline;text-underline-offset:6px;text-decoration-color:var(--gold)}
+/* evidence line: the line style is the meaning */
+.ev{display:inline-flex;align-items:center;gap:10px;font-size:.88rem;font-weight:600;color:var(--soft)}
+.ev::before{content:"";width:42px;border-top:3px solid var(--ink);flex:none}
+.ev.partial::before{border-top-style:dashed}
+.ev.weak::before{border-top-style:dotted;border-top-width:4px}
+/* hero */
+.hero{padding:56px 0 40px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px 40px;align-items:center}
+.hero h1{margin-bottom:18px}
+.tree{display:flex;flex-direction:column;align-items:center;gap:14px}
+.tree svg{width:100%;max-width:660px;height:auto;font-family:var(--sans)}
+.tree .nl,.tree .gl{cursor:pointer}
+.tree .nl rect{transition:fill .15s,stroke-width .15s}
+.tree .nl:hover rect,.tree .nl:focus-visible rect{fill:#fff;stroke-width:2.6}
+.tree .gl:hover .lbl rect,.tree .gl:focus-visible .lbl rect{fill:#fff}
+.tree a:focus-visible{outline:none}
+.spec{margin:6px 0 10px;padding:18px 22px;background:var(--card);border:1px dashed var(--a);border-radius:14px}
+.spec b{font-family:var(--serif);font-size:1.4rem}
+.spec dl{margin:10px 0 0;display:grid;grid-template-columns:minmax(0,9em) minmax(0,1fr);gap:8px 16px}
+.spec dt{font-weight:700;color:var(--d)}.spec dd{margin:0}
+.cap2{margin:14px 0 4px;padding:12px 16px;background:var(--t);border-radius:12px;font-size:.95rem;color:var(--soft)}
+.note2{color:var(--soft);font-size:.95rem;margin:0 0 6px}
+@media (max-width:560px){.spec dl{grid-template-columns:1fr;gap:0}.spec dd{margin-bottom:8px}}
+.tlinks{display:none;margin-top:14px}
+.tlinks h3{font-size:1.15rem;margin:10px 0 6px}
+.tlinks ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.tlinks a{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-weight:600;font-size:.95rem;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:7px 14px}
+.tlinks a i{width:10px;height:10px;border-radius:50%}
+.pal{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0;padding:0;list-style:none}
+.pal a{display:block;width:30px;height:30px;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 1px var(--line);transition:transform .15s}
+.pal a:hover,.pal a:focus-visible{transform:scale(1.18)}
+.palcap{font-size:.88rem;color:var(--soft);margin:8px 0 0}
+section.steps{background:linear-gradient(var(--card),var(--bg))}
+.needs li{border-left:3px solid transparent;padding-left:12px}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;font-size:.88rem;color:var(--soft)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:11px;height:11px;border-radius:50%;display:inline-block}
+/* steps */
+.steps{padding:12px 0 56px}
+.step{border-top:1px solid var(--line);padding:28px 0}
+.step-head{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+.step-head .n{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--gold);line-height:1}
+.step-head h2{margin:0;font-size:1.7rem}
+.step-head small{color:var(--soft);font-size:.9rem}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{font:inherit;font-weight:600;font-size:1rem;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;transition:background .15s,border-color .15s}
+.chip:hover{border-color:var(--gold)}
+.chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#fff}
+.note{font-size:.9rem;color:var(--soft);margin:12px 0 0}
+.feelings{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.feelings a,.feelings .soonc{display:block;height:100%;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;transition:border-color .15s,transform .15s}
+.feelings a:hover{border-color:var(--gold);transform:translateY(-2px)}
+.feelings .name{font-family:var(--serif);font-weight:700;font-size:1.6rem;line-height:1.1;display:block}
+.feelings .hint{display:block;color:var(--soft);font-size:.95rem;margin-top:4px}
+.feelings .soonc{background:transparent;border-style:dashed;color:var(--soft)}
+.tagsoon{display:inline-block;margin-top:10px;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+/* needs */
+section.block{padding:56px 0;border-top:1px solid var(--line)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:36px 52px;margin-top:24px}
+.colhead{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:1.7rem;font-weight:700;margin-bottom:4px}
+.colhead i{width:14px;height:14px;border-radius:50%;display:inline-block}
+.colsub{font-size:.92rem;color:var(--soft);margin-bottom:10px}
+.needs{list-style:none;margin:0;padding:0}
+.needs li{border-top:1px solid var(--line)}
+.needs a,.needs .off{display:flex;justify-content:space-between;align-items:baseline;gap:6px 14px;padding:12px 0;text-decoration:none;flex-wrap:wrap}
+.needs b{font-weight:700}
+.needs .s{font-size:.92rem;color:var(--soft);flex-basis:100%}
+.needs a:hover b{text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--gold)}
+.needs .off{color:var(--soft)}
+.needs .off b{font-weight:600}
+.pill{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.aster{margin-top:26px;font-size:.95rem;color:var(--soft);border-top:1px solid var(--line);padding-top:14px}
+.aster summary{cursor:pointer;font-weight:600;color:var(--ink)}
+.aster p{margin:8px 0 0}
+/* key */
+.key{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:22px 36px;margin-top:22px}
+.key b{display:block;margin-top:8px}
+.key p{margin:2px 0 0;font-size:.95rem;color:var(--soft)}
+/* inner pages */
+.page{padding:44px 0 72px}
+.page .wrap>*{max-width:700px}
+.crumb{display:block;font-size:.92rem;font-weight:600;color:var(--soft);text-decoration:none;margin-bottom:26px}
+.crumb:hover{color:var(--ink)}
+.page h1{font-size:clamp(2.4rem,5.5vw,3.6rem);margin-bottom:12px}
+.tag{font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.tag.body-c{color:var(--body)} .tag.mind-c{color:var(--mind)}
+.page h2{font-size:1.9rem;margin:40px 0 10px}
+.vign{margin:12px 0;padding:16px 20px;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--a);border-radius:12px}.vign b{color:var(--d)}.vnote{font-size:.9rem;color:var(--soft);margin:-4px 0 12px}
+.cmap{display:none;width:100%;height:auto;margin:6px 0 14px}@media(min-width:760px){.cmap{display:block}}
+.cl{list-style:none;margin:0 0 12px;padding:0}.cl li{margin:10px 0;padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:12px}.cl .k{display:inline-block;font-size:.8rem;font-weight:600;color:var(--d);margin-left:8px}
+.legend{font-size:.88rem;color:var(--soft);display:none}@media(min-width:760px){.legend{display:block}}
+.tryit{margin:34px 0;padding:22px 26px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+.tryit h2{margin:0 0 8px;font-size:1.6rem}
+.tryit ul,.page ul.plain{margin:0;padding-left:1.15em}
+.tryit li,.page ul.plain li{margin:.35em 0}
+.limits{padding:18px 22px;border-left:3px solid var(--gold);background:var(--gold-tint);border-radius:0 12px 12px 0;margin:28px 0}
+.limits b{display:block;margin-bottom:4px}
+.alert{border:2px solid var(--ink);border-radius:12px;padding:18px 22px;background:var(--card);margin:26px 0}
+.alert b{display:block;margin-bottom:4px}
+.stops{list-style:none;margin:34px 0 0;padding:0 0 0 38px;position:relative}
+.stops::before{content:"";position:absolute;left:12px;top:18px;bottom:30px;border-left:2px solid var(--ink)}
+.stops li{position:relative;padding:0 0 28px}
+.stops li::before{content:"";position:absolute;left:-36px;top:7px;width:18px;height:18px;border-radius:50%;background:var(--bg);border:3px solid var(--ink)}
+.stops li.body::before{border-color:var(--body)} .stops li.mind::before{border-color:var(--mind)}
+.stops h3{font-size:1.7rem;margin-bottom:2px}
+.stops h3 a{text-decoration:none}
+.stops h3 a:hover{text-decoration:underline;text-underline-offset:5px;text-decoration-color:var(--gold)}
+.stops p{margin:2px 0 8px;color:var(--soft)}
+.sources{font-size:.9rem;color:var(--soft);border-top:1px solid var(--line);margin-top:40px;padding-top:14px}
+.sources ul{margin:6px 0 0;padding-left:1.1em}
+.seen{font-size:.95rem;color:var(--soft);margin-top:28px}
+.seen a{margin-right:14px}.seen-off{margin-right:14px;color:var(--soft);opacity:.8}
+.helplist{list-style:none;margin:20px 0;padding:0}
+.helplist li{padding:16px 0;border-top:1px solid var(--line)}
+.helplist b{display:block;font-family:var(--serif);font-size:1.5rem;font-weight:700}
+.helplist .num{font-weight:700;font-size:1.15rem;font-variant-numeric:tabular-nums}
+footer{border-top:1px solid var(--line);padding:30px 0 44px;font-size:.9rem;color:var(--soft)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 34px;justify-content:space-between}
+footer p{margin:0;max-width:44em}
 
-<main id="main"><section class="pagehero" style="background:#1769BD;color:#FFFFFF"><svg class="motif" viewBox="0 0 120 120" aria-hidden="true" style="opacity:.2;color:currentColor;fill:currentColor"><path d="M60 8C60 8 20 56 20 82a40 40 0 0 0 80 0C100 56 60 8 60 8Z"/></svg><div class="wrap"><a class="crumb" href="/#feelings">← All feelings</a><h1>Sad</h1><p class="lede">Low mood, flat, no pleasure in things. These needs are most often behind it. Start at the top.</p></div></section>
-<div class="band"><div class="wrap narrow"><div class="alert"><b>See a doctor if it lasts</b>If low mood is deep and lasts more than two weeks, talk to a doctor or therapist. That is true whatever label you give it.</div><div class="cards"><a class="card" href="/need/belonging.html" style="background:#A63FC4;color:#FFFFFF"><span class="n">1</span><h2 class="rowh">Belonging</h2><p>People you feel close to.</p><span class="badge"><svg viewBox="0 0 46 8" aria-hidden="true"><line x1="2" y1="4" x2="44" y2="4" stroke="#12222B" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round"/></svg><span>Observed link only · Medium evidence</span></span></a><a class="card" href="/need/movement.html" style="background:#F76707;color:#12222B"><span class="n">2</span><h2 class="rowh">Movement</h2><p>Walking, strength, anything that raises your pulse.</p><span class="badge"><svg viewBox="0 0 46 8" aria-hidden="true"><line x1="2" y1="4" x2="44" y2="4" stroke="#12222B" stroke-width="3"/></svg><span>Shown to help in trials · Good evidence</span></span></a><a class="card" href="/need/sleep.html" style="background:#4F5BD5;color:#FFFFFF"><span class="n">3</span><h2 class="rowh">Sleep</h2><p>Enough, and at regular hours.</p><span class="badge"><svg viewBox="0 0 46 8" aria-hidden="true"><line x1="2" y1="4" x2="44" y2="4" stroke="#12222B" stroke-width="3"/></svg><span>Shown to help in trials · Good evidence</span></span></a><a class="card" href="/need/meaning.html" style="background:#F08C00;color:#12222B"><span class="n">4</span><h2 class="rowh">Meaning</h2><p>Feeling that life has a point.</p><span class="badge"><svg viewBox="0 0 46 8" aria-hidden="true"><line x1="2" y1="4" x2="44" y2="4" stroke="#12222B" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round"/></svg><span>Observed link only · Medium evidence</span></span></a></div>
-<p class="seen" style="margin-top:30px">In danger right now? <a href="/help.html">Get help now</a>.</p></div></div></main>
-<footer><div class="wrap"><p>Everything here is general information from published research. It does not replace a doctor or therapist. Effects in this research are usually small or medium. Nothing here is a cure.</p><p><a href="/how-we-know.html">How we know</a> · <a href="/connections.html">Mind and body</a> · <a href="/background.html">Background</a> · <a href="/help.html">Get help now</a> · <a href="/privacy.html">Privacy</a></p></div></footer>
-<script type="application/json" id="mm-i18n">{"title": "Get the free Harmony Map", "intro": "A short guide to find your way back to calm, plus one short email a week. Optional, and you can leave at any time.", "email": "your email address", "consent": "I agree to receive the Harmony Map and a weekly email at this address. I can unsubscribe in any email.", "privacy": "Privacy", "go": "Send me the map", "done": "Thank you. Check your inbox to confirm.", "no": "No thanks", "close": "Close", "error": "Something went wrong. Please try again later."}</script>
-<script src="/popup.js" defer></script>
-</body></html>
+/* email capture */
+.ov{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:rgba(46,42,34,.55)}
+.ov[hidden]{display:none}
+.modal{width:100%;max-width:520px;max-height:100%;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 30px 26px;box-shadow:0 24px 60px rgba(46,42,34,.28)}
+.modal h2{font-size:2rem;margin-bottom:8px}
+.modal p{color:var(--soft)}
+.modal label.f{display:block;font-weight:600;margin:18px 0 6px;color:var(--ink)}
+.modal input[type=email]{width:100%;font:inherit;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+.modal input[type=email]:focus{outline:3px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+.consent{display:flex;gap:10px;align-items:flex-start;margin:16px 0 4px;font-size:.92rem;color:var(--soft)}
+.consent input{margin-top:4px;width:18px;height:18px;flex:none;accent-color:var(--gold)}
+.consent a{color:var(--ink)}
+.err{color:#8C3B2A;font-size:.92rem;font-weight:600;margin:8px 0 0;min-height:1.2em}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.btn{font:inherit;font-weight:700;border-radius:999px;padding:12px 24px;cursor:pointer;border:1.5px solid var(--gold);text-decoration:none;display:inline-block}
+.btn.main{background:var(--gold);color:#fff}
+.btn.main:hover{background:#744f14}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.alt:hover{border-color:var(--ink)}
+.fine{font-size:.82rem;color:var(--soft);margin:16px 0 0}
+
+/* color and drawings */
+.np .band{background:var(--t);border-bottom:1px solid var(--line);padding:34px 0 38px}
+.np .band .wrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:20px 40px;align-items:center;max-width:1080px}
+.np .band .wrap>*{max-width:none}
+.np .tag{color:var(--d)}
+.np .bi svg{width:100%;height:auto;max-width:460px;display:block;margin:0 auto}
+.np .body{padding-top:30px}
+.np .body>*{max-width:700px}
+.vidbox{margin:0 0 18px;background:var(--card);border:1px solid var(--line);border-top:5px solid var(--a);border-radius:14px;padding:16px 18px 18px}
+.vidbox figcaption b{font-family:var(--serif);font-size:1.4rem;display:block}
+.vidbox figcaption span{font-size:.92rem;color:var(--soft)}
+.vidbox video{width:100%;height:auto;border-radius:10px;margin-top:10px;display:block;background:#222}
+.glance{margin:0 0 8px;background:var(--card);border:1px solid var(--line);border-top:5px solid var(--a);border-radius:14px;padding:18px 22px 14px}
+.glance figcaption b{font-family:var(--serif);font-size:1.5rem}
+.glance svg.dia{width:100%;height:auto;display:block;margin-top:8px;font-family:"Source Sans 3",system-ui,sans-serif}
+.glance .cap{margin:6px 0 0;font-size:.92rem;color:var(--soft)}
+.np .limits{border-left-color:var(--a);background:var(--t)}
+.np .tryit{border-top:4px solid var(--a)}
+.np h2{padding-left:0}
+.fp .stops li::before{border-color:var(--dc)}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:baseline}
+.feelings a{border-left:6px solid var(--fc,var(--gold))}
+.feelings .soonc{border-left:6px solid var(--fc,var(--line))}
+@media (max-width:820px){.np .band .wrap{grid-template-columns:1fr}.np .bi{order:-1}.np .bi svg{max-width:300px}}
+@media (max-width:820px){.tlinks{display:block}.hero .wrap{grid-template-columns:1fr}.tree{order:-1}.tree svg{max-width:340px}.tree svg .lbl{display:none}.hero{padding-top:30px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style></head><body><header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="lock"><svg class="emb" width="40" height="40" viewBox="0 0 96 96" role="img" aria-label="The Mindful Map logo: a tree with a winding path"><circle cx="48" cy="48" r="45" fill="#F0E4C4" stroke="#8A6420" stroke-width="2.5"/><circle cx="48" cy="48" r="39.5" fill="none" stroke="#8A6420" stroke-width="1" stroke-dasharray="1.4 3.6" opacity=".55"/><path d="M21 20 L23 26 L29 28 L23 30 L21 36 L19 30 L13 28 L19 26 Z" fill="#8A6420" opacity=".85" transform="translate(-4 -2) scale(.8)"/><path d="M44.5 74 C46 62 46 52 42.5 42 L53.5 42 C50 52 50 62 51.5 74 Z" fill="#6B5632"/><path d="M47 58 C41 55 37 51 34 46 M49 55 C56 52 60 48 63 43" stroke="#6B5632" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M22 44 C13 35 18 22 30 22 C32 12 50 9 58 16 C70 14 80 26 74 36 C80 45 70 54 60 50 C54 56 40 56 34 50 C28 54 21 52 22 44 Z" fill="#4F7396"/><path d="M24 38 C20 30 24 24 31 24 C34 15 49 12 56 18 C66 16 74 25 70 31 C60 24 46 22 38 28 C32 30 28 36 24 38 Z" fill="#7C9BBA"/><ellipse cx="36" cy="30" rx="4.2" ry="2.1" fill="#D8E2EA" transform="rotate(-28 36 30)"/><ellipse cx="58" cy="27" rx="3.6" ry="1.9" fill="#D8E2EA" transform="rotate(24 58 27)"/><ellipse cx="46" cy="46" rx="3.4" ry="1.8" fill="#9DB6CE" transform="rotate(-16 46 46)"/><path d="M70 31 C65 28 64 21 70 17 C76 21 75 28 70 31 Z" fill="#C79A3B" stroke="#8A6420" stroke-width="1.1"/><path d="M70 31 V20" stroke="#8A6420" stroke-width=".8"/><path d="M48 75 C65 77 66 84 53 85 C42 86 40 80 33 83" fill="none" stroke="#8A6420" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.1 4.6"/><path d="M31 82 C27 80 27 75 31 73 C35 75 35 80 31 82 Z" fill="#C79A3B" stroke="#8A6420" stroke-width="1.1"/><circle cx="31" cy="77.5" r="1.4" fill="#8A6420"/></svg><span class="wm"><span class="wm1">The <b>Mindful</b> <i>Map</i></span><span class="wm2">The Tree of Existence</span></span></span></a><nav class="main" aria-label="Main"><a href="../index.html#start">Start</a><a href="../index.html#needs">Needs</a><a href="../doors.html">Try</a><a href="../life.html">Life</a><a href="../index.html#how">How sure</a><a href="../help.html">Get help</a></nav></div></header>
+<main class="page np fp" style="--a:#3F6FA0;--t:#E9EDEF;--d:#364C61"><div class="band"><div class="wrap">
+<div class="bt"><a class="crumb" href="../index.html#start">← All feelings</a>
+<p class="tag">Feeling</p><h1>Sad</h1><p class="lede">Low mood, flat, no pleasure in things. These needs may be behind it. Start at the top.</p></div>
+<div class="bi"><svg class="art" viewBox="0 0 720 520" role="img" aria-label="Illustration: a rainy window with the sun breaking through, a plant and a warm mug on the sill"><defs><filter id="sdg" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .2  0 0 0 0 .15  0 0 0 0 .1  0 0 0 .5 -.12"/></filter><filter id="sdb" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter><filter id="sdb2" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter><clipPath id="sdc"><rect width="720" height="520" rx="46"/></clipPath></defs><g clip-path="url(#sdc)"><defs><linearGradient id="sdwall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D8E0EA"/><stop offset="1" stop-color="#B8C8DA"/></linearGradient><linearGradient id="sdsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FA6C0"/><stop offset="0.7" stop-color="#C9D6E4"/><stop offset="1" stop-color="#F4E3BE"/></linearGradient><radialGradient id="sdsun" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#FFF6D6" stop-opacity="0.95"/><stop offset="0.3" stop-color="#FFE3A0" stop-opacity="0.6"/><stop offset="1" stop-color="#FFD08A" stop-opacity="0"/></radialGradient><linearGradient id="sdfl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A6A52"/><stop offset="1" stop-color="#5E4636"/></linearGradient><radialGradient id="sdv" cx=".5" cy=".5" r=".75"><stop offset=".6" stop-color="#243448" stop-opacity="0"/><stop offset="1" stop-color="#243448" stop-opacity="0.3"/></radialGradient></defs><rect width="720" height="520" fill="url(#sdwall)"/><rect x="150" y="40" width="420" height="330" rx="14" fill="url(#sdsky)"/><g clip-path="url(#sdc)"><clipPath id="sdc"><rect x="150" y="40" width="420" height="330" rx="14"/></clipPath><circle cx="470" cy="140" r="150" fill="url(#sdsun)"/><circle cx="470" cy="140" r="34" fill="#FFF3CE"/><path d="M150 130 C220 90 300 110 350 120 C420 100 480 90 570 100 V40 H150Z" fill="#7F93AE"/><path d="M150 168 C230 140 330 160 400 154 C470 148 520 150 570 140 V90 H150Z" fill="#92A6BE" opacity=".8"/><path d="M289 270 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.70" stroke-linecap="round"/><path d="M367 140 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.79" stroke-linecap="round"/><path d="M294 269 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.70" stroke-linecap="round"/><path d="M383 137 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.55" stroke-linecap="round"/><path d="M331 224 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.70" stroke-linecap="round"/><path d="M244 327 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.40" stroke-linecap="round"/><path d="M332 165 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.41" stroke-linecap="round"/><path d="M320 74 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.49" stroke-linecap="round"/><path d="M235 104 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.47" stroke-linecap="round"/><path d="M173 297 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.43" stroke-linecap="round"/><path d="M194 82 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.76" stroke-linecap="round"/><path d="M289 290 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.79" stroke-linecap="round"/><path d="M276 171 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.56" stroke-linecap="round"/><path d="M220 227 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.79" stroke-linecap="round"/><path d="M278 272 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.76" stroke-linecap="round"/><path d="M358 248 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.62" stroke-linecap="round"/><path d="M179 166 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.74" stroke-linecap="round"/><path d="M263 251 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.50" stroke-linecap="round"/><path d="M298 121 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.71" stroke-linecap="round"/><path d="M354 65 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.67" stroke-linecap="round"/><path d="M178 326 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.47" stroke-linecap="round"/><path d="M187 310 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.65" stroke-linecap="round"/><path d="M158 190 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.73" stroke-linecap="round"/><path d="M195 271 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.52" stroke-linecap="round"/><path d="M263 171 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.42" stroke-linecap="round"/><path d="M250 206 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.65" stroke-linecap="round"/><path d="M287 108 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.64" stroke-linecap="round"/><path d="M226 312 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.44" stroke-linecap="round"/><path d="M345 84 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.63" stroke-linecap="round"/><path d="M241 189 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.67" stroke-linecap="round"/><path d="M351 61 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.75" stroke-linecap="round"/><path d="M315 89 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.68" stroke-linecap="round"/><path d="M353 164 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.75" stroke-linecap="round"/><path d="M195 188 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.50" stroke-linecap="round"/><path d="M357 145 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.50" stroke-linecap="round"/><path d="M400 175 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.59" stroke-linecap="round"/><path d="M327 110 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.72" stroke-linecap="round"/><path d="M324 198 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.72" stroke-linecap="round"/><path d="M370 88 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.78" stroke-linecap="round"/><path d="M283 279 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.67" stroke-linecap="round"/><path d="M391 274 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.50" stroke-linecap="round"/><path d="M191 172 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.50" stroke-linecap="round"/><path d="M211 212 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.60" stroke-linecap="round"/><path d="M252 273 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.46" stroke-linecap="round"/><path d="M263 184 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.64" stroke-linecap="round"/><path d="M368 225 l-4 14" stroke="#EAF2FA" stroke-width="2.2" opacity="0.40" stroke-linecap="round"/><path d="M150 340 C250 300 340 330 420 316 C500 304 540 318 570 310 V370 H150Z" fill="#6C8A56"/></g><rect x="150" y="40" width="420" height="330" rx="14" fill="none" stroke="#FFF8E8" stroke-width="14"/><rect x="354" y="40" width="12" height="330" fill="#FFF8E8"/><rect x="150" y="198" width="420" height="12" fill="#FFF8E8"/><rect x="130" y="364" width="460" height="22" rx="7" fill="#E9DCC0"/><rect x="140" y="384" width="440" height="10" fill="#C9B994" opacity=".7"/><rect y="440" width="720" height="80" fill="url(#sdfl)"/><path d="M203.9 364 L210.8 311.1 H229.2 L236.1 364 Z" fill="#B4604A"/><rect x="207.35" y="301.9" width="25.299999999999997" height="11.5" rx="3" fill="#B4604A" opacity=".85"/><g transform="translate(220 304.2) rotate(-30) scale(1.15)"><path d="M0 0 C-17 -35 -9 -70 0 -70 C9 -70 17 -35 0 0Z" fill="#4E8A5E"/><path d="M0 0 V-62" stroke="#2F6A44" stroke-width="2"/></g><g transform="translate(220 304.2) rotate(-8) scale(1.15)"><path d="M0 0 C-17 -46 -9 -92 0 -92 C9 -92 17 -46 0 0Z" fill="#4E8A5E"/><path d="M0 0 V-84" stroke="#2F6A44" stroke-width="2"/></g><g transform="translate(220 304.2) rotate(14) scale(1.15)"><path d="M0 0 C-17 -42 -9 -84 0 -84 C9 -84 17 -42 0 0Z" fill="#4E8A5E"/><path d="M0 0 V-76" stroke="#2F6A44" stroke-width="2"/></g><g transform="translate(220 304.2) rotate(34) scale(1.15)"><path d="M0 0 C-17 -30 -9 -60 0 -60 C9 -60 17 -30 0 0Z" fill="#4E8A5E"/><path d="M0 0 V-52" stroke="#2F6A44" stroke-width="2"/></g><rect x="400" y="330" width="38" height="34" rx="7" fill="#FBF7EC"/><path d="M438 338 q15 0 15 11 q0 11 -15 11" fill="none" stroke="#FBF7EC" stroke-width="5"/><rect x="403" y="333" width="32" height="6" rx="3" fill="#8A5A3A" opacity=".8"/><path d="M412 324 q-6 -10 2 -18 M425 324 q-6 -10 2 -18" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity=".6"/><rect x="468" y="340" width="70" height="24" rx="3" fill="#6A9CB8"/><rect x="474" y="332" width="58" height="10" rx="2" fill="#E3B552"/><path d="M150 40 C165 160 150 250 160 370 H100 V40Z" fill="#A89CC8"/><path d="M570 40 C555 160 570 250 560 370 H620 V40Z" fill="#A89CC8"/><path d="M112 44 C118 160 108 250 114 366" stroke="#fff" stroke-opacity=".18" stroke-width="7" fill="none"/><path d="M134 44 C140 160 130 250 136 366" stroke="#fff" stroke-opacity=".18" stroke-width="7" fill="none"/><path d="M586 44 C592 160 582 250 588 366" stroke="#fff" stroke-opacity=".18" stroke-width="7" fill="none"/><path d="M606 44 C612 160 602 250 608 366" stroke="#fff" stroke-opacity=".18" stroke-width="7" fill="none"/><rect width="720" height="520" filter="url(#sdg)" opacity=".34" style="mix-blend-mode:multiply"/><rect width="720" height="520" fill="url(#sdv)"/></g></svg></div></div></div>
+<div class="wrap body"><div class="alert"><b>Talk to someone if it lasts</b>If low mood lasts for weeks, ask a doctor or therapist. It is common, and help works.</div><figure class="vidbox"><figcaption><b>Watch: Sad</b> <span>About one minute, no sound. Captions are on screen.</span></figcaption><video controls preload="metadata" playsinline poster="../media/feel_sad_poster.jpg" aria-label="Short explainer video: Sad"><source src="../media/feel_sad.mp4" type="video/mp4"></video></figure>
+<ol class="stops"><li class="body" style="--dc:#5B63A6"><h3><a href="../need/sleep.html">Sleep</a></h3><p>Sleeping better improved mood in 65 trials.</p><span class="ev ">Shown to help · solid evidence</span></li><li class="body" style="--dc:#C26A45"><h3><a href="../need/movement.html">Movement</a></h3><p>Every kind of exercise lifted mood compared with doing nothing.</p><span class="ev partial">Some evidence · small studies, low certainty</span></li><li class="body" style="--dc:#D49A2B"><h3><a href="../need/rhythm-light.html">Rhythm and light</a></h3><p>Regular days and morning daylight may help. Mostly questionnaires so far.</p><span class="ev partial">Some evidence · mostly questionnaires</span></li><li class="mind" style="--dc:#CB7A5C"><h3><a href="../need/belonging.html">Belonging</a></h3><p>People who feel close to others tend to feel better.</p><span class="ev partial">Strong link in many studies · cause not proven</span></li><li class="body" style="--dc:#C46B7D"><h3><a href="../need/touch.html">Touch</a></h3><p>Wanted touch eased low mood in short-term studies.</p><span class="ev partial">Some evidence · short-term effects</span></li><li class="mind" style="--dc:#B8892B"><h3><a href="../need/meaning.html">Meaning</a></h3><p>A sense of purpose goes with less stress.</p><span class="ev partial">Some evidence · a link, cause not shown</span></li></ol>
+<h2>How these fit together</h2><p>Low mood can have many roots. If it lasts for weeks, a doctor or therapist can help. This page only shows where to look.</p>
+<h2>In everyday life</h2><p class="vnote">Made-up examples to help you see yourself. They are not study results.</p><div class="vign"><b>Ioana, 36</b> does not enjoy things she used to enjoy. A short walk, regular sleep and one friend are the smallest starting points.</div><div class="vign"><b>Ivan, 70</b> feels empty since retiring. Belonging and meaning are the two stops that matter for him.</div>
+<p class="seen">This is a working map, not a diagnosis. In danger right now? <a href="../help.html"><b>Get help now</b></a>.</p>
+</div></main>
+<footer><div class="wrap"><div><p style="margin-bottom:12px"><span class="lock"><svg class="emb" width="30" height="30" viewBox="0 0 96 96" role="img" aria-label="The Mindful Map logo: a tree with a winding path"><circle cx="48" cy="48" r="45" fill="#F0E4C4" stroke="#8A6420" stroke-width="2.5"/><circle cx="48" cy="48" r="39.5" fill="none" stroke="#8A6420" stroke-width="1" stroke-dasharray="1.4 3.6" opacity=".55"/><path d="M21 20 L23 26 L29 28 L23 30 L21 36 L19 30 L13 28 L19 26 Z" fill="#8A6420" opacity=".85" transform="translate(-4 -2) scale(.8)"/><path d="M44.5 74 C46 62 46 52 42.5 42 L53.5 42 C50 52 50 62 51.5 74 Z" fill="#6B5632"/><path d="M47 58 C41 55 37 51 34 46 M49 55 C56 52 60 48 63 43" stroke="#6B5632" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M22 44 C13 35 18 22 30 22 C32 12 50 9 58 16 C70 14 80 26 74 36 C80 45 70 54 60 50 C54 56 40 56 34 50 C28 54 21 52 22 44 Z" fill="#4F7396"/><path d="M24 38 C20 30 24 24 31 24 C34 15 49 12 56 18 C66 16 74 25 70 31 C60 24 46 22 38 28 C32 30 28 36 24 38 Z" fill="#7C9BBA"/><ellipse cx="36" cy="30" rx="4.2" ry="2.1" fill="#D8E2EA" transform="rotate(-28 36 30)"/><ellipse cx="58" cy="27" rx="3.6" ry="1.9" fill="#D8E2EA" transform="rotate(24 58 27)"/><ellipse cx="46" cy="46" rx="3.4" ry="1.8" fill="#9DB6CE" transform="rotate(-16 46 46)"/><path d="M70 31 C65 28 64 21 70 17 C76 21 75 28 70 31 Z" fill="#C79A3B" stroke="#8A6420" stroke-width="1.1"/><path d="M70 31 V20" stroke="#8A6420" stroke-width=".8"/><path d="M48 75 C65 77 66 84 53 85 C42 86 40 80 33 83" fill="none" stroke="#8A6420" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.1 4.6"/><path d="M31 82 C27 80 27 75 31 73 C35 75 35 80 31 82 Z" fill="#C79A3B" stroke="#8A6420" stroke-width="1.1"/><circle cx="31" cy="77.5" r="1.4" fill="#8A6420"/></svg><span class="wm"><span class="wm1">The <b>Mindful</b> <i>Map</i></span></span></span></p><p>Everything here is general information from published research. It does not replace a doctor or a therapist. Effects found in research are usually small or medium. Nothing here is a cure.</p></div><p><a href="../index.html#how">How we know</a> · <a href="../map.html">Map</a> · <a href="../background.html">Background</a> · <a href="../connections.html">Connections</a> · <a href="../help.html">Get help now</a> · <a href="../privacy.html">Privacy</a></p></div></footer></body></html>

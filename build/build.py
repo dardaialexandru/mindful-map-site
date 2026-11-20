@@ -65,7 +65,11 @@ def layout(title, desc, path, body, depth_nav="", noindex=False):
 </body></html>
 '''
 
+PILOT_PAGES = {"index.html", "help.html", "privacy.html", "soul.html"}
+
 def write(rel, content):
+    # Pages owned by the illustrated pilot design are kept as they are in the repo (see build/PILOT.md).
+    if rel in PILOT_PAGES or rel.startswith(("feel/", "need/")): return
     p = os.path.join(ROOT, rel); os.makedirs(os.path.dirname(p), exist_ok=True)
     open(p, "w", encoding="utf-8").write(content)
 
@@ -557,7 +561,7 @@ if __name__=="__main__":
     for d in DOORS: write(f"door/{d[0]}.html",door_page(d))
     for f in FEELINGS: write(f"feel/{f[0]}.html", feeling_page(f))
     for n in NEEDS: write(f"need/{n[0]}.html", need_page(n))
-    urls=["/","/map.html","/needs.html","/doors.html","/life.html","/connections.html","/background.html","/how-we-know.html","/help.html","/privacy.html"]+[f"/door/{d[0]}.html" for d in DOORS]+[f"/feel/{f[0]}.html" for f in FEELINGS]+[f"/need/{n[0]}.html" for n in NEEDS]
+    urls=["/","/soul.html","/map.html","/needs.html","/doors.html","/life.html","/connections.html","/background.html","/how-we-know.html","/help.html","/privacy.html"]+[f"/door/{d[0]}.html" for d in DOORS]+[f"/feel/{f[0]}.html" for f in FEELINGS]+[f"/need/{n[0]}.html" for n in NEEDS]
     sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+"".join(f"  <url><loc>https://themindfulmap.org{u}</loc></url>\n" for u in urls)+"</urlset>\n"
     write("sitemap.xml", sm)
     print("built", len(urls), "pages")

@@ -3,10 +3,10 @@ name: Build and translate site
 on:
   push:
     branches: [main]
+    # Automatic runs are paused while the illustrated pages (see build/PILOT.md) have no translations.
+    # Run it by hand with "Run workflow" (workflow_dispatch) when translations are ready to be switched on.
     paths:
-      - "build/**"
-      - "translate/**"
-      - ".github/workflows/translate.yml"
+      - ".github/workflows/never-runs-automatically"
   workflow_dispatch:
 
 permissions:

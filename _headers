@@ -19,3 +19,6 @@
 
 /harmony.html
   X-Robots-Tag: noindex
+
+/media/*
+  Cache-Control: public, max-age=604800
