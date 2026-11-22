@@ -216,6 +216,12 @@ def patch_index(body):
     body = body.replace('</ul>\n<details class="aster">', extra + '</ul>\n<details class="aster">', 1)
     body = body.replace("Crown: 5 needs of the mind", "Crown: 7 needs of the mind").replace("The twelve needs", "The fourteen needs").replace("Twelve needs, twelve colors. Tap one to jump in.", "Fourteen needs, each with its own sign. Tap one to jump in.")
     body = body.replace('</ul><p class="palcap">', "".join(f'<li><a href="need/{s}.html" style="background:{c}" title="{nm}" aria-label="{nm}"></a></li>' for s, nm, c in [("recognition", "Recognition", NEWCOL["recognition"]), ("creativity", "Creativity", NEWCOL["creativity"])]) + '</ul><p class="palcap">', 1)
+    # mobile list under the tree (labels are hidden there): new needs, branches, emotions, in tree order
+    _mi = lambda d, t: f'<li><a href="{d}/{t["slug"]}.html">{icons.ico(t["slug"], t["col"], 16)}{t["name"]}</a></li>'
+    _newmind = "".join(f'<li><a href="need/{s}.html">{icons.ico(s, c, 16)}{nm}</a></li>' for s, nm, c in [("recognition", "Recognition", NEWCOL["recognition"]), ("creativity", "Creativity", NEWCOL["creativity"])])
+    _mb = '<h3>Mind and body (branches)</h3><ul>' + "".join(_mi("mindbody", t) for t in T if t["dir"] == "mindbody") + '</ul><h3>Emotions</h3><ul>' + "".join(_mi("emotion", t) for t in T if t["dir"] == "emotion") + '</ul>'
+    _k = body.index('<h3>Needs of the mind</h3><ul>'); _e = body.index('</ul>', _k)
+    body = body[:_e] + _newmind + '</ul>' + _mb + body[_e + 5:]
     body = body.replace("Twelve needs: seven for the body, five for the mind.", "Fourteen needs: seven for the body, seven for the mind.")
     sect = """<section class="block" id="mindbody"><div class="wrap"><h2>The branches and the emotions</h2>
 <p class="lede">Two more parts of the map. The branches are the routes between body and mind. Emotions are neither body nor mind alone, and they come pleasant and unpleasant.</p>
