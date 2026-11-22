@@ -237,7 +237,7 @@ def patch_index(body):
     _leg = '<h3 class="lgh">Legend: every sign on the tree, from the leaves down to the roots</h3>' + "".join(f'<div class="lgs"><h3>{lab}</h3>{_sec[k]}</div>' for k, lab in _order)
     _rest = body[_m.end():]
     if _rest.startswith('</div>'): _rest = _rest[6:]
-    _css = '<style>.tlinks.leg{grid-column:1/-1;margin-top:26px}@media(min-width:821px){.tlinks.leg{display:grid;grid-template-columns:repeat(3,1fr);gap:0 32px;align-items:start}.tlinks.leg .lgh{grid-column:1/-1;margin:0 0 4px}}</style>'
+    _css = '<style>.tlinks.leg{grid-column:1/-1;margin-top:26px}@media(max-width:820px){.tlinks.leg{order:-1;margin:6px 0 22px}}@media(min-width:821px){.tlinks.leg{display:grid;grid-template-columns:repeat(3,1fr);gap:0 32px;align-items:start}.tlinks.leg .lgh{grid-column:1/-1;margin:0 0 4px}}</style>'
     body = body[:_m.start()] + '</div>' + _css + '<div class="tlinks leg">' + _leg + '</div>' + _rest
     body = body.replace("Twelve needs: seven for the body, five for the mind.", "Fourteen needs: seven for the body, seven for the mind.")
     sect = """<section class="block" id="mindbody"><div class="wrap"><h2>The branches and the emotions</h2>
