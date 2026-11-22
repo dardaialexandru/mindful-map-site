@@ -110,6 +110,7 @@ def tree_svg():
         c, w = chip(x, y, name, "#3F5E7A", "middle")
         out.append(c)
 
+    BRC = {'Breathing': '#2A9D8F', 'Relaxation': '#8AA33B', 'Stress': '#D9822B', 'Inflammation': '#C2453A', 'Coping': '#3F82C4', 'Heart rhythm': '#D4608A', 'Gut and mind': '#A07A3A', 'Hormones': '#8E5BB5'}
     # --- branches (mind-body), two new mind needs, emotions link ---
     def chip2(x, y, text, color, href, dot, anchor="middle", icon=None):
         w = len(text) * 8.3 + 52
@@ -119,11 +120,11 @@ def tree_svg():
     for text, x, y, href, side, ic in [("Breathing", 296, 322, "mindbody/breathing.html", "end", "breathing"), ("Relaxation", 296, 368, "mindbody/relaxation.html", "end", "relaxation"), ("Stress", 466, 322, "mindbody/stress.html", "start", "stress"), ("Inflammation", 466, 368, "mindbody/inflammation.html", "start", "inflammation")]:
         lx1, lx2 = (x + 2, 366) if side == "end" else (394, x - 2)
         out.append(f'<path d="M{lx1} {y} H{lx2}" stroke="#5E7F5A" stroke-width="1.6" stroke-dasharray="2 4"/><circle cx="{lx2 if side=="end" else lx1}" cy="{y}" r="4.5" fill="#5E7F5A"/>')
-        out.append(chip2(x, y, text, "#5E7F5A", href, "#5E7F5A", side, ic))
-    out.append(chip2(170, 322, "Coping", "#5E7F5A", "mindbody/regulation.html", "#5E7F5A", "end", icon="regulation"))
-    out.append(chip2(160, 368, "Heart rhythm", "#5E7F5A", "mindbody/vagus.html", "#5E7F5A", "end", icon="vagus"))
-    out.append(chip2(568, 322, "Gut and mind", "#5E7F5A", "mindbody/gut.html", "#5E7F5A", "start", icon="gut"))
-    out.append(chip2(618, 368, "Hormones", "#5E7F5A", "mindbody/hormones.html", "#5E7F5A", "start", icon="hormones"))
+        out.append(chip2(x, y, text, "#5E7F5A", href, BRC[text], side, ic))
+    out.append(chip2(170, 322, "Coping", "#5E7F5A", "mindbody/regulation.html", BRC["Coping"], "end", icon="regulation"))
+    out.append(chip2(160, 368, "Heart rhythm", "#5E7F5A", "mindbody/vagus.html", BRC["Heart rhythm"], "end", icon="vagus"))
+    out.append(chip2(568, 322, "Gut and mind", "#5E7F5A", "mindbody/gut.html", BRC["Gut and mind"], "start", icon="gut"))
+    out.append(chip2(618, 368, "Hormones", "#5E7F5A", "mindbody/hormones.html", BRC["Hormones"], "start", icon="hormones"))
     out.append(chip2(160, 268, "Recognition", "#3F5E7A", "need/recognition.html", "#9A5FA0", "end", icon="recognition"))
     out.append(chip2(600, 268, "Creativity", "#3F5E7A", "need/creativity.html", "#2F8FA0", "start", icon="creativity"))
     out.append(chip2(752, -8, "Emotions: pleasant and unpleasant", "#8A6420", "emotions.html", "#C79A3B", "end", icon="joy"))

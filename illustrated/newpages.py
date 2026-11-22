@@ -147,6 +147,10 @@ T = [
   conn=[("need/belonging.html", "Belonging", "People around you matter most in grief."), ("feel/lonely.html", "Feeling: Lonely", "Loss often brings loneliness."), ("feel/sad.html", "Feeling: Sad", "Often part of grief."), ("mindbody/regulation.html", "How you handle feelings", "How people cope with hard feelings.")],
   src=["Currier, Neimeyer and Berman 2008, Psychological Bulletin: the effectiveness of psychotherapeutic interventions for bereaved persons, a comprehensive quantitative review (61 studies)."]),
 ]
+# one colour per branch and per emotion, so each can be told apart (the outline of a branch chip stays green: the family colour)
+COLS = {"breathing": "#2A9D8F", "relaxation": "#8AA33B", "stress": "#D9822B", "inflammation": "#C2453A", "hormones": "#8E5BB5", "vagus": "#D4608A", "gut": "#A07A3A", "regulation": "#3F82C4",
+        "calm": "#4FA3C7", "awe": "#6C63C7", "joy": "#E0A82E", "anger": "#C0392B", "grief": "#5E6C84"}
+for _t in T: _t["col"] = COLS.get(_t["slug"], _t["col"])
 BYSLUG = {t["slug"]: t for t in T}
 
 def _lede_tone(t): return {"pleasant": "Pleasant emotion", "unpleasant": "Unpleasant emotion"}.get(t.get("tone"), "Mind and body" if t["dir"] == "mindbody" else "Mind need")

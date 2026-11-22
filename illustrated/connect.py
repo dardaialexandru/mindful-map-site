@@ -107,3 +107,20 @@ for f in glob.glob("**/*.html", recursive=True):
     root = "../" if "/" in f else ""
     t = re.sub(r'(<a href="' + re.escape(root) + r'index\.html#start"[^>]*>Start</a>)', lambda m: m.group(1) + f'<a href="{root}contents.html">Contents</a>', t, count=1)
     open(f, "w", encoding="utf-8").write(t)
+
+# ---- retouches: crumbs point to the chapter hubs, footer gets Contents, legend spacing
+BODY = {"sleep", "movement", "food", "rhythm-light", "touch", "safe-place", "intimacy"}
+for f in glob.glob("**/*.html", recursive=True):
+    t = open(f, encoding="utf-8").read(); o = t
+    if f.startswith("need/"):
+        slug = os.path.splitext(os.path.basename(f))[0]
+        hub, lab = ("needs-body.html", "Needs of the body") if slug in BODY else ("needs-mind.html", "Needs of the mind")
+        t = t.replace('<a class="crumb" href="../index.html#needs">← All needs</a>', f'<a class="crumb" href="../{hub}">← {lab}</a>')
+    if f.startswith("feel/"):
+        t = t.replace('<a class="crumb" href="../index.html#start">← All feelings</a>', '<a class="crumb" href="../feelings.html">← When it hurts</a>')
+    root = "../" if "/" in f else ""
+    if f'{root}contents.html">Contents</a> · <a href="{root}connections.html">How it connects' not in t:
+        t = t.replace(f'<a href="{root}connections.html">How it connects</a>', f'<a href="{root}contents.html">Contents</a> · <a href="{root}connections.html">How it connects</a>', 1)
+    if f == "index.html" and ".legend{gap:" not in t:
+        t = t.replace("</head>", "<style>.legend{display:flex;flex-wrap:wrap;gap:6px 20px}</style></head>", 1)
+    if t != o: open(f, "w", encoding="utf-8").write(t)
