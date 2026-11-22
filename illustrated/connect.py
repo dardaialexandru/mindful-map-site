@@ -18,6 +18,38 @@ def add(f):
         s = s[:i] + css + b + s[i:] if i > 0 else s
     open(f, "w", encoding="utf-8").write(s)
 for f in glob.glob("*/*.html"): add(f)
+
+# heading levels: list items under h1 were h3 -> h2 (same look)
+def fixh(f):
+    t = open(f, encoding="utf-8").read()
+    if '<h2 class="sh">' in t: return
+    n = len(re.findall(r'(<li[^>]*>)<h3>', t))
+    if not n: return
+    t = re.sub(r'(<li[^>]*>)<h3>(.*?)</h3>', r'\1<h2 class="sh">\2</h2>', t, flags=re.S)
+    css = "".join(re.findall(r"<style>(.*?)</style>", t, re.S))
+    def decl(sel):
+        m = re.search(r"(?:^|})\s*" + re.escape(sel) + r"\s*\{([^}]*)\}", css); return m.group(1) if m else ""
+    add = "h2.sh{" + decl("h3") + "}" + (".rows h2.sh{" + decl(".rows h3") + "}" if decl(".rows h3") else "") + ".stops h2.sh{font-size:1.7rem;margin-bottom:2px}.stops h2.sh a{text-decoration:none}.stops h2.sh a:hover{text-decoration:underline;text-underline-offset:5px}"
+    t = t.replace("</head>", "<style>" + add + "</style></head>", 1)
+    open(f, "w", encoding="utf-8").write(t)
+for f in glob.glob("feel/*.html") + ["background.html", "life.html"]: fixh(f)
+t = open("index.html", encoding="utf-8").read()
+if 'class="lh"' not in t:
+    k = t.index("<h2")  # first real h2
+    head, tail = t[:k], t[k:]
+    j = head.rfind("</style>")
+    # h3 tags before the first h2 (legend, mobile list) become h2 with the same look
+    body_start = head.index("<h1")
+    part = re.sub(r"<h3>(.*?)</h3>", r'<h2 class="lh">\1</h2>', head[body_start:], flags=re.S)
+    head = head[:body_start] + part
+    css = "".join(re.findall(r"<style>(.*?)</style>", t, re.S))
+    def decl(sel):
+        m = re.search(r"(?:^|})\s*" + re.escape(sel) + r"\s*\{([^}]*)\}", css); return m.group(1) if m else ""
+    add = "h2.lh{" + decl("h3") + "}.tlinks h2.lh{" + decl(".tlinks h3") + "}"
+    part2 = re.sub(r'<h3([^>]*)>(Legend.*?)</h3>', r'<h2 class="lh lgh">\2</h2>', head, flags=re.S)
+    head = part2
+    t = (head + tail).replace("</head>", "<style>" + add + "</style></head>", 1)
+    open("index.html", "w", encoding="utf-8").write(t)
 # hub: reuse the old connections page shell
 h = open("connections.html", encoding="utf-8").read()
 a = h.index('<div class="wrap body">'); b = h.index('</div></main>')
@@ -34,3 +66,8 @@ for f in glob.glob("**/*.html", recursive=True):
     t = re.sub(r'(<a href="((?:\.\./)?)life\.html"[^>]*>Life</a>)', lambda m: m.group(1) + f'<a href="{m.group(2)}connections.html">Connections</a>' if 'connections.html">Connections' not in t else m.group(1), t, count=1)
     if t != o: open(f, "w", encoding="utf-8").write(t)
 print("connected")
+for f in glob.glob("**/*.html", recursive=True):
+    t = open(f, encoding="utf-8").read()
+    if "nav.main a{white-space:nowrap}" not in t and 'class="main"' in t:
+        t = t.replace("</head>", "<style>nav.main{flex-wrap:wrap;row-gap:4px}nav.main a{white-space:nowrap}</style></head>", 1)
+        open(f, "w", encoding="utf-8").write(t)
