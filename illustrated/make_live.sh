@@ -2,7 +2,7 @@
 # Builds the live version of the pilot into out_live/ with the live site's URL names, then copies it into the repo checkout.
 set -e
 cd "$(dirname "$0")"
-rm -rf out_live; mkdir -p out_live/feel out_live/need out_live/door; ln -sfn ../out/media out_live/media
+rm -rf out_live; mkdir -p out_live/feel out_live/need out_live/door out_live/mindbody out_live/emotion; ln -sfn ../out/media out_live/media
 LIVE=1 python3 gen.py >/dev/null 2>&1
 python3 - <<'PY'
 import glob,os,re

@@ -209,7 +209,7 @@ footer p{margin:0;max-width:44em}
 .np .tryit{border-top:4px solid var(--a)}
 .np h2{padding-left:0}
 .fp .stops li::before{border-color:var(--dc)}
-.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:baseline}
+.ico{vertical-align:-4px;margin-right:8px;flex:none}.hi{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:#fff8;border:1.5px solid var(--a,#888);margin-right:14px;vertical-align:middle;position:relative;top:-3px}.hi .ico{margin:0}.tlinks .ico{margin-right:6px;vertical-align:-3px}.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:baseline}
 .feelings a{border-left:6px solid var(--fc,var(--gold))}
 .feelings .soonc{border-left:6px solid var(--fc,var(--line))}
 @media (max-width:820px){.np .band .wrap{grid-template-columns:1fr}.np .bi{order:-1}.np .bi svg{max-width:300px}}
@@ -459,7 +459,7 @@ MIND_NEEDS = [("control", "Control", "Being able to decide about your own life."
               ("stability", "Stability", "Money, work and a place to live.", "partial", True)]
 def need_li(slug, name, s, e, built):
     if built:
-        return f'<li><a href="need/{slug}.html"><b><i class="dot" style="background:{ACC[slug]}"></i>{name}</b>{ev(e)}<span class="s">{s}</span></a></li>'
+        return f'<li><a href="need/{slug}.html"><b>{__import__('icons').ico(slug, ACC[slug], 20)}{name}</b>{ev(e)}<span class="s">{s}</span></a></li>'
     return f'<li><div class="off"><b>{name}</b><span class="pill">In progress</span><span class="s">{s}</span></div></li>'
 
 index_body = header("", "") + f"""
@@ -472,7 +472,7 @@ index_body = header("", "") + f"""
 <ul class="pal" aria-label="The twelve needs">{"".join(f'<li><a href="need/{k}.html" style="background:{ACC[k]}" title="{n}" aria-label="{n}"></a></li>' for k,n,*_ in BODY_NEEDS+MIND_NEEDS)}</ul><p class="palcap">Twelve needs, twelve colors. Tap one to jump in.</p>
 </div>
 <div class="tree">{TREE}
-<div class="legend"><span><i style="background:#C79A3B"></i>Gold leaves: your feelings</span><span><i style="background:#3F5E7A"></i>Crown: 5 needs of the mind</span><span><i style="background:#3F6446"></i>Trunk: 7 needs of the body</span><span><i style="background:#7A5C9E"></i>Roots: the soul, coming soon</span></div><div class="tlinks"><h3>Feelings</h3><ul>{"".join(f'<li><a href="feel/{k}.html"><i style="background:{FC[k]}"></i>{n}</a></li>' for k,n,*_ in FEELINGS)}</ul><h3>Needs of the body</h3><ul>{"".join(f'<li><a href="need/{k}.html"><i style="background:{ACC[k]}"></i>{n}</a></li>' for k,n,*_ in BODY_NEEDS)}</ul><h3>Roots</h3><ul><li><a href="soul.html"><i style="background:#7A5C9E"></i>Soul · coming soon</a></li></ul><h3>Needs of the mind</h3><ul>{"".join(f'<li><a href="need/{k}.html"><i style="background:{ACC[k]}"></i>{n}</a></li>' for k,n,*_ in MIND_NEEDS)}</ul></div></div>
+<div class="legend"><span><i style="background:#C79A3B"></i>Gold leaves: your feelings</span><span><i style="background:#3F5E7A"></i>Crown: 5 needs of the mind</span><span><i style="background:#3F6446"></i>Trunk: 7 needs of the body</span><span><i style="background:#7A5C9E"></i>Roots: the soul, coming soon</span></div><div class="tlinks"><h3>Feelings</h3><ul>{"".join(f'<li><a href="feel/{k}.html">{__import__('icons').ico(k, FC[k], 16)}{n}</a></li>' for k,n,*_ in FEELINGS)}</ul><h3>Needs of the body</h3><ul>{"".join(f'<li><a href="need/{k}.html">{__import__('icons').ico(k, ACC[k], 16)}{n}</a></li>' for k,n,*_ in BODY_NEEDS)}</ul><h3>Roots</h3><ul><li><a href="soul.html"><i style="background:#7A5C9E"></i>Soul · coming soon</a></li></ul><h3>Needs of the mind</h3><ul>{"".join(f'<li><a href="need/{k}.html">{__import__('icons').ico(k, ACC[k], 16)}{n}</a></li>' for k,n,*_ in MIND_NEEDS)}</ul></div></div>
 </div></section>
 
 <section class="steps" id="start"><div class="wrap">
@@ -674,7 +674,7 @@ def need_page(slug, d):
 <main class="page np" style="--a:{ACC[slug]};--t:{tint(ACC[slug])};--d:{dark(ACC[slug],.5)}"><div class="band"><div class="wrap">
 <div class="bt"><a class="crumb" href="../index.html#needs">← All needs</a>
 <p class="tag">{"Body need" if d["kind"]=="body" else "Mind need"}</p>
-<h1>{d["name"]}</h1>
+<h1><span class="hi">{__import__('icons').ico(slug, ACC[slug], 34)}</span>{d["name"]}</h1>
 <p class="lede">{d["lede"]}</p>
 <div style="margin:16px 0 0"><span class="ev {d["ev"] if d["ev"]!="solid" else ""}">{d["evtext"]}</span></div></div>
 <div class="bi">{scene(slug)}</div>
@@ -756,7 +756,7 @@ def feel_page(slug, f):
     return header("../", "") + f"""
 <main class="page np fp" style="--a:{a};--t:{tint(a)};--d:{dark(a,.5)}"><div class="band"><div class="wrap">
 <div class="bt"><a class="crumb" href="../index.html#start">← All feelings</a>
-<p class="tag">Feeling</p><h1>{f["name"]}</h1><p class="lede">{f["lede"]}</p></div>
+<p class="tag">Feeling</p><h1><span class="hi">{__import__('icons').ico(slug, a, 34)}</span>{f["name"]}</h1><p class="lede">{f["lede"]}</p></div>
 <div class="bi">{fscene(slug)}</div></div></div>
 <div class="wrap body">{al}{fvid}
 <ol class="stops">{items}</ol>
@@ -877,6 +877,9 @@ pages = {
     "privacy.html": ("Privacy | The Mindful Map", "What the site stores and what stays in your browser.", privacy_body, ""),
     "help.html": ("Get help now | The Mindful Map", "Emergency and crisis lines in Spain, Romania and Germany.", help_body, ""),
 }
+import newpages
+pages.update(newpages.build(globals()))
+_ix = pages["index.html"]; pages["index.html"] = (_ix[0], _ix[1], newpages.patch_index(_ix[2]), _ix[3])
 LEGACY_CSS = ""
 if LIVE:
     import legacy
@@ -897,7 +900,7 @@ for path, (t, d, b, r) in pages.items():
             extra += LEGACY_CSS
     if LIVE and path in ('index.html','help.html','privacy.html'):
         b = re.sub(r'<!--SB-->.*?<!--/SB-->', '', b, flags=re.S)
-    if path.startswith("need/"):
+    if path.startswith(("need/","mindbody","emotion")):
         extra += "<style>"+__import__('schemes').CSS+"</style>"
     if path=="need/control.html":
         extra += __import__('v2').CSS

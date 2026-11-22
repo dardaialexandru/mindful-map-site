@@ -245,3 +245,190 @@ def fig(slug, a, d):
 
 CSS = (".sch{width:100%;height:auto;display:block;margin:0 0 6px}.lg{background:#FBF6E8;border:1px solid #E6DBBE;border-radius:14px;padding:12px 16px;margin:10px 0 4px;font-size:.92rem;line-height:1.5;color:#3B362B}"
        ".lg b{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:#8A6420}.lg ul{margin:6px 0 0;padding-left:18px}.lg li{margin:3px 0}.lkrow{display:flex;flex-wrap:wrap;gap:6px 18px;margin:8px 0 0}.lk{display:inline-flex;align-items:center;gap:8px;font-size:.88rem}.lnote{margin:6px 0 0;font-size:.82rem;color:#5C5545}@media(max-width:600px){figure.glance,.schcard{overflow-x:auto}.sch{min-width:540px}.lg{min-width:0}}")
+
+# ---------------------------------------------------------------- new topics (mind-body, emotions, new needs)
+def verdicts(title, sub, rows, a, d, note=None, W=680):
+    """rows: (claim, number_text, verdict, colour). Claim on the left, verdict chip on the right."""
+    head, y0 = _head(title, sub)
+    o = head; y = y0 + 16
+    for claim, num, verdict, col in rows:
+        lines = _wrap(claim, 40); vl = _wrap(verdict, 24); nl = _wrap(num, 24) if num else []
+        h = max(len(lines) * 18, (len(vl) + len(nl)) * 17) + 22
+        o += f'<rect x="14" y="{y}" width="{W-28}" height="{h}" rx="12" fill="#FBF6E8" stroke="{LINE}"/><rect x="14" y="{y}" width="7" height="{h}" rx="3" fill="{col or a}"/>'
+        for i, ln in enumerate(lines): o += _t(34, y + 24 + i * 18, ln, 14, 600)
+        yy = y + 24
+        for ln in nl: o += _t(W - 28, yy, ln, 13, 600, SOFT, "end"); yy += 17
+        for ln in vl: o += _t(W - 28, yy, ln, 14, 700, INK, "end"); yy += 17
+        y += h + 10
+    if note:
+        for i, ln in enumerate(_wrap(note, 92)): o += _t(14, y + 12 + i * 16, ln, 12, 500, SOFT)
+        y += 16 * len(_wrap(note, 92)) + 8
+    return _svg(W, y + 8, title, o)
+
+def breathing(a, d):
+    rows = [("Stress", 12, "12 trials · small to medium", None, ""), ("Anxiety", 20, "20 trials · small to medium", None, ""), ("Depression", 18, "18 trials · small to medium", None, "")]
+    s1 = bars("Breathing exercises compared with control groups", "785 adults in randomised trials (Fincham et al. 2023). Bar length counts the trials.", rows, a, d, sc=9, x0=140, note="The review gives no single number for each result, only the size in words.")
+    s2 = bars("Breathing guided by a heart-rate sensor", "Heart-rate-variability biofeedback: 24 studies, 484 people (Psychological Medicine meta-analysis).", [("Stress and anxiety", .83, "0.83", None, "versus control groups")], a, d, sc=380, x0=250, bands=BANDS_G)
+    lg = legend(["Top: each bar counts how many trials were behind the result. The effect was <b>small to medium</b> in all three.",
+                 "Bottom: a bar on the 0 to 1 scale. <b>Small</b> 0.2 to 0.5, <b>medium</b> 0.5 to 0.8, <b>large</b> above 0.8.",
+                 "Caution: most trials had a moderate risk of bias and the groups were small. The benefit may come from the calm attention, not the breathing itself."])
+    return s1 + s2 + lg
+
+def relaxation(a, d):
+    rows = [("Same people, before and after", .57, "0.57", None, ""), ("Compared with other groups", .51, "0.51", None, "")]
+    s = bars("How much relaxation training eased anxiety", "27 studies from 1997 to 2007 (Manzoni et al. 2008).", rows, a, d, sc=380, x0=270, bands=BANDS_G)
+    lg = legend(["Each bar is a <b>size of improvement</b> (0 = none). <b>Medium</b> is 0.5 to 0.8.",
+                 "The bigger effects were seen with meditation, with volunteers, and with longer training.",
+                 "Caution: the review mixes trials with studies that had no comparison group."])
+    return s + lg
+
+def stress(a, d):
+    W, H = 680, 330
+    o, y = _head("What stress does to the body's defences", "A review of 293 studies, 18,941 people (Segerstrom and Miller 2004). It shows direction, not one number.")
+    o += f'<rect x="14" y="90" width="320" height="150" rx="14" fill="#FBF6E8" stroke="{LINE}"/><rect x="346" y="90" width="320" height="150" rx="14" fill="#FBF6E8" stroke="{LINE}"/>'
+    o += _t(30, 118, "Short bursts of stress", 15, 700) + f'<path d="M64 218 V152 M64 152 l-10 14 M64 152 l10 14" stroke="{a}" stroke-width="5" stroke-linecap="round" fill="none"/>' + _t(90, 168, "Fast, general defences", 13.5, 600) + _t(90, 188, "are boosted for a while.", 13.5, 600) + _t(90, 214, "The body gets ready.", 13, 500, SOFT)
+    o += _t(362, 118, "Stress that lasts", 15, 700) + f'<path d="M396 152 V218 M396 218 l-10 -14 M396 218 l10 -14" stroke="{GOLD}" stroke-width="5" stroke-linecap="round" fill="none"/>' + _t(422, 168, "The longer it lasts,", 13.5, 600) + _t(422, 188, "the more defences weaken.", 13.5, 600) + _t(422, 214, "Worst: stress with no end.", 13, 500, SOFT)
+    o += _t(14, 268, "Most affected: older adults and people who are already ill.", 13.5, 700)
+    o += _t(14, 292, "The review could not say whether these changes make people ill more often.", 12.5, 500, SOFT)
+    lg = legend(["Left: a short stress response is useful. Right: when it never ends, it wears the defences down.",
+                 "The arrows show direction only. The studies measured many different immune markers.",
+                 "Caution: this does not show that stress causes illness. That question was left open."])
+    return _svg(W, H, "Stress and the immune system", o) + lg
+
+def inflammation(a, d):
+    W, H = 680, 420
+    o, y = _head("Inflammation and depression", "A blood marker of inflammation (CRP) in people with depression. 37 studies, 13,541 patients, 155,728 comparison people.")
+    o += _t(14, 96, "Clearly raised (CRP above 3): 27 of 100 people with depression", 14, 700) + _t(14, 114, "30 studies", 12.5, 500, SOFT) + dots(14, 124, 27, 100, a, 7, 17, 25)
+    o += _t(14, 236, "Mildly raised (CRP above 1): 58 of 100", 14, 700) + _t(14, 254, "25 studies, 8,887 patients", 12.5, 500, SOFT) + dots(14, 264, 58, 100, GOLD, 7, 17, 25)
+    s1 = _svg(W, 370, "CRP in depression", o)
+    s2 = bars("Anti-inflammatory drugs for depression (36 trials)", "How much depression scores improved compared with placebo (Köhler-Forsberg et al. 2019).", [("Added to an antidepressant", .64, "0.64 · 597 people", None, ""), ("On their own", .41, "0.41 · 8,825 people", GOLD, "")], a, d, sc=380, x0=250, bands=BANDS_G, note="All the trials were rated at high risk of bias. Infections were slightly more frequent.")
+    lg = legend(["Dots: each block is 100 people with depression. Coloured dots show how many had raised CRP.",
+                 "Bars: size of improvement (0 = none). <b>Small</b> 0.2 to 0.5, <b>medium</b> 0.5 to 0.8.",
+                 "Caution: inflammation is raised in <b>some</b> people with depression, not most. This is research, not a treatment to try on your own."])
+    return s1 + s2 + lg
+
+def recognition(a, d):
+    s = bars("Work without fair reward or recognition, and later depression", "8 studies that followed 84,963 employees; 2,897 developed depression (Rugulies et al. 2017).", [("High effort, low reward", 1.49, "1.49 · about 50% higher risk", None, "pooled result")], a, d, base=1.0, sc=260, x0=230, note="A bar of 1.00 would mean no difference.")
+    lg = legend(["The bar is a <b>risk ratio</b>. 1.00 is no difference. 1.49 means about one and a half times the risk.",
+                 "Seven of the eight studies pointed the same way. The eighth showed no clear difference.",
+                 "Caution: reward and effort were self-reported once, at the start. Across 123 countries, respect also went with more enjoyment of life (Tay and Diener 2011)."])
+    return s + lg
+
+def creativity(a, d):
+    rows = [("Group arts (painting, dance, music) and depression in older adults", "39 studies · 3,360 people", "Reduced depression", None),
+            ("The same, and anxiety", "949 people", "Reduced anxiety", None),
+            ("Online positive-imagery training for people with depression (150 adults)", "12 sessions over 4 weeks", "No better than a matched control (d 0.04)", GOLD)]
+    s = verdicts("What research found on creative activity", "Two different things: making art together, and imagination training.", rows, a, d, note="Care homes showed a bigger drop in depression than community groups.")
+    lg = legend(["Each row is one finding. The colour bar on the left marks it: coloured helped, gold no extra benefit.",
+                 "Group arts worked about the same across painting, dance and music (Queen Mary University of London review, 2025).",
+                 "Caution: the group-arts review covered older adults. Imagination training did not beat a similar online task, though both groups improved."])
+    return s + lg
+
+def anger(a, d):
+    s = bars("Anger and hostility, and heart disease", "More heart events over the following years (Chida and Steptoe 2009).", [("People with healthy hearts", 1.19, "1.19 · 19% more", None, "25 studies"), ("People with heart disease", 1.24, "1.24 · 24% more", GOLD, "18 studies")], a, d, base=1.0, sc=380, x0=230, note="After accounting for smoking, activity, weight, income and treatment, the link was no longer significant.")
+    lg = legend(["Each bar is a <b>risk ratio</b>. 1.00 is no difference.",
+                 "The link was stronger in men than in women among healthy people.",
+                 "Caution: the habits that often come with anger seem to explain most of the link. This is not a reason to hide anger."])
+    return s + lg
+
+def grief(a, d):
+    rows = [("Help for bereaved people, right after it ended", "61 controlled studies", "Small benefit", None),
+            ("The same, at follow-up", "later check", "No longer significant", GOLD),
+            ("Help aimed at people who struggle most to adapt to the loss", "screened for distress", "Worked about like therapy for other problems", None),
+            ("Help offered to everyone, with no screening", "not screened", "Weaker: many improved on their own", GOLD)]
+    s = verdicts("Does help after a loss work?", "A review of psychological help for bereaved people (Currier et al. 2008).", rows, a, d)
+    lg = legend(["Each row is one finding. Coloured: some benefit. Gold: weak or no extra benefit.",
+                 "Most people grieve and recover without therapy. The benefit shows up for those who are stuck.",
+                 "Caution: the abstract gives no exact effect size. Newer reviews may differ."])
+    return s + lg
+
+def calm(a, d):
+    rows = [("Relaxation training", .51, "0.51 · 27 studies", None, "versus other groups"), ("Slow breathing with a heart-rate sensor", .83, "0.83 · 24 studies, 484 people", None, "versus control groups")]
+    s = bars("How much these helped anxiety and stress", "Two reviews. Bigger bar, bigger improvement.", rows, a, d, sc=380, x0=250, bands=BANDS_G, note="Breathing exercises on their own helped by a small to medium amount (no single number).")
+    lg = legend(["Each bar is a <b>size of improvement</b> (0 = none). <b>Medium</b> 0.5 to 0.8, <b>large</b> above 0.8.",
+                 "These are ways to reach calm. They are not the same as a diagnosis or a treatment plan.",
+                 "Caution: groups were small and many trials had a moderate risk of bias."])
+    return s + lg
+
+def awe(a, d):
+    rows = [("Experiments that made people feel awe", "84 studies · 17,801 people", "Measurable effects on feelings, judgments and behaviour", None),
+            ("Effects on the body (for example heart rate)", "few studies", "Not yet known", GOLD),
+            ("What triggered awe in the studies", "487 effects", "Images, videos, recalled moments, real places", None)]
+    s = verdicts("What happens when people feel awe", "A review of lab and field experiments.", rows, a, d)
+    lg = legend(["Each row is one finding. Coloured: found. Gold: not enough studies yet.",
+                 "Awe worked in both positive and threatening settings.",
+                 "Caution: the abstract gives no effect size, and the effects were measured in short experiments."])
+    return s + lg
+
+def joy(a, d):
+    rows = [("Higher well-being and longer life in healthy people", "90 studies · about 1.3 million people", "8% lower risk of dying (ratio 0.92)", None),
+            ("How much the studies differed", "heterogeneity 86%", "Very large", GOLD),
+            ("Publication bias", "checked by the authors", "Signs of it were found", GOLD)]
+    s = verdicts("Good feelings and a longer life", "A review of follow-up studies of healthy adults.", rows, a, d)
+    lg = legend(["The first row is the result. The other two say how far to trust it.",
+                 "Ratio 0.92 means 8 fewer deaths for every 100 expected.",
+                 "Caution: this is a link, not proof that feeling good lengthens life. Feeling well may also reflect better health."])
+    return s + lg
+
+def mixed_emotions(a, d):
+    rows = [("Accepting your own emotions and thoughts (three studies, 1,003 + 156 + 222 people)", "lab, daily diary and 6-month follow-up", "Less negative emotion under stress, and better health six months later", None),
+            ("Accepting the situation itself", "same studies", "No such link", GOLD),
+            ("Having a wide mix of emotions, pleasant and unpleasant (35,800 + 1,273 people)", "small effect", "Less depression, even after the average mood", None),
+            ("Needs met (123 countries)", "basic needs: money, food, shelter", "Higher: social support, respect, autonomy, mastery went with more enjoyment", None)]
+    s = verdicts("Same feeling, different effect, depending on how you read it", "What studies found about perception.", rows, a, d)
+    lg = legend(["Each row is one finding. Coloured: a link was found. Gold: no link.",
+                 "Accepting an emotion does not mean liking it or staying in a bad situation.",
+                 "Caution: these are links. They do not show that a change of perception causes health."])
+    return s + lg
+
+SCHEMES.update(dict(breathing=breathing, relaxation=relaxation, stress=stress, inflammation=inflammation, recognition=recognition, creativity=creativity, anger=anger, grief=grief, calm=calm, awe=awe, joy=joy, mixed=mixed_emotions))
+
+# ---- round 2: hormones, vagus, gut, regulation ----
+def hormones(a, d):
+    s1 = bars("Stress hormones in depression", "How much higher they are in people with depression than in people without (Stetler and Miller 2011, 361 studies, 18,454 people).", [("Cortisol, all studies", .60, "0.60", None, "671 effects in all, with ACTH and CRH"), ("Cortisol, only well-made studies", .33, "0.33", GOLD, "about half the size"), ("ACTH (gland signal)", .28, "0.28", None, ""), ("CRH (brain signal)", .02, "0.02 · no difference", GOLD, "")], a, d, sc=420, x0=250, bands=BANDS_G, note="Cortisol is raised on average, but the better the study, the smaller the gap.")
+    rows = [("Oxytocin and trust", "7 experiments, 481 people", "Effect near zero (0.08). Not shown to raise trust", GOLD),
+            ("Oxytocin and social thinking in schizophrenia", "12 trials, 273 people", "No overall benefit. A small gain on one measure did not hold up", GOLD),
+            ("Serotonin and depression", "review of reviews, 2022", "No consistent proof that low serotonin causes depression", GOLD)]
+    s2 = verdicts("Hormones that are often over-sold", "What the reviews found when they checked.", rows, a, d)
+    lg = legend(["Bars: size of the difference (0 = none). <b>Small</b> 0.2 to 0.5, <b>medium</b> 0.5 to 0.8.",
+                 "Gold means no clear link was found.",
+                 "Caution: a hormone that differs on average does not tell you what any one person has. These are links, not causes."])
+    return s1 + s2 + lg
+
+def vagus(a, d):
+    s = bars("Anxiety and the rhythm of the heart", "How much lower the heart-rate variability is in people with an anxiety disorder (Chalmers et al. 2014, 36 studies). The healthy heart speeds up and slows down a little with each breath. Less of that goes with less calm.", [("All anxiety disorders", .29, "0.29 · 915 vs 1,659", None, "34 data sets"), ("Panic disorder", .22, "0.22", None, "16 data sets"), ("Post-traumatic stress", .29, "0.29", None, "7 data sets"), ("Generalised anxiety", .56, "0.56", GOLD, "3 data sets only"), ("Social anxiety", .47, "0.47", GOLD, "3 data sets only")], a, d, sc=420, x0=250, bands=BANDS_G, note="Bars in gold rest on very few studies.")
+    lg = legend(["Bars: how much lower the heart-rate variability is in anxiety (0 = no difference). <b>Small</b> 0.2 to 0.5, <b>medium</b> 0.5 to 0.8.",
+                 "The studies measured people once. They do not show whether anxiety lowers it, or low variability makes anxiety easier.",
+                 "Caution: results differ a lot from study to study, and some studies may be missing."])
+    return s + lg
+
+def gut(a, d):
+    o, y = _head("Gut bacteria and depression", "A review of 16 studies: 10 comparing people (701), 6 trials (302 people).")
+    rows = [("Fewer of some bacteria in people with depression", "Faecalibacterium, Prevotellaceae and others", "10 studies, 701 people"),
+            ("Probiotics eased depression symptoms", "compared with a control group", "6 trials, 302 people (SMD −1.62, very wide range)")]
+    yy = y + 6
+    for lab, sub, tail in rows:
+        o += f'<rect x="10" y="{yy}" width="660" height="78" rx="12" fill="{a}" opacity=".07"/><rect x="10" y="{yy}" width="6" height="78" rx="3" fill="{a}"/>'
+        o += _t(30, yy + 28, lab, 15, 700) + _t(30, yy + 50, sub, 13, 500, SOFT) + _t(30, yy + 68, tail, 12.5, 600, d)
+        yy += 92
+    s = _svg(680, yy + 10, "Gut bacteria and depression", o)
+    lg = legend(["Each row is one kind of finding from the same review.",
+                 "The range for probiotics is very wide, from large to tiny. The trials were few and small.",
+                 "Caution: diet and medicines were not well accounted for. This is early research, not a reason to take probiotics for low mood on your own."])
+    return s + lg
+
+def regulation(a, d):
+    rows = [("Ruminating (going over it again and again)", "114 studies pooled", "Large link with depression and anxiety", None),
+            ("Avoiding", "114 studies pooled", "Medium to large link", None),
+            ("Pushing the feeling down", "114 studies pooled", "Medium to large link", None),
+            ("Solving the problem", "114 studies pooled", "Medium to large link", None),
+            ("Accepting", "114 studies pooled", "Small to medium link", GOLD),
+            ("Seeing it differently", "114 studies pooled", "Small to medium link", GOLD)]
+    s1 = verdicts("How you handle a feeling, and low mood or anxiety", "How strongly each way of handling emotions goes with depression and anxiety (Aldao et al. 2010, 114 studies, 241 effects). The review gives sizes in words.", rows, a, d)
+    s2 = bars("What each strategy did in experiments", "Change in the feeling produced by an instruction to use it (Webb, Miles and Sheeran 2012, as cited in later work).", [("Seeing it differently (reappraisal)", .36, "0.36 · 91 comparisons", None, ""), ("Pushing it down (suppression)", .16, "0.16 · 92 comparisons", GOLD, ""), ("Distraction", 0.0, "0.00 · 205 comparisons", GOLD, "")], a, d, sc=340, x0=290, bands=BANDS_G, note="Most volunteers were students. Bodily changes were small and uneven (Zaehringer et al. 2020, 68 studies, 4,474 people).")
+    lg = legend(["Top: how closely each way of coping goes with depression and anxiety. Coloured rows are the stronger links; gold rows are weaker.",
+                 "Bottom: how well each worked in short experiments. 0 = no change. <b>Small</b> 0.2 to 0.5.",
+                 "Caution: these are links and lab tests. A strategy that works in a lab may not help someone in real distress."])
+    return s1 + s2 + lg
+
+SCHEMES.update(dict(hormones=hormones, vagus=vagus, gut=gut, regulation=regulation))
