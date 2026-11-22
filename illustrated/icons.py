@@ -60,6 +60,10 @@ def tree_icon(slug, cx, cy, color, size=18):
     s = size / 24
     return f'<g transform="translate({cx-size/2:.1f} {cy-size/2:.1f}) scale({s:.3f})" fill="none" stroke="{color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{inner(slug)}</g>'
 
+def mk(slug, cx, cy, color, r=19):
+    """round icon badge, shown on phones where the text labels are hidden"""
+    return f'<g class="mk"><circle cx="{cx:.1f}" cy="{cy:.1f}" r="{r}" fill="#FBF7EC" stroke="{color}" stroke-width="2.4"/>{tree_icon(slug, cx, cy, color, 24)}</g>'
+
 if __name__ == "__main__":
     html = '<body style="font-family:sans-serif;background:#F7F1E3"><div style="display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding:20px">'
     for k in P: html += f'<div style="text-align:center;padding:10px;background:#fff;border-radius:10px">{ico(k,"#3a4a6a",44)}<br><small>{k}</small></div>'

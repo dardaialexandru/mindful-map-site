@@ -228,6 +228,17 @@ def patch_index(body):
     _mb = '<h3>Mind and body (branches)</h3><ul>' + "".join(_mi("mindbody", t) for t in T if t["dir"] == "mindbody") + '</ul><h3>Emotions</h3><ul>' + "".join(_mi("emotion", t) for t in T if t["dir"] == "emotion") + '</ul>'
     _k = body.index('<h3>Needs of the mind</h3><ul>'); _e = body.index('</ul>', _k)
     body = body[:_e] + _newmind + '</ul>' + _mb + body[_e + 5:]
+    # legend under the tree, on every screen: in tree order, top to bottom
+    _m = _re.search(r'<div class="tlinks">(.*?)</ul></div>', body, _re.S)
+    _sec = {}
+    for _part in _m.group(1).split('<h3>')[1:]:
+        _h, _rest = _part.split('</h3>', 1); _sec[_h] = _rest if _rest.endswith('</ul>') else _rest + '</ul>'
+    _order = [("Feelings", "Gold leaves: feelings"), ("Needs of the mind", "Crown: needs of the mind"), ("Mind and body (branches)", "Branches: mind and body"), ("Emotions", "Emotions: pleasant and unpleasant"), ("Needs of the body", "Trunk: needs of the body"), ("Roots", "Roots: the soul")]
+    _leg = '<h3 class="lgh">Legend: every sign on the tree, from the leaves down to the roots</h3>' + "".join(f'<div class="lgs"><h3>{lab}</h3>{_sec[k]}</div>' for k, lab in _order)
+    _rest = body[_m.end():]
+    if _rest.startswith('</div>'): _rest = _rest[6:]
+    _css = '<style>.tlinks.leg{grid-column:1/-1;margin-top:26px}@media(min-width:821px){.tlinks.leg{display:grid;grid-template-columns:repeat(3,1fr);gap:0 32px;align-items:start}.tlinks.leg .lgh{grid-column:1/-1;margin:0 0 4px}}</style>'
+    body = body[:_m.start()] + '</div>' + _css + '<div class="tlinks leg">' + _leg + '</div>' + _rest
     body = body.replace("Twelve needs: seven for the body, five for the mind.", "Fourteen needs: seven for the body, seven for the mind.")
     sect = """<section class="block" id="mindbody"><div class="wrap"><h2>The branches and the emotions</h2>
 <p class="lede">Two more parts of the map. The branches are the routes between body and mind. Emotions are neither body nor mind alone, and they come pleasant and unpleasant.</p>

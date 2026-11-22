@@ -71,7 +71,7 @@ nav.main a:hover,nav.main a[aria-current]{color:var(--ink);text-decoration:under
 .cap2{margin:14px 0 4px;padding:12px 16px;background:var(--t);border-radius:12px;font-size:.95rem;color:var(--soft)}
 .note2{color:var(--soft);font-size:.95rem;margin:0 0 6px}
 @media (max-width:560px){.spec dl{grid-template-columns:1fr;gap:0}.spec dd{margin-bottom:8px}}
-.tlinks{display:none;margin-top:14px}
+.tlinks{display:block;margin-top:14px}.mk{display:none}
 .tlinks h3{font-size:1.15rem;margin:10px 0 6px}
 .tlinks ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
 .tlinks a{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-weight:600;font-size:.95rem;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:7px 14px}
@@ -213,7 +213,7 @@ footer p{margin:0;max-width:44em}
 .feelings a{border-left:6px solid var(--fc,var(--gold))}
 .feelings .soonc{border-left:6px solid var(--fc,var(--line))}
 @media (max-width:820px){.np .band .wrap{grid-template-columns:1fr}.np .bi{order:-1}.np .bi svg{max-width:300px}}
-@media (max-width:820px){.tlinks{display:block}.hero .wrap{grid-template-columns:1fr}.tree{order:-1}.tree svg{max-width:340px}.tree svg .lbl{display:none}.hero{padding-top:30px}}
+@media (max-width:820px){.tlinks{display:block}.hero .wrap{grid-template-columns:1fr}.tree{order:-1}.tree svg{max-width:340px}.tree svg .lbl{display:none}.tree svg .mk{display:inline}.hero{padding-top:30px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 """
 

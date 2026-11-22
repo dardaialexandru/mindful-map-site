@@ -71,7 +71,7 @@ def build_tree(seed=11):
         out.append(f'<a href="feel/{sl}.html" class="gl" aria-label="Feeling: {nm}"><path d="M{x} {y} L{x+(380-x)*.1:.0f} {y+(232-y)*.1:.0f}" stroke="#6B5632" stroke-width="3" stroke-linecap="round"/>'
                    f'<g transform="translate({x} {y}) rotate({(-18 if i<3 else (0 if i==3 else 18))+rnd.uniform(-8,8):.0f}) scale(1.5)"><path d="M0 0 C-9 -4 -11 -18 0 -26 C11 -18 9 -4 0 0 Z" fill="#C79A3B" stroke="#8A6420" stroke-width="1.3"/><path d="M0 0 V-20" stroke="#8A6420" stroke-width=".9"/></g>'
                    f'<g class="lbl"><rect x="{x-w/2:.1f}" y="{y-66}" width="{w:.1f}" height="22" rx="11" fill="#F0E4C4" stroke="#8A6420" stroke-width="1.3"/><text x="{x:.1f}" y="{y-51}" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5E4310">{nm}</text></g>'
-                   f'<circle cx="{x}" cy="{y-20}" r="30" fill="transparent"/></a>')
+                   f'<circle cx="{x}" cy="{y-20}" r="30" fill="transparent"/>' + icons.mk(sl, x, y-30, "#8A6420") + '</a>')
     return out, tips
 
 def chip(x, y, text, color, anchor="middle", tint="#FBF7EC"):
@@ -85,7 +85,7 @@ def chip(x, y, text, color, anchor="middle", tint="#FBF7EC"):
     elif anchor == "end": x0 = x - w
     return (f'<a href="need/{sl}.html" class="nl" aria-label="{text}"><g class="lbl"><rect x="{x0:.1f}" y="{y-14}" width="{w:.1f}" height="28" rx="14" fill="{tint}" stroke="{color}" stroke-width="1.6"/>'
             + icons.tree_icon(sl, x0+17, y, ac, 19) +
-            f'<text x="{x0+32:.1f}" y="{y+5}" font-size="14.5" font-weight="600" fill="#2E2A22">{text}</text></g></a>'), w
+            f'<text x="{x0+32:.1f}" y="{y+5}" font-size="14.5" font-weight="600" fill="#2E2A22">{text}</text></g>' + icons.mk(sl, x0+17, y, ac) + '</a>'), w
 
 def tree_svg():
     out, tips = build_tree()
@@ -115,7 +115,7 @@ def tree_svg():
         w = len(text) * 8.3 + 52
         x0 = x - w / 2 if anchor == "middle" else (x - w if anchor == "end" else x)
         return (f'<a href="{href}" class="nl" aria-label="{text}"><g class="lbl"><rect x="{x0:.1f}" y="{y-14}" width="{w:.1f}" height="28" rx="14" fill="#FBF7EC" stroke="{color}" stroke-width="1.6"/>'
-                + icons.tree_icon(icon, x0+17, y, dot, 19) + f'<text x="{x0+32:.1f}" y="{y+5}" font-size="14.5" font-weight="600" fill="#2E2A22">{text}</text></g></a>')
+                + icons.tree_icon(icon, x0+17, y, dot, 19) + f'<text x="{x0+32:.1f}" y="{y+5}" font-size="14.5" font-weight="600" fill="#2E2A22">{text}</text></g>' + icons.mk(icon, x0+17, y, dot) + '</a>')
     for text, x, y, href, side, ic in [("Breathing", 296, 322, "mindbody/breathing.html", "end", "breathing"), ("Relaxation", 296, 368, "mindbody/relaxation.html", "end", "relaxation"), ("Stress", 466, 322, "mindbody/stress.html", "start", "stress"), ("Inflammation", 466, 368, "mindbody/inflammation.html", "start", "inflammation")]:
         lx1, lx2 = (x + 2, 366) if side == "end" else (394, x - 2)
         out.append(f'<path d="M{lx1} {y} H{lx2}" stroke="#5E7F5A" stroke-width="1.6" stroke-dasharray="2 4"/><circle cx="{lx2 if side=="end" else lx1}" cy="{y}" r="4.5" fill="#5E7F5A"/>')
