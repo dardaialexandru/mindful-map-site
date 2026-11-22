@@ -426,7 +426,7 @@ def regulation(a, d):
             ("Seeing it differently", "114 studies pooled", "Small to medium link", GOLD)]
     s1 = verdicts("How you handle a feeling, and low mood or anxiety", "How strongly each way of handling emotions goes with depression and anxiety (Aldao et al. 2010, 114 studies, 241 effects). The review gives sizes in words.", rows, a, d)
     s2 = bars("What each strategy did in experiments", "Change in the feeling produced by an instruction to use it (Webb, Miles and Sheeran 2012, as cited in later work).", [("Seeing it differently (reappraisal)", .36, "0.36 · 91 comparisons", None, ""), ("Pushing it down (suppression)", .16, "0.16 · 92 comparisons", GOLD, ""), ("Distraction", 0.0, "0.00 · 205 comparisons", GOLD, "")], a, d, sc=340, x0=290, bands=BANDS_G, note="Most volunteers were students. Bodily changes were small and uneven (Zaehringer et al. 2020, 68 studies, 4,474 people).")
-    lg = legend(["Top: how closely each way of coping goes with depression and anxiety. Coloured rows are the stronger links; gold rows are weaker.",
+    lg = legend(["Top: how closely each way of coping goes with depression and anxiety. Coloured rows are the stronger links; gold rows are weaker. The review's summary gives the size of each link, not whether it helps or harms, so a strong link does not mean a strategy is bad. Problem solving is a useful skill in itself.",
                  "Bottom: how well each worked in short experiments. 0 = no change. <b>Small</b> 0.2 to 0.5.",
                  "Caution: these are links and lab tests. A strategy that works in a lab may not help someone in real distress."])
     return s1 + s2 + lg

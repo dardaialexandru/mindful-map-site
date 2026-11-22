@@ -65,7 +65,7 @@ def layout(title, desc, path, body, depth_nav="", noindex=False):
 </body></html>
 '''
 
-PILOT_PAGES = {"index.html", "help.html", "privacy.html", "soul.html", "doors.html", "life.html", "background.html", "connections.html", "how-we-know.html", "mindbody.html", "emotions.html"}
+PILOT_PAGES = {"index.html", "help.html", "privacy.html", "soul.html", "doors.html", "life.html", "background.html", "connections.html", "how-we-know.html", "mindbody.html", "emotions.html", "guide.html", "contents.html", "feelings.html", "needs-body.html", "needs-mind.html"}
 
 def write(rel, content):
     # Pages owned by the illustrated pilot design are kept as they are in the repo (see build/PILOT.md).
@@ -562,7 +562,7 @@ if __name__=="__main__":
     for d in DOORS: write(f"door/{d[0]}.html",door_page(d))
     for f in FEELINGS: write(f"feel/{f[0]}.html", feeling_page(f))
     for n in NEEDS: write(f"need/{n[0]}.html", need_page(n))
-    urls=["/","/soul.html","/doors.html","/life.html","/connections.html","/background.html","/how-we-know.html","/help.html","/privacy.html"]+[f"/door/{d[0]}.html" for d in DOORS]+["/mindbody.html","/emotions.html"]+[f"/mindbody/{x}.html" for x in ("breathing","relaxation","stress","inflammation","hormones","vagus","gut","regulation")]+[f"/emotion/{x}.html" for x in ("calm","awe","joy","anger","grief")]+["/need/recognition.html","/need/creativity.html"]+[f"/feel/{f[0]}.html" for f in FEELINGS]+[f"/need/{n[0]}.html" for n in NEEDS]
+    urls=["/","/soul.html","/doors.html","/life.html","/connections.html","/background.html","/how-we-know.html","/help.html","/privacy.html"]+[f"/door/{d[0]}.html" for d in DOORS]+["/mindbody.html","/emotions.html","/contents.html","/guide.html","/feelings.html","/needs-body.html","/needs-mind.html"]+[f"/mindbody/{x}.html" for x in ("breathing","relaxation","stress","inflammation","hormones","vagus","gut","regulation")]+[f"/emotion/{x}.html" for x in ("calm","awe","joy","anger","grief")]+["/need/recognition.html","/need/creativity.html"]+[f"/feel/{f[0]}.html" for f in FEELINGS]+[f"/need/{n[0]}.html" for n in NEEDS]
     sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+"".join(f"  <url><loc>https://themindfulmap.org{u}</loc></url>\n" for u in urls)+"</urlset>\n"
     write("sitemap.xml", sm)
     print("built", len(urls), "pages")

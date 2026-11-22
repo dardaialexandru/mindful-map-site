@@ -76,7 +76,7 @@ T = [
  dict(slug="regulation", dir="mindbody", name="How you handle feelings", col=BR, ev="partial", evtext="Solid link · mostly from short tests", scheme="regulation",
   lede="What you do with a feeling matters about as much as the feeling itself.",
   plain="Everyone has hard feelings. What differs is what they do next. Going over them again and again, avoiding them or pushing them down goes with more distress. Looking at them from another angle helps a bit more.",
-  says=["A review of 114 studies, with 241 effects, found that ruminating had the strongest link with depression and anxiety. Avoiding, pushing down and problem solving had medium to large links. Accepting and seeing things differently had small to medium links.",
+  says=["A review of 114 studies, with 241 effects, found that ruminating had the strongest link with depression and anxiety. Avoiding, pushing down and problem solving had medium to large links. Accepting and seeing things differently had small to medium links. The summary of the review gives how strong each link is, not which way it points, so read it as how closely each goes with symptoms, not as a ranking of good and bad.",
         "In short experiments, looking at a situation differently reduced the feeling by a small amount (0.36). Pushing it down did less (0.16) and distraction did nothing on average (0.00).",
         "Bodily changes, such as muscle tension in the face, were small and uneven, in 68 studies with 4,474 people. Acceptance of your own emotions went with less negative emotion under stress, and better health six months later, in three studies. This is covered on the Emotions page."],
   limits="Most of the experiments used students and short, mild tasks. A strategy that works in a lab may not help in real distress. The strong links are from people measured once, so we cannot tell what causes what. Distraction can still help to get through a moment.",
@@ -206,6 +206,8 @@ def build(G):
     out = {}
     for t in T:
         out[f'{t["dir"]}/{t["slug"]}.html'] = (f'{t["name"]} | The Mindful Map', t["lede"], topic_page(t, G), "../")
+    import guide
+    out["guide.html"] = ("A short guided reflection | The Mindful Map", "An optional two-minute set of questions that points to the needs worth your attention, with a small step for each.", guide.page(G, T, NEWCOL, G["header"], G["footer"]), "")
     out["mindbody.html"] = ("Mind and body | The Mindful Map", "The routes that link body and mind, and what research says about each.", hub(G, "mindbody"), "")
     out["emotions.html"] = ("Emotions | The Mindful Map", "Pleasant and unpleasant emotions, and what research says about each.", hub(G, "emotions"), "")
     return out
@@ -221,7 +223,7 @@ def patch_index(body):
     _m = _re.search(r'<ul class="pal"[^>]*>(.*?)</ul>', body, _re.S)
     _items = _re.findall(r'<a href="need/([^"]+)\.html" style="background:([^"]+)" title="([^"]+)"', _m.group(1))
     _pal = '<style>.pal2{list-style:none;padding:0;margin:18px 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px 6px}.pal2 a{display:flex;flex-direction:column;align-items:center;gap:5px;text-decoration:none;color:var(--ink);font-size:.74rem;font-weight:600;line-height:1.15;text-align:center}.pal2 .c{width:42px;height:42px;border-radius:50%;background:var(--card);border:2px solid var(--c);display:flex;align-items:center;justify-content:center}.pal2 .ico{margin:0}@media(min-width:700px){.pal2{grid-template-columns:repeat(7,1fr);max-width:640px}}</style><ul class="pal2" aria-label="The fourteen needs">' + "".join(f'<li><a href="need/{s}.html" style="--c:{c}"><span class="c">{icons.ico(s, c, 24)}</span>{nm}</a></li>' for s, c, nm in _items) + '</ul>'
-    _cta = '<style>.cta{display:inline-block;margin:20px 0 0;padding:13px 22px;border-radius:999px;background:var(--a1,#8A6420);color:#fff;font-weight:700;text-decoration:none}.cta:hover{filter:brightness(1.08)}</style><p style="margin:0"><a class="cta" href="#start">Choose how you feel &darr;</a></p>'
+    _cta = '<style>.cta{display:inline-block;margin:20px 0 0;padding:13px 22px;border-radius:999px;background:var(--a1,#8A6420);color:#fff;font-weight:700;text-decoration:none}.cta:hover{filter:brightness(1.08)}.cta2{font-weight:600;color:var(--ink);text-underline-offset:3px}</style><p style="margin:0"><a class="cta" href="#start">Choose how you feel &darr;</a></p>'
     body = body[:_m.start()] + _cta + body[_m.end():]
     body = _re.sub(r'<p class="palcap">.*?</p>', '', body, count=1, flags=_re.S)
     # mobile list under the tree (labels are hidden there): new needs, branches, emotions, in tree order

@@ -71,3 +71,39 @@ for f in glob.glob("**/*.html", recursive=True):
     if "nav.main a{white-space:nowrap}" not in t and 'class="main"' in t:
         t = t.replace("</head>", "<style>nav.main{flex-wrap:wrap;row-gap:4px}nav.main a{white-space:nowrap}</style></head>", 1)
         open(f, "w", encoding="utf-8").write(t)
+
+# ---- book layer
+import book
+F = book.flat()
+for f, t in book.build_pages().items(): open(f, "w", encoding="utf-8").write(t)
+open("contents.html", "w", encoding="utf-8").write(book.contents_page())
+# link to the guided reflection on the start page
+t = open("index.html", encoding="utf-8").read()
+if 'href="guide.html"' not in t:
+    t = t.replace('Choose how you feel &darr;</a></p>', 'Choose how you feel &darr;</a></p><p style="margin:14px 0 0"><a class="cta2" href="guide.html">Not sure where to start? Try a 3-minute guided&nbsp;reflection&nbsp;&rarr;</a></p>', 1)
+    open("index.html", "w", encoding="utf-8").write(t)
+# pleasant emotions on the start page
+t = open("index.html", encoding="utf-8").read()
+if 'class="alsof"' not in t:
+    k = t.index('<ul class="feelings">'); e = t.index("</ul>", k) + 5
+    extra = '<p class="alsof" style="margin:16px 0 0"><b>Feeling something else?</b> Anger, grief, calm, awe and joy have their own pages: <a href="emotions.html">emotions, pleasant and unpleasant &rarr;</a></p>'
+    t = t[:e] + extra + t[e:]
+    open("index.html", "w", encoding="utf-8").write(t)
+pages = glob.glob("**/*.html", recursive=True)
+for f in pages:
+    t = open(f, encoding="utf-8").read()
+    if 'class="bookbar"' in t: continue
+    root = book.root_of(f)
+    b = book.bar(f, root, F); n = book.nav(f, root, F)
+    if not b and f != "contents.html": continue
+    if b: t = t.replace("</header>", "</header>" + book.CSS + b, 1)
+    elif f == "contents.html": t = t.replace("</header>", "</header>" + book.CSS, 1)
+    if n: t = t.replace("</main>", n + "</main>", 1)
+    open(f, "w", encoding="utf-8").write(t)
+# nav: add Contents
+for f in glob.glob("**/*.html", recursive=True):
+    t = open(f, encoding="utf-8").read()
+    if "contents.html\">Contents</a><a" in t or 'class="main"' not in t: continue
+    root = "../" if "/" in f else ""
+    t = re.sub(r'(<a href="' + re.escape(root) + r'index\.html#start"[^>]*>Start</a>)', lambda m: m.group(1) + f'<a href="{root}contents.html">Contents</a>', t, count=1)
+    open(f, "w", encoding="utf-8").write(t)

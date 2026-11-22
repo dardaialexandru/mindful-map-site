@@ -8,7 +8,7 @@ TIERS = [
  (3, "Through the body", "Routes where something physical carries the effect: hormones, defences, gut, heart rhythm."),
  (4, "Subtle or early", "Plausible and interesting, but the evidence is early or mixed. We say so each time."),
 ]
-EV = {"s": ("Solid link", "ok"), "p": ("Some evidence", "partial"), "e": ("Early or mixed", "weak")}
+EV = {"s": ("Shown to help", ""), "p": ("Some evidence", "partial"), "e": ("Not enough evidence yet", "weak")}
 
 # (a, b, tier, evidence, sentence, source)
 E = [
@@ -101,7 +101,7 @@ def for_node(node):
 def block(node, names, root, check):
     rows = for_node(node)
     if not rows: return ""
-    h = '<section class="xmap"><h2>How it connects across the map</h2><p class="vnote">From the most obvious link to the most subtle. Each link says how sure we are.</p>'
+    h = '<section class="xmap"><h2>How it connects across the map</h2><p class="vnote">From the most obvious link to the most subtle. Each link says how sure we are.</p>' + constellation(node, names, root)
     for tier, title, sub in TIERS:
         rr = [r for r in rows if r[1] == tier]
         if not rr: continue
@@ -137,3 +137,32 @@ def hub_body(names, check):
     h += '<p class="aster" style="margin-top:34px">Not on this map because they do not hold up: “stimulate your vagus nerve”, polyvagal theory as settled fact, oxytocin as the “love hormone”, and “feeling your heartbeat lowers anxiety”.</p>'
     h += '<p class="vnote">Links on this page are about things that go together. Unless a row says a trial showed it, they do not show that one thing causes the other.</p></div>'
     return h
+
+import math as _m
+TCOL = {1: "#3F6B4A", 2: "#B8892B", 3: "#3F5E7A", 4: "#7A6F5C"}
+def constellation(node, names, root):
+    rows = for_node(node)
+    if len(rows) < 2: return ""
+    W, H, cx, cy = 880, 470, 440, 235
+    rx = {1: 175, 2: 245, 3: 315, 4: 385}; ry = {1: 90, 2: 130, 3: 170, 4: 205}
+    n = len(rows); svg = ""; chips = ""; lines = ""
+    for t in sorted({r[1] for r in rows}):
+        svg += f'<ellipse cx="{cx}" cy="{cy}" rx="{rx[t]}" ry="{ry[t]}" fill="none" stroke="{TCOL[t]}" stroke-opacity=".22" stroke-dasharray="3 7"/>'
+    placed = []
+    for i, (tgt, tier, ev, txt, src) in enumerate(rows):
+        ang = -_m.pi / 2 + 2 * _m.pi * (i + .5) / n
+        x = cx + rx[tier] * _m.cos(ang); y = cy + ry[tier] * _m.sin(ang)
+        kind, nm = names[tgt]
+        w = min(200, 12 + 7.4 * len(nm)); w = max(w, 92)
+        x = min(max(x, w / 2 + 6), W - w / 2 - 6); y = min(max(y, 24), H - 24)
+        col = TCOL[tier]
+        dash = {"s": "", "p": ' stroke-dasharray="8 5"', "e": ' stroke-dasharray="2 6"'}[ev]
+        lines += f'<path d="M{cx} {cy} L{x:.0f} {y:.0f}" stroke="{col}" stroke-width="2.4" stroke-linecap="round"{dash} opacity=".7"/>'
+        chips += f'<a href="{root}{tgt}.html"><rect x="{x - w / 2:.0f}" y="{y - 18:.0f}" width="{w:.0f}" height="36" rx="18" fill="#FBF6E8" stroke="{col}" stroke-width="2"/><text x="{x:.0f}" y="{y + 4.5:.0f}" text-anchor="middle" font-size="13" font-weight="600" fill="#2E2A22" font-family="Inter,system-ui,sans-serif">{nm if len(nm) <= 26 else nm[:25] + "…"}</text></a>'
+    me = names[node][1]
+    wc = max(120, 16 + 9 * len(me))
+    centre = f'<rect x="{cx - wc / 2:.0f}" y="{cy - 26}" width="{wc:.0f}" height="52" rx="26" fill="#2E2A22"/><text x="{cx}" y="{cy + 6}" text-anchor="middle" font-size="17" font-weight="700" fill="#FBF6E8" font-family="Inter,system-ui,sans-serif">{me}</text>'
+    leg = "".join(f'<span class="lk"><i style="background:{TCOL[t]}"></i>{t}. {title}</span>' for t, title, _ in TIERS if any(r[1] == t for r in rows))
+    return f'<div class="constel"><svg viewBox="0 0 {W} {H}" role="img" aria-label="Map of what {me} connects to, nearest first">{svg}{lines}{chips}{centre}</svg><p class="clg">{leg}</p><p class="vnote">The closer a topic sits to the middle, the more obvious and better supported the link. Solid lines: shown in trials. Dashed: some evidence. Dotted: not enough evidence yet.</p></div>'
+
+CSS += """<style>.constel{margin:8px 0 16px}.constel svg{width:100%;height:auto;display:block}.constel a:hover rect{fill:#F1EAD8}.clg{display:flex;flex-wrap:wrap;gap:6px 16px;margin:6px 0 0;font-size:.85rem;color:#5C5545}.clg .lk{display:inline-flex;align-items:center;gap:6px}.clg i{width:11px;height:11px;border-radius:50%;display:inline-block}@media(max-width:640px){.constel svg{display:none}}</style>"""
