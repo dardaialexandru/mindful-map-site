@@ -221,7 +221,9 @@ def patch_index(body):
     _m = _re.search(r'<ul class="pal"[^>]*>(.*?)</ul>', body, _re.S)
     _items = _re.findall(r'<a href="need/([^"]+)\.html" style="background:([^"]+)" title="([^"]+)"', _m.group(1))
     _pal = '<style>.pal2{list-style:none;padding:0;margin:18px 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px 6px}.pal2 a{display:flex;flex-direction:column;align-items:center;gap:5px;text-decoration:none;color:var(--ink);font-size:.74rem;font-weight:600;line-height:1.15;text-align:center}.pal2 .c{width:42px;height:42px;border-radius:50%;background:var(--card);border:2px solid var(--c);display:flex;align-items:center;justify-content:center}.pal2 .ico{margin:0}@media(min-width:700px){.pal2{grid-template-columns:repeat(7,1fr);max-width:640px}}</style><ul class="pal2" aria-label="The fourteen needs">' + "".join(f'<li><a href="need/{s}.html" style="--c:{c}"><span class="c">{icons.ico(s, c, 24)}</span>{nm}</a></li>' for s, c, nm in _items) + '</ul>'
-    body = body[:_m.start()] + _pal + body[_m.end():]
+    _cta = '<style>.cta{display:inline-block;margin:20px 0 0;padding:13px 22px;border-radius:999px;background:var(--a1,#8A6420);color:#fff;font-weight:700;text-decoration:none}.cta:hover{filter:brightness(1.08)}</style><p style="margin:0"><a class="cta" href="#start">Choose how you feel &darr;</a></p>'
+    body = body[:_m.start()] + _cta + body[_m.end():]
+    body = _re.sub(r'<p class="palcap">.*?</p>', '', body, count=1, flags=_re.S)
     # mobile list under the tree (labels are hidden there): new needs, branches, emotions, in tree order
     _mi = lambda d, t: f'<li><a href="{d}/{t["slug"]}.html">{icons.ico(t["slug"], t["col"], 18)}{t["name"]}</a></li>'
     _newmind = "".join(f'<li><a href="need/{s}.html">{icons.ico(s, c, 18)}{nm}</a></li>' for s, nm, c in [("recognition", "Recognition", NEWCOL["recognition"]), ("creativity", "Creativity", NEWCOL["creativity"])])
@@ -237,7 +239,7 @@ def patch_index(body):
     _leg = '<h3 class="lgh">Legend: every sign on the tree, from the leaves down to the roots</h3>' + "".join(f'<div class="lgs"><h3>{lab}</h3>{_sec[k]}</div>' for k, lab in _order)
     _rest = body[_m.end():]
     if _rest.startswith('</div>'): _rest = _rest[6:]
-    _css = '<style>.tlinks.leg{grid-column:1/-1;margin-top:26px}@media(max-width:820px){.tlinks.leg{order:-1;margin:6px 0 22px}}@media(min-width:821px){.tlinks.leg{display:grid;grid-template-columns:repeat(3,1fr);gap:0 32px;align-items:start}.tlinks.leg .lgh{grid-column:1/-1;margin:0 0 4px}}</style>'
+    _css = '<style>.tlinks.leg{grid-column:1/-1;margin-top:26px}@media(max-width:820px){.hero .tree{order:1}.tlinks.leg{order:2;margin:6px 0 22px}}@media(min-width:821px){.tlinks.leg{display:grid;grid-template-columns:repeat(3,1fr);gap:0 32px;align-items:start}.tlinks.leg .lgh{grid-column:1/-1;margin:0 0 4px}}</style>'
     body = body[:_m.start()] + '</div>' + _css + '<div class="tlinks leg">' + _leg + '</div>' + _rest
     body = body.replace("Twelve needs: seven for the body, five for the mind.", "Fourteen needs: seven for the body, seven for the mind.")
     sect = """<section class="block" id="mindbody"><div class="wrap"><h2>The branches and the emotions</h2>
