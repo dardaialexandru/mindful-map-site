@@ -216,9 +216,15 @@ def patch_index(body):
     body = body.replace('</ul>\n<details class="aster">', extra + '</ul>\n<details class="aster">', 1)
     body = body.replace("Crown: 5 needs of the mind", "Crown: 7 needs of the mind").replace("The twelve needs", "The fourteen needs").replace("Twelve needs, twelve colors. Tap one to jump in.", "Fourteen needs, each with its own sign. Tap one to jump in.")
     body = body.replace('</ul><p class="palcap">', "".join(f'<li><a href="need/{s}.html" style="background:{c}" title="{nm}" aria-label="{nm}"></a></li>' for s, nm, c in [("recognition", "Recognition", NEWCOL["recognition"]), ("creativity", "Creativity", NEWCOL["creativity"])]) + '</ul><p class="palcap">', 1)
+    # colour dots -> icon + name, so every sign can be told apart (also on phones)
+    import re as _re
+    _m = _re.search(r'<ul class="pal"[^>]*>(.*?)</ul>', body, _re.S)
+    _items = _re.findall(r'<a href="need/([^"]+)\.html" style="background:([^"]+)" title="([^"]+)"', _m.group(1))
+    _pal = '<style>.pal2{list-style:none;padding:0;margin:18px 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px 6px}.pal2 a{display:flex;flex-direction:column;align-items:center;gap:5px;text-decoration:none;color:var(--ink);font-size:.74rem;font-weight:600;line-height:1.15;text-align:center}.pal2 .c{width:42px;height:42px;border-radius:50%;background:var(--card);border:2px solid var(--c);display:flex;align-items:center;justify-content:center}.pal2 .ico{margin:0}@media(min-width:700px){.pal2{grid-template-columns:repeat(7,1fr);max-width:640px}}</style><ul class="pal2" aria-label="The fourteen needs">' + "".join(f'<li><a href="need/{s}.html" style="--c:{c}"><span class="c">{icons.ico(s, c, 24)}</span>{nm}</a></li>' for s, c, nm in _items) + '</ul>'
+    body = body[:_m.start()] + _pal + body[_m.end():]
     # mobile list under the tree (labels are hidden there): new needs, branches, emotions, in tree order
-    _mi = lambda d, t: f'<li><a href="{d}/{t["slug"]}.html">{icons.ico(t["slug"], t["col"], 16)}{t["name"]}</a></li>'
-    _newmind = "".join(f'<li><a href="need/{s}.html">{icons.ico(s, c, 16)}{nm}</a></li>' for s, nm, c in [("recognition", "Recognition", NEWCOL["recognition"]), ("creativity", "Creativity", NEWCOL["creativity"])])
+    _mi = lambda d, t: f'<li><a href="{d}/{t["slug"]}.html">{icons.ico(t["slug"], t["col"], 18)}{t["name"]}</a></li>'
+    _newmind = "".join(f'<li><a href="need/{s}.html">{icons.ico(s, c, 18)}{nm}</a></li>' for s, nm, c in [("recognition", "Recognition", NEWCOL["recognition"]), ("creativity", "Creativity", NEWCOL["creativity"])])
     _mb = '<h3>Mind and body (branches)</h3><ul>' + "".join(_mi("mindbody", t) for t in T if t["dir"] == "mindbody") + '</ul><h3>Emotions</h3><ul>' + "".join(_mi("emotion", t) for t in T if t["dir"] == "emotion") + '</ul>'
     _k = body.index('<h3>Needs of the mind</h3><ul>'); _e = body.index('</ul>', _k)
     body = body[:_e] + _newmind + '</ul>' + _mb + body[_e + 5:]
