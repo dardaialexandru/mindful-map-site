@@ -15,4 +15,5 @@ for f in glob.glob('out_live/**/*.html',recursive=True):
     if s!=o: open(f,'w',encoding='utf-8').write(s)
 os.rename('out_live/need/rhythm.html','out_live/need/rhythm-light.html'); os.rename('out_live/need/safe.html','out_live/need/safe-place.html')
 PY
+python3 connect.py
 echo built
